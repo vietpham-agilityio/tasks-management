@@ -3,7 +3,6 @@ import { fn } from '@storybook/test';
 
 // Components
 import { Button } from './index';
-import { UserIcon } from '@/icons';
 
 const meta = {
   title: 'Components/Button',
@@ -44,14 +43,6 @@ export const Default: Story = {
 export const Outline: Story = {
   args: {
     children: 'Outline Button',
-    variant: 'outline',
-  },
-};
-
-export const IconButton: Story = {
-  args: {
-    startIcon: <UserIcon />,
-    children: 'Icon Button',
     variant: 'outline',
   },
 };
