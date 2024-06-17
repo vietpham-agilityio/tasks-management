@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
+// Icons
+import { FaRegUser } from 'react-icons/fa';
+
 // Components
-import { Button } from './index';
+import { Button } from './';
 
 const meta = {
   title: 'Components/Button',
@@ -15,15 +18,7 @@ const meta = {
     disabled: { control: 'boolean' },
     variant: {
       control: 'inline-radio',
-      options: [
-        'outline',
-        'primary',
-        'secondary',
-        'success',
-        'error',
-        'info',
-        'warning',
-      ],
+      options: ['primary', 'outline'],
     },
   },
   args: {
@@ -36,13 +31,29 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: 'Primary Button',
+    children: 'Button',
   },
 };
 
 export const Outline: Story = {
   args: {
-    children: 'Outline Button',
+    children: 'Button',
+    variant: 'outline',
+  },
+};
+
+export const IconButton: Story = {
+  args: {
+    children: <FaRegUser />,
+    variant: 'outline',
+  },
+};
+
+export const ButtonWithIcon: Story = {
+  args: {
+    children: 'Click me',
+    startIcon: <FaRegUser />,
+    customIconClass: 'pr-2',
     variant: 'outline',
   },
 };
