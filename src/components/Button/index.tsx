@@ -1,19 +1,13 @@
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 type ButtonProps = {
   children: ReactNode;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   type?: 'button' | 'submit';
-  variant?:
-    | 'outline'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'info'
-    | 'warning';
+  variant?: 'primary' | 'outline';
   customClass?: string;
+  customIconClass?: string;
   name?: string;
   value?: string;
   ariaLabel?: string;
@@ -27,40 +21,26 @@ export const Button = ({
   endIcon,
   type = 'button',
   variant = 'primary',
-  customClass,
+  customClass = '',
+  customIconClass = '',
   name,
   value,
   ariaLabel,
   disabled,
   onClick,
 }: ButtonProps) => {
-  const baseClass = 'flex items-center rounded p-2';
+  const baseClass =
+    'flex items-center rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-50';
   let stateClass = '';
 
   switch (variant) {
     case 'primary':
       stateClass =
-        'bg-blue-500 text-white hover:bg-blue-600 disabled:bg-blue-300';
-      break;
-    case 'secondary':
-      stateClass =
-        'bg-gray-400 text-white hover:bg-gray-500 disabled:bg-gray-300';
-      break;
-    case 'success':
-      stateClass =
-        'bg-green-600 text-white hover:bg-green-700 disabled:bg-green-400';
-      break;
-    case 'warning':
-      stateClass =
-        'bg-amber-400 text-black hover:bg-amber-500 disabled:bg-amber-300';
-      break;
-    case 'error':
-      stateClass =
-        'bg-rose-500 text-white hover:bg-rose-600 disabled:bg-rose-300';
+        'bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70';
       break;
     case 'outline':
       stateClass =
-        'border border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-800 disabled:opacity-40';
+        'border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black';
       break;
 
     default:
@@ -77,9 +57,9 @@ export const Button = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {startIcon && <span className="mr-2">{startIcon}</span>}
+      {startIcon && <div className={customIconClass}>{startIcon}</div>}
       {children}
-      {endIcon && <span className="ml-r">{endIcon}</span>}
+      {endIcon && <div className={customIconClass}>{endIcon}</div>}
     </button>
   );
 };

@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 
 // Components
-import { Button } from '../index';
+import { Button } from './';
 
 describe('Button component', () => {
   test('renders the Button with children', () => {
     render(<Button>Click me</Button>);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+    expect(screen.getByText('Click me')).toMatchSnapshot();
   });
 
   test('renders startIcon and endIcon', () => {
@@ -20,9 +20,9 @@ describe('Button component', () => {
   });
 
   test('applies the correct variant classes', () => {
-    render(<Button variant="success">Click me</Button>);
+    render(<Button variant="outline">Click me</Button>);
     expect(screen.getByText('Click me')).toHaveClass(
-      'bg-green-600 text-white hover:bg-green-700 disabled:bg-green-400',
+      'border border-gray-200 hover:bg-gray-100 bg-transparent text-black',
     );
   });
 
