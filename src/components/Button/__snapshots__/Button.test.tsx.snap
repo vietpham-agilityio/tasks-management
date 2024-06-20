@@ -2,7 +2,7 @@
 
 exports[`Button component renders the Button with children 1`] = `
 <button
-  class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-50 bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70 "
+  class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-50 bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70"
   type="button"
 >
   Click me
