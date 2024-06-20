@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 // Components
-import NavLink from './index';
+import { NavLink } from './index';
 
 describe('NavLink component', () => {
   test('renders the NavLink with children', () => {

@@ -1,6 +1,8 @@
 import { CustomClassType } from '@/types/components';
 
-export const HomeIcon = ({ customClass = 'w-2.5 h-2.5' }: CustomClassType) => (
+export const HomeIcon = ({
+  customClass = 'w-2.5 h-2.5',
+}: CustomClassType): JSX.Element => (
   <svg
     viewBox="0 0 20 21"
     fill="none"
