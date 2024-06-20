@@ -13,7 +13,7 @@ interface NavLinkProps
   icon?: ReactNode;
 }
 
-const NavLink = ({
+export const NavLink = ({
   href,
   label,
   icon,
@@ -41,5 +41,3 @@ const NavLink = ({
     </Link>
   );
 };
-
-export default NavLink;

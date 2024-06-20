@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import NavLink from './index';
+import { NavLink } from './index';
 import { BoardIcon, HomeIcon } from '@/icons';
 
 const meta = {
