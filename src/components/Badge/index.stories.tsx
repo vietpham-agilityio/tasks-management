@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import Badge from './index';
+import { Badge } from './index';
 import { ClockIcon } from '@/icons';
 
 const meta = {

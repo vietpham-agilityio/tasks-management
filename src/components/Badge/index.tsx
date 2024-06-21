@@ -14,7 +14,12 @@ type BadgeProps = {
   customClass?: string;
 };
 
-const Badge = ({ label, theme = 'primary', icon, customClass }: BadgeProps) => {
+export const Badge = ({
+  label,
+  theme = 'primary',
+  icon,
+  customClass,
+}: BadgeProps) => {
   const baseClass = 'w-fit flex items-center gap-2 px-2 py-1';
 
   return (
@@ -37,5 +42,3 @@ const Badge = ({ label, theme = 'primary', icon, customClass }: BadgeProps) => {
     </div>
   );
 };
-
-export default Badge;

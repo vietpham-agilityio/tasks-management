@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 // Components
-import Badge from '../index';
+import { Badge } from './index';
 
 describe('Badge component', () => {
   test('renders the Badge with children', () => {
