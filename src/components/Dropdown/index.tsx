@@ -9,14 +9,12 @@ import { Button } from '@/components';
 // Utils
 import { cn } from '@/utils';
 
-type DropdownItemProps = {
-  name: string;
-  value: string;
-};
+// Types
+import { OptionType } from '@/types';
 
 type DropdownProps = {
   title?: string;
-  options: DropdownItemProps[];
+  options: OptionType[];
   disabled?: boolean;
   selectedItemValue?: string;
   onSelect: (id: string) => void;
