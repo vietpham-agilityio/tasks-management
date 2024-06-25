@@ -4,6 +4,9 @@ import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
 export const isRequired = (value: string | null | undefined): boolean =>
   !!value;
 
+export const isValidFormat = (value = '', pattern: RegExp): boolean =>
+  value == '' || pattern.test(value);
+
 export const validateRequired = (
   value: string | null | undefined,
 ): string | true => isRequired(value?.trim()) || ERROR_MESSAGES.FIELD_REQUIRED;
