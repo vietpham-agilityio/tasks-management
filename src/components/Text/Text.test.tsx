@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 // Components
-import Text from './index';
+import { Text } from './index';
 
 describe('Text component', () => {
   test('renders the Text with children', () => {

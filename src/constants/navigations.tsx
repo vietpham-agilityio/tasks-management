@@ -5,6 +5,7 @@ export const ROUTES = {
   // Authentication
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
+  FORGET_PASSWORD: '/forget-password',
   // Admin
   ADMIN_BOARDS: '/admin/boards',
   ADMIN_PROJECT_LIST: '/admin/projects',
