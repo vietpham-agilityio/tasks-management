@@ -58,7 +58,7 @@ const InputPassword = forwardRef(
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={cn(baseClass, disabledClass, focusClass, customClass)}
+          customClass={cn(baseClass, disabledClass, focusClass, customClass)}
           disabled={disabled}
           data-testid="input-password"
         />
