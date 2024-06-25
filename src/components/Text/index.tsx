@@ -17,7 +17,12 @@ type TextProps = {
   customClass?: string;
 };
 
-const Text = ({ value, variant = 'primary', icon, customClass }: TextProps) => {
+export const Text = ({
+  value,
+  variant = 'primary',
+  icon,
+  customClass,
+}: TextProps) => {
   const baseClass = 'w-fit flex items-center gap-1 px-2 py-1';
 
   return (
@@ -28,10 +33,10 @@ const Text = ({ value, variant = 'primary', icon, customClass }: TextProps) => {
           'fill-black text-black': variant === 'primary',
           'fill-blue-950 text-blue-950': variant === 'secondary',
           'fill-indigo-500 text-indigo-500': variant === 'tertiary',
-          'fill-emerald-500 text-emerald-500': variant === 'quaternary',
-          'fill-purple-500 text-purple-500': variant === 'warning',
-          'fill-amber-400 text-amber-400': variant === 'error',
-          'fill-red-500 text-red-500': variant === 'success',
+          'fill-purple-500 text-purple-500': variant === 'quaternary',
+          'fill-amber-400 text-amber-400': variant === 'warning',
+          'fill-red-500 text-red-500': variant === 'error',
+          'fill-emerald-500 text-emerald-500': variant === 'success',
         },
         customClass,
       )}
@@ -41,5 +46,3 @@ const Text = ({ value, variant = 'primary', icon, customClass }: TextProps) => {
     </div>
   );
 };
-
-export default Text;

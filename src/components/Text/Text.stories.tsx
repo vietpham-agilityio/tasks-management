@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import Text from './index';
+import { Text } from './index';
 
 // Icons
 import { DotIcon } from '@/icons';

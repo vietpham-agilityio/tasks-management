@@ -9,4 +9,5 @@ export { OverviewCard } from './OverviewCard';
 export { MultipleSelect } from './MultipleSelect';
 export { Avatar } from './Avatar';
 export { Header } from './Header';
+export { Text } from './Text';
 export { AvatarGroup } from './AvatarGroup';
