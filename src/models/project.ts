@@ -17,3 +17,16 @@ export type ProjectFormState = {
     image?: string[];
   };
 } & CustomStateType;
+
+export type Project = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isArchived: boolean;
+  isPublic: boolean;
+  createdBy: string;
+};
