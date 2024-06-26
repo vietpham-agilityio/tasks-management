@@ -6,14 +6,15 @@ exports[`Dropdown Component Should match snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="w-full rounded-lg border-none outline outline-1 outline-gray-500 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
+        class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
         data-testid="multiple-select"
+        tabindex="1"
       >
         <div
           class="relative w-full focus:outline-2 focus:outline-blue-500 focus:border-none"
         >
           <p
-            class="p-4 opacity-50"
+            class="p-5 opacity-50"
           >
             Select options
           </p>
@@ -23,14 +24,15 @@ exports[`Dropdown Component Should match snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="w-full rounded-lg border-none outline outline-1 outline-gray-500 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
+      class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
       data-testid="multiple-select"
+      tabindex="1"
     >
       <div
         class="relative w-full focus:outline-2 focus:outline-blue-500 focus:border-none"
       >
         <p
-          class="p-4 opacity-50"
+          class="p-5 opacity-50"
         >
           Select options
         </p>

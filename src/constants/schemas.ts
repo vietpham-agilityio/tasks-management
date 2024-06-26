@@ -39,3 +39,11 @@ export const UserSignupFormDataSchema = z
     message: ERROR_MESSAGES.PASSWORD_NOT_MATCH,
     path: ['passwordConfirmation'],
   });
+
+export const ProjectFormDataSchema = z.object({
+  title: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  description: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  image: z.string().optional(),
+  isPublic: z.boolean(),
+  members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
+});

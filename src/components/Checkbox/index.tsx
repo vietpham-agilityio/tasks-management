@@ -1,53 +1,66 @@
 'use client';
 
-import { InputHTMLAttributes } from 'react';
-import clsx from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { ForwardedRef, InputHTMLAttributes, forwardRef } from 'react';
+
+// Utils
+import { cn } from '@/utils';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   description?: string;
+  customClass?: {
+    label?: string;
+    description?: string;
+  };
 }
 
-const Checkbox = ({
-  label,
-  description,
-  id,
-  disabled,
-  ...props
-}: CheckboxProps) => {
-  const componentId = `checkbox-${id}-${label}`;
+const Checkbox = forwardRef(
+  (
+    { label, description, id, disabled, customClass, ...props }: CheckboxProps,
+    ref: ForwardedRef<HTMLInputElement>,
+  ) => {
+    const componentId = `checkbox-${id}-${label}`;
 
-  return (
-    <div className="flex gap-3">
-      <input
-        {...props}
-        className={twMerge(
-          'accent-black dark:accent-white w-5 h-5 cursor-pointer disabled:cursor-not-allowed',
-          props.className,
-        )}
-        disabled={disabled}
-        id={componentId}
-        type="checkbox"
-      />
-      <div className="flex flex-col">
-        <label
-          className={clsx(
-            'text-neutral-800 dark:text-white font-bold text-sm cursor-pointer',
-            disabled && 'disabled:cursor-not-allowed',
+    return (
+      <div className="flex gap-3 items-center">
+        <input
+          {...props}
+          ref={ref}
+          className={cn(
+            'accent-black dark:accent-white w-5 h-5 cursor-pointer disabled:cursor-not-allowed',
+            props.className,
           )}
-          htmlFor={componentId}
-        >
-          {label}
-        </label>
-        {description && (
-          <span className="text-zinc-500 dark:text-white text-xs">
-            {description}
-          </span>
-        )}
+          disabled={disabled}
+          id={componentId}
+          type="checkbox"
+        />
+        <div className="flex flex-col">
+          <label
+            className={cn(
+              'text-neutral-800 dark:text-white font-bold text-sm cursor-pointer',
+              disabled && 'disabled:cursor-not-allowed',
+              customClass?.label,
+            )}
+            htmlFor={componentId}
+          >
+            {label}
+          </label>
+          {description && (
+            <span
+              className={cn(
+                'text-zinc-500 dark:text-white text-xs',
+                customClass?.description,
+              )}
+            >
+              {description}
+            </span>
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
 
-export default Checkbox;
+Checkbox.displayName = 'Checkbox';
+
+export { Checkbox };

@@ -33,7 +33,7 @@ export const Button = ({
   onClick,
 }: ButtonProps) => {
   const baseClass =
-    'flex items-center rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-50';
+    'flex items-center rounded-lg p-2 disabled:cursor-not-allowed ';
 
   return (
     <button
@@ -44,9 +44,9 @@ export const Button = ({
       className={cn(
         baseClass,
         {
-          'bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70':
+          'bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70 disabled:bg-neutral-800/50':
             variant === 'primary',
-          'border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black':
+          'border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50':
             variant === 'outline',
         },
         customClass,
