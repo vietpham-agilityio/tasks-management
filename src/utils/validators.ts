@@ -31,3 +31,15 @@ export const setServerActionErrors = <T extends FieldValues>(
     setError(field as Path<T>, { message: fields[field].join('\r\n') });
   });
 };
+
+export const isEmpty = <T>(value: T): boolean => {
+  if (value && (typeof value === 'string' || Array.isArray(value))) {
+    return !value.length;
+  }
+
+  if (value && typeof value === 'object') {
+    return !Object.keys(value).length;
+  }
+
+  return true;
+};

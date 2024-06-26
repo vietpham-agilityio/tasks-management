@@ -12,7 +12,7 @@ exports[`Dropdown component Render component correctly 1`] = `
           class="relative w-full"
         >
           <button
-            class="rounded-lg disabled:cursor-not-allowed disabled:opacity-50 border border-gray-200 hover:bg-gray-100 dark:border-white w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
+            class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
             type="button"
           >
             <span>
@@ -49,7 +49,7 @@ exports[`Dropdown component Render component correctly 1`] = `
         class="relative w-full"
       >
         <button
-          class="rounded-lg disabled:cursor-not-allowed disabled:opacity-50 border border-gray-200 hover:bg-gray-100 dark:border-white w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
+          class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
           type="button"
         >
           <span>

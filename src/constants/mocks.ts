@@ -1,3 +1,6 @@
+// Models
+import { User } from '@/types';
+
 export const MOCK_IMAGE_LINK =
   'https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg';
 
@@ -11,3 +14,26 @@ export const MOCK_OVERVIEW_CARD_DATA = {
   createdAt: new Date(2024, 20, 6, 15, 0, 0),
   image: MOCK_IMAGE_LINK,
 };
+
+export const MOCK_MEMBER_LIST: User[] = [
+  {
+    id: '1',
+    name: 'John',
+  },
+  {
+    id: '2',
+    name: 'Mike',
+  },
+  {
+    id: '3',
+    name: 'Tom',
+  },
+  {
+    id: '4',
+    name: 'Jerry',
+  },
+  {
+    id: '5',
+    name: 'Cam',
+  },
+];

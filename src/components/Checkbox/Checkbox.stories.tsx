@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
 // Components
-import Checkbox from './index';
+import { Checkbox } from './index';
 
 const meta = {
   title: 'Components/Checkbox',
