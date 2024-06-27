@@ -47,3 +47,13 @@ export const ProjectFormDataSchema = z.object({
   isPublic: z.boolean(),
   members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
 });
+
+export const TaskFormDataSchema = z.object({
+  title: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  description: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  image: z.string().optional(),
+  dueDate: z.coerce.date(),
+  status: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  priority: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  assignedTo: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+});

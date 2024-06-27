@@ -6,50 +6,10 @@ exports[`Dropdown component Render component correctly 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="relative"
-      >
-        <div
-          class="relative w-full"
-        >
-          <button
-            class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
-            type="button"
-          >
-            <span>
-              Dropdown
-            </span>
-            <div
-              class=""
-            >
-              <svg
-                class="h-6 w-6 text-slate-500 transform duration-300 ease-in-out"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 24 24"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="relative"
-    >
-      <div
-        class="relative w-full"
+        tabindex="1"
       >
         <button
-          class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-4 bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2"
+          class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-5 bg-zinc-50 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 text-zinc-400"
           type="button"
         >
           <span>
@@ -75,6 +35,38 @@ exports[`Dropdown component Render component correctly 1`] = `
           </div>
         </button>
       </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      tabindex="1"
+    >
+      <button
+        class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white disabled:bg-white/50 w-full p-5 bg-zinc-50 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 text-zinc-400"
+        type="button"
+      >
+        <span>
+          Dropdown
+        </span>
+        <div
+          class=""
+        >
+          <svg
+            class="h-6 w-6 text-slate-500 transform duration-300 ease-in-out"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"
+            />
+          </svg>
+        </div>
+      </button>
     </div>
   </div>,
   "debug": [Function],
