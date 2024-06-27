@@ -1,12 +1,21 @@
 'use server';
+
+import { redirect } from 'next/navigation';
+import { auth, db } from '@/config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+
 // Constants
 import {
+  COLLECTION,
+  ERROR_CODE,
+  ROUTES,
   UserSigninFormDataSchema,
   UserSignupFormDataSchema,
 } from '@/constants';
 
 // Models
-import { UserSignUpState, UserSigninState } from '@/models';
+import { UserSignUp, UserSignUpState, UserSigninState } from '@/models';
 
 export async function userSignIn(
   prevState: UserSigninState,
@@ -32,23 +41,55 @@ export async function userSignIn(
 
 export async function userSignUp(
   prevState: UserSignUpState,
-  formData: FormData,
+  formData: UserSignUp,
 ) {
-  const validators = UserSignupFormDataSchema.safeParse({
-    username: formData.get('username'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-    passwordConfirmation: formData.get('passwordConfirmation'),
-  });
+  const validators = UserSignupFormDataSchema.safeParse(formData);
 
   let result: UserSignUpState = {};
 
   if (validators.success) {
-    result = { success: true };
+    const { username, email, password } = validators.data;
+
+    try {
+      const credential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      await setDoc(doc(db, COLLECTION.USERS, credential.user.uid), {
+        username,
+        email,
+      });
+
+      result = { success: true };
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes(ERROR_CODE.EMAIL_EXIST)
+      ) {
+        result = {
+          success: false,
+          responseMessage: 'Email already existed!',
+        };
+      } else {
+        result = {
+          success: false,
+          responseMessage: 'Something went wrong!',
+        };
+      }
+    }
+
+    if (result.success) {
+      redirect(ROUTES.SIGN_IN);
+    }
   }
 
   if (validators.error) {
-    result = { success: false, errors: validators.error.flatten().fieldErrors };
+    result = {
+      success: false,
+      formErrors: validators.error.flatten().fieldErrors,
+    };
   }
 
   return result;
