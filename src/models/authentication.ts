@@ -22,9 +22,10 @@ export type UserSigninState = {
 export type UserSignUp = z.infer<typeof UserSignupFormDataSchema>;
 
 export type UserSignUpState = {
-  errors?: {
+  formErrors?: {
     password?: string[];
     passwordConfirmation?: string[];
   };
+  responseMessage?: string;
 } & UserSigninState &
   CustomStateType;
