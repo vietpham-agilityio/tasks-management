@@ -40,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     options: mockOptions,
-    title: 'Select item',
+    placeholder: 'Select item',
     onSelect: fn(),
   },
 };
