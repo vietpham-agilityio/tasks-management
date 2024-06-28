@@ -1,19 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import { NavBar } from '.';
+import { AdminNavBar } from '.';
 
 jest.mock('next/navigation', () => ({
   ...jest.requireActual('next/navigation'),
   usePathname: () => 'localhost:3000/example/path',
 }));
 
-describe('NavBar component', () => {
-  test('renders the NavBar match snapshot', () => {
-    const { container } = render(<NavBar />);
+describe('AdminNavBar component', () => {
+  test('renders the AdminNavBar match snapshot', () => {
+    const { container } = render(<AdminNavBar />);
     expect(container).toMatchSnapshot();
   });
 
-  test('renders the NavBar with children', () => {
-    render(<NavBar />);
+  test('renders the AdminNavBar with children', () => {
+    render(<AdminNavBar />);
     expect(screen.getByText('Boards')).toBeInTheDocument();
   });
 });

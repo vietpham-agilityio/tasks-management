@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 
-export default function Layout({
+const Layout = ({
   children,
 }: Readonly<{
   children: ReactNode;
-}>) {
-  return (
-    <div className="pt-10 md:pt-[192px] px-10 w-full md:w-1/2 max-w-[700px] mx-auto">
+}>) => (
+  <div className="w-full h-full bg-white rounded-lg">
+    <div className="w-full md:w-2/3 max-w-[700px] pt-10 lg:pt-[150px] px-10 mx-auto ">
       {children}
     </div>
-  );
-}
+  </div>
+);
+
+export default Layout;
