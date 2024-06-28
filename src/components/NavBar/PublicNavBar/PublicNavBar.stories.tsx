@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import { NavBar } from './index';
+import { PublicNavBar } from './index';
 
 // Constants
 import { ROUTES } from '@/constants';
 
 const meta = {
-  title: 'Components/NavBar',
-  component: NavBar,
+  title: 'Components/PublicNavBar',
+  component: PublicNavBar,
   parameters: {
     layout: 'fullscreen',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof NavBar>;
+} satisfies Meta<typeof PublicNavBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
