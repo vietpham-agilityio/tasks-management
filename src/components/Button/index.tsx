@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 
 // Utils
 import { cn } from '@/utils';
+import { CgSpinner } from 'react-icons/cg';
 
 type ButtonProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ type ButtonProps = {
   value?: string;
   ariaLabel?: string;
   disabled?: boolean;
+  isLoading?: boolean;
   onClick?: () => void;
 };
 
@@ -30,6 +32,7 @@ export const Button = ({
   value,
   ariaLabel,
   disabled,
+  isLoading = false,
   onClick,
 }: ButtonProps) => {
   const baseClass =
@@ -51,9 +54,12 @@ export const Button = ({
         },
         customClass,
       )}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       onClick={onClick}
     >
+      {isLoading && (
+        <CgSpinner className={cn('animate-spin mr-2', customIconClass)} />
+      )}
       {startIcon && <div className={customIconClass}>{startIcon}</div>}
       {children}
       {endIcon && <div className={customIconClass}>{endIcon}</div>}

@@ -5,4 +5,5 @@ export const ERROR_MESSAGES = {
     'Your password confirmation did not match your password. Please try again.',
   MIN_LENGTH: (label: string, minLength: number | string) =>
     `${label} must have minimum ${minLength} characters.`,
+  USER_NOT_FOUND: 'User not found.',
 };

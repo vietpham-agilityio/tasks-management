@@ -6,7 +6,7 @@ import { isRequired, isValidFormat } from '../utils/validators';
 import { MIN_LENGTH, REGEX_EMAIL } from './validators';
 
 export const UserSigninFormDataSchema = z.object({
-  username: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  email: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   password: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
 });
 
