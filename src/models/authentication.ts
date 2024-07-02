@@ -17,6 +17,7 @@ export type UserSigninState = {
     username?: string[];
     password?: string[];
   };
+  responseMessage?: string;
 } & CustomStateType;
 
 export type UserSignUp = z.infer<typeof UserSignupFormDataSchema>;

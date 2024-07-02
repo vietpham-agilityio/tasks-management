@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { auth, db } from '@/config';
+import { firebaseAuth, db } from '@/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
@@ -10,34 +10,11 @@ import {
   COLLECTION,
   ERROR_CODE,
   ROUTES,
-  UserSigninFormDataSchema,
   UserSignupFormDataSchema,
 } from '@/constants';
 
 // Models
-import { UserSignUp, UserSignUpState, UserSigninState } from '@/models';
-
-export async function userSignIn(
-  prevState: UserSigninState,
-  formData: FormData,
-) {
-  const validators = UserSigninFormDataSchema.safeParse({
-    username: formData.get('username'),
-    password: formData.get('password'),
-  });
-
-  let result: UserSigninState = {};
-
-  if (validators.success) {
-    result = { success: true };
-  }
-
-  if (validators.error) {
-    result = { success: false, errors: validators.error.flatten().fieldErrors };
-  }
-
-  return result;
-}
+import { UserSignUp, UserSignUpState } from '@/models';
 
 export async function userSignUp(
   prevState: UserSignUpState,
@@ -52,7 +29,7 @@ export async function userSignUp(
 
     try {
       const credential = await createUserWithEmailAndPassword(
-        auth,
+        firebaseAuth,
         email,
         password,
       );

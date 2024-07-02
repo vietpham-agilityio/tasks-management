@@ -1,36 +1,38 @@
 'use client';
-import { useEffect, useMemo } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFormState } from 'react-dom';
-
-// APIs
-import { userSignIn } from '@/actions';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 // Components
 import { Button, Text, Input, InputPassword } from '@/components';
 
 // Constants
-import { ROUTES, UserSigninFormDataSchema } from '@/constants';
+import { ERROR_MESSAGES, ROUTES, UserSigninFormDataSchema } from '@/constants';
 
 // Models
 import { UserSignin } from '@/models';
 
 // Utils
-import { cn, setServerActionErrors, isEnableSubmitButton } from '@/utils';
+import { cn, isEnableSubmitButton } from '@/utils';
 
-const REQUIRED_FIELDS = ['username', 'password'];
+const REQUIRED_FIELDS = ['email', 'password'];
 
 export const SignInForm = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string>('');
+  const [isLoading, setLoading] = useState(false);
+
   const signinFormInitValues: UserSignin = {
-    username: '',
+    email: '',
     password: '',
   };
 
   const {
     control,
-    setError,
+    getValues,
     formState: { dirtyFields, errors },
   } = useForm<UserSignin>({
     mode: 'onBlur',
@@ -45,32 +47,45 @@ export const SignInForm = () => {
     [dirtyItems, errors],
   );
 
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(userSignIn, initialState);
-
-  useEffect(() => {
-    state.errors && setServerActionErrors(state.errors, setError);
-  }, [state.errors, setError]);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await signIn('credentials', {
+        redirect: false,
+        ...getValues(),
+      });
+      setLoading(false);
+      if (response?.error) {
+        setError(ERROR_MESSAGES.USER_NOT_FOUND);
+        return;
+      }
+      router.replace(ROUTES.ADMIN_BOARDS);
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  };
 
   return (
-    <form className="dark:text-white" action={dispatch}>
+    <form onSubmit={handleSubmit}>
       <div>
         <Controller
-          name="username"
+          name="email"
           control={control}
           render={({
             field: { onChange, value, ...rest },
             fieldState: { error },
           }) => (
             <div className="flex flex-col gap-2">
-              <label className="font-bold text-md">Username</label>
+              <label className="font-bold text-md">Email</label>
               <Input
-                placeholder="Input your username here"
+                placeholder="Input your email here"
                 value={value}
                 onChange={(value) => {
                   onChange(value);
                 }}
                 customClass="py-5"
+                disabled={isLoading}
                 {...rest}
               />
               <span
@@ -100,6 +115,7 @@ export const SignInForm = () => {
                 placeholder="Input password here"
                 value={value}
                 onChange={onChange}
+                disabled={isLoading}
                 customClass="py-5"
                 {...rest}
               />
@@ -117,30 +133,42 @@ export const SignInForm = () => {
             </div>
           )}
         />
-      </div>
 
-      <Link
-        className="text-base font-normal hover:text-blue-700 cursor-pointer"
-        href={ROUTES.FORGET_PASSWORD}
-      >
-        Forgot password?
-      </Link>
-      <Button
-        type="submit"
-        customClass="w-full justify-center py-[19px] font-bold my-8"
-        disabled={isDisabled}
-      >
-        Sign In
-      </Button>
-      <span>
-        Don&apos;t have an account?&nbsp;
         <Link
-          className="text-lg font-bold hover:text-blue-700 cursor-pointer"
-          href={ROUTES.SIGN_UP}
+          className="text-base font-normal hover:text-blue-700 cursor-pointer"
+          href={ROUTES.FORGET_PASSWORD}
         >
-          Create Account
+          Forgot password?
         </Link>
-      </span>
+        <Button
+          type="submit"
+          customClass="w-full justify-center py-[19px] font-bold my-8"
+          disabled={isDisabled}
+          isLoading={isLoading}
+        >
+          Sign In
+        </Button>
+        <div className="flex flex-col mt-3">
+          <span className={cn(error ? 'mb-2' : 'mb-8')}>
+            {error && (
+              <Text
+                customClass="text-xs px-0 whitespace-pre"
+                value={error}
+                variant="error"
+              />
+            )}
+          </span>
+          <span>
+            Don&apos;t have an account?&nbsp;
+            <Link
+              className="text-lg font-bold hover:text-blue-700 cursor-pointer"
+              href={ROUTES.SIGN_UP}
+            >
+              Create Account
+            </Link>
+          </span>
+        </div>
+      </div>
     </form>
   );
 };

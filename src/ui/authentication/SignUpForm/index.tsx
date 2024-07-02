@@ -5,9 +5,6 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormState, useFormStatus } from 'react-dom';
 
-// Icons
-import { CgSpinner } from 'react-icons/cg';
-
 // APIs
 import { userSignUp } from '@/actions';
 
@@ -172,9 +169,9 @@ const SignUpFormContent = ({
       <Button
         type="submit"
         customClass="w-full justify-center py-[19px] font-bold"
-        disabled={isDisabled || pending}
+        disabled={isDisabled}
+        isLoading={pending}
       >
-        {pending && <CgSpinner className="animate-spin mr-2" />}
         Sign Up
       </Button>
       <div className="flex flex-col mt-3">
