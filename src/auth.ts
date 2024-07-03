@@ -1,12 +1,13 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { doc, getDoc } from 'firebase/firestore';
 
 // Constants
-import { UserSigninFormDataSchema } from '@/constants';
+import { COLLECTION, UserSigninFormDataSchema } from '@/constants';
 
 // Configs
-import { firebaseAuth } from '@/config';
+import { db, firebaseAuth } from '@/config';
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
@@ -20,17 +21,24 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         try {
           const { email, password } =
             await UserSigninFormDataSchema.parseAsync(credentials);
-          const response = await signInWithEmailAndPassword(
+          const signInResponse = await signInWithEmailAndPassword(
             firebaseAuth,
             email,
             password,
           );
-          const user = {
-            id: response.user.uid,
-            name: response.user.displayName,
-            email: response.user.email,
-          };
-          return user;
+          if (!signInResponse.user) {
+            return null;
+          }
+          const userId = signInResponse.user.uid;
+          const userData = await getDoc(doc(db, COLLECTION.USERS, userId));
+          if (userData.exists()) {
+            return {
+              id: userId,
+              name: userData.data().username,
+              email: userData.data().email,
+            };
+          }
+          return null;
         } catch (error) {
           return null;
         }
@@ -41,6 +49,19 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     // Session expires
     maxAge: 24 * 60 * 60, // 24 hours
     strategy: 'jwt',
+  },
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        if (token?.sub) {
+          session.user.id = token.sub;
+        }
+        if (token?.name) {
+          session.user.name = token.name;
+        }
+      }
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
