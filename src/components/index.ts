@@ -6,6 +6,7 @@ export { AdminNavBar } from './NavBar/AdminNavBar';
 export { PublicNavBar } from './NavBar/PublicNavBar';
 export { NavLink } from './NavLink';
 export { Dropdown } from './Dropdown';
+export { ErrorContent } from './ErrorContent';
 export { OverviewCard } from './OverviewCard';
 export { MultipleSelect } from './MultipleSelect';
 export { Avatar } from './Avatar';
