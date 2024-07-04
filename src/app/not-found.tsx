@@ -1,5 +1,8 @@
 import Link from 'next/link';
 
+// Auths
+import { auth } from '@/auth';
+
 // Constants
 import { ROUTES } from '@/constants';
 
@@ -7,9 +10,7 @@ import { ROUTES } from '@/constants';
 import { PiWarningOctagon } from 'react-icons/pi';
 
 export default async function NotFound() {
-  // TODO: Update to check if is admin
-  const isAdmin = false;
-  const homeRoute = isAdmin ? ROUTES.ADMIN_BOARDS : ROUTES.BOARDS;
+  const session = await auth();
 
   return (
     <div className="flex flex-col items-center gap-12 mt-24">
@@ -23,7 +24,7 @@ export default async function NotFound() {
       <Link
         className="text-blue-500 hover:text-blue-700 text-md md:text-xl"
         aria-label="Homepage"
-        href={homeRoute}
+        href={session ? ROUTES.ADMIN_BOARDS : ROUTES.BOARDS}
       >
         ← Go to Homepage
       </Link>

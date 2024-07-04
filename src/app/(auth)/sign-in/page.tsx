@@ -1,4 +1,5 @@
 import { SignInForm } from '@/ui';
+import { Suspense } from 'react';
 
 const SignInPage = () => (
   <main>
@@ -8,7 +9,10 @@ const SignInPage = () => (
         We can assign tasks, set deadlines, and track progress effortlessly.
       </h2>
     </div>
-    <SignInForm />
+    {/* // TODO: Add skeleton */}
+    <Suspense>
+      <SignInForm />
+    </Suspense>
   </main>
 );
 

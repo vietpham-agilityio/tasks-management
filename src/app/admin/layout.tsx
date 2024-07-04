@@ -1,9 +1,19 @@
 import { ReactNode } from 'react';
 
-const Layout = ({
+// Components
+import { AdminNavBar } from '@/components';
+
+const AdminLayout = ({
   children,
 }: Readonly<{
   children: ReactNode;
-}>) => <div className="h-full flex flex-col">{children}</div>;
+}>) => (
+  <div className="grid grid-flow-row md:grid-flow-col md:gap-8">
+    <div className="row-auto md:col-span-1">
+      <AdminNavBar />
+    </div>
+    <div className="row-auto md:col-span-11">{children}</div>
+  </div>
+);
 
-export default Layout;
+export default AdminLayout;
