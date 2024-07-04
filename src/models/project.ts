@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { ProjectFormDataSchema } from '@/constants';
 
 // Models
-import { CustomResponseType, CustomStateType } from './base';
+import { BaseEntity, CustomResponseType, CustomStateType } from './base';
 
 export type ProjectFormType = z.infer<typeof ProjectFormDataSchema>;
 
@@ -19,15 +19,6 @@ export type ProjectFormState = {
 } & CustomStateType &
   CustomResponseType<void>;
 
-export type Project = {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  image?: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
-  isArchived: boolean;
+export type Project = BaseEntity & {
   isPublic: boolean;
-  createdBy: string;
 };
