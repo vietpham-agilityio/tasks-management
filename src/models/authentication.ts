@@ -6,9 +6,8 @@ import {
   UserSignupFormDataSchema,
 } from '@/constants';
 
-export type CustomStateType = {
-  success?: boolean;
-};
+// Models
+import { CustomStateType } from './base';
 
 export type UserSignin = z.infer<typeof UserSigninFormDataSchema>;
 

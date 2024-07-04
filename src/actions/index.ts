@@ -1,3 +1,3 @@
 export * from './authentication';
-export * from './project';
+export * from './projects';
 export * from './task';

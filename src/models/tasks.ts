@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { TaskFormDataSchema } from '@/constants';
 
 // Models
-import { CustomStateType } from './authentication';
+import { CustomStateType } from './base';
 
 export type TaskFormType = z.infer<typeof TaskFormDataSchema>;
 
