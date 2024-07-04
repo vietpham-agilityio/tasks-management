@@ -1,5 +1,11 @@
 'use server';
-import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from 'firebase/firestore';
 
 // Configs
 import { db } from '@/config';
@@ -51,3 +57,21 @@ export async function deleteProject(
     };
   }
 }
+
+export async function updateProject(
+  values: Project,
+): Promise<ResponseStateType<Project>> {
+  try {
+    await updateDoc(doc(db, COLLECTION.PROJECTS, values.id), values);
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
+    };
+  }
+}
+
+export async function queryProjectById() {}
