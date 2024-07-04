@@ -1,9 +1,11 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { firebaseAuth, db } from '@/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+
+// Configs
+import { firebaseAuth, db } from '@/config';
 
 // Constants
 import {

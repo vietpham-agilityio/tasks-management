@@ -1,11 +1,8 @@
 'use client';
 import { useEffect, useMemo } from 'react';
-import { useFormState } from 'react-dom';
-import { Controller, useForm } from 'react-hook-form';
+import { useFormStatus } from 'react-dom';
+import { Control, Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-// APIs
-import { createProject } from '@/actions';
 
 // Components
 import { Button, Checkbox, Input, MultipleSelect, Text } from '@/components';
@@ -14,7 +11,7 @@ import { Button, Checkbox, Input, MultipleSelect, Text } from '@/components';
 import { ProjectFormDataSchema } from '@/constants';
 
 // Models
-import { ProjectFormType } from '@/models';
+import { Project, ProjectFormState, ProjectFormType } from '@/models';
 import { User } from '@/types';
 
 // Utils
@@ -28,67 +25,34 @@ import {
 const DEFAULT_REQUIRED_FIELDS = ['title', 'description', 'members'];
 
 type ProjectFormProps = {
-  membersOptions: User[];
-  data?: ProjectFormType;
+  memberOptions: User[];
+  state: ProjectFormState;
+  projectValue?: Project;
+  participations?: User[];
+  onSubmit: (formValues: ProjectFormType) => void;
 };
 
-export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
-  const { title, description, image, isPublic, members } = data || {};
-
-  const projectFormInitValues: ProjectFormType = useMemo(
-    () => ({
-      title: title || '',
-      description: description || '',
-      image: image || '',
-      isPublic: isPublic || true,
-      members: members || [],
-    }),
-    [title, description, image, isPublic, members],
-  );
-
-  const {
-    control,
-    setError,
-    getValues,
-    reset,
-    formState: { dirtyFields, errors },
-  } = useForm<ProjectFormType>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    values: projectFormInitValues,
-    resolver: zodResolver(ProjectFormDataSchema),
-  });
-
-  const dirtyItems = Object.keys(dirtyFields);
-  // If create -> required fields
-  // If edit -> Data is already filled ->  no empty fields
-  const updateRequiredFields = useMemo(
-    () => (isEmpty(data) ? DEFAULT_REQUIRED_FIELDS : []),
-    [data],
-  );
-  const isDisabled = useMemo(
-    () => !isEnableSubmitButton(updateRequiredFields, dirtyItems, errors),
-    [dirtyItems, errors, updateRequiredFields],
-  );
-
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createProject, initialState);
-
-  const handleSubmit = () => {
-    const formValues = getValues();
-    dispatch(formValues);
-  };
-
-  useEffect(() => {
-    state.errors && setServerActionErrors(state.errors, setError);
-  }, [state.errors, setError]);
-
-  useEffect(() => {
-    !isEmpty(data) && reset(projectFormInitValues);
-  }, [projectFormInitValues, data, reset]);
+const ProjectFormContent = ({
+  memberOptions,
+  control,
+  responseMessage,
+  isDisabled,
+}: {
+  memberOptions: User[];
+  control: Control<{
+    title: string;
+    isPublic: boolean;
+    description: string;
+    members: string[];
+    image?: string | undefined;
+  }>;
+  responseMessage?: string;
+  isDisabled: boolean;
+}) => {
+  const { pending } = useFormStatus();
 
   return (
-    <form className="dark:text-white" action={handleSubmit}>
+    <div>
       <Controller
         name="title"
         control={control}
@@ -105,6 +69,7 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
                 onChange(value);
               }}
               customClass="py-5"
+              disabled={pending}
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -135,6 +100,7 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
                 onChange(value);
               }}
               customClass="py-5"
+              disabled={pending}
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -163,11 +129,12 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
               onChange={(value) => {
                 onChange(value);
               }}
-              options={membersOptions.map((member) => ({
+              options={memberOptions.map((member) => ({
                 name: member.name,
                 value: member.id,
               }))}
               selectedOptions={value}
+              disabled={pending}
               onBlur={onBlur}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -198,6 +165,7 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
                 onChange(value);
               }}
               customClass="py-5"
+              disabled={pending}
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -230,6 +198,7 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
               customClass={{
                 label: 'text-md',
               }}
+              disabled={pending}
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -248,9 +217,89 @@ export const ProjectForm = ({ membersOptions, data }: ProjectFormProps) => {
         type="submit"
         customClass="w-full justify-center py-[19px] font-bold mb-8"
         disabled={isDisabled}
+        isLoading={pending}
       >
         Create Project
       </Button>
+      <span className={cn('mt-3', responseMessage ? 'mb-2' : 'mb-8')}>
+        {responseMessage && (
+          <Text
+            customClass="text-xs px-0 whitespace-pre"
+            value={responseMessage}
+            variant="error"
+          />
+        )}
+      </span>
+    </div>
+  );
+};
+
+export const ProjectForm = ({
+  memberOptions,
+  state,
+  projectValue,
+  participations,
+  onSubmit,
+}: ProjectFormProps) => {
+  const { title, description, image, isPublic } = projectValue || {};
+
+  const projectFormInitValues: ProjectFormType = useMemo(
+    () => ({
+      title: title || '',
+      description: description || '',
+      image: image || '',
+      isPublic: isPublic || true,
+      members: participations?.map((member) => member.id) || [],
+    }),
+    [title, description, image, isPublic, participations],
+  );
+
+  const {
+    control,
+    setError,
+    getValues,
+    reset,
+    formState: { dirtyFields, errors },
+  } = useForm<ProjectFormType>({
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+    values: projectFormInitValues,
+    resolver: zodResolver(ProjectFormDataSchema),
+  });
+
+  const dirtyItems = Object.keys(dirtyFields);
+  // If create -> required fields
+  // If edit -> Data is already filled ->  no empty fields
+  const updateRequiredFields = useMemo(
+    () => (isEmpty(projectValue) ? DEFAULT_REQUIRED_FIELDS : []),
+    [projectValue],
+  );
+  const isDisabled = useMemo(
+    () => !isEnableSubmitButton(updateRequiredFields, dirtyItems, errors),
+    [dirtyItems, errors, updateRequiredFields],
+  );
+
+  const handleSubmit = () => {
+    const formValues = getValues();
+    onSubmit(formValues);
+  };
+
+  useEffect(() => {
+    state.errors && setServerActionErrors(state.errors, setError);
+  }, [state.errors, setError]);
+
+  useEffect(() => {
+    !isEmpty(projectValue) && reset(projectFormInitValues);
+  }, [projectFormInitValues, projectValue, reset]);
+
+  return (
+    <form className="dark:text-white" action={handleSubmit}>
+      <ProjectFormContent
+        memberOptions={memberOptions}
+        control={control}
+        isDisabled={isDisabled}
+        responseMessage={state?.response?.error}
+      />
     </form>
   );
 };

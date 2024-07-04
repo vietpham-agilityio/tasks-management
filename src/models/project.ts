@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { ProjectFormDataSchema } from '@/constants';
 
 // Models
-import { CustomStateType } from './authentication';
+import { CustomResponseType, CustomStateType } from './base';
 
 export type ProjectFormType = z.infer<typeof ProjectFormDataSchema>;
 
@@ -16,7 +16,8 @@ export type ProjectFormState = {
     members?: string[];
     image?: string[];
   };
-} & CustomStateType;
+} & CustomStateType &
+  CustomResponseType<void>;
 
 export type Project = {
   id: string;
@@ -24,8 +25,8 @@ export type Project = {
   title: string;
   description: string;
   image?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   isArchived: boolean;
   isPublic: boolean;
   createdBy: string;
