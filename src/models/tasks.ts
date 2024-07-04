@@ -1,10 +1,14 @@
 import { z } from 'zod';
 
 // Constants
-import { TaskFormDataSchema } from '@/constants';
+import {
+  TASK_PRIORITY_VALUE,
+  TASK_STATUS_VALUE,
+  TaskFormDataSchema,
+} from '@/constants';
 
 // Models
-import { CustomStateType } from './base';
+import { BaseEntity, CustomStateType } from './base';
 
 export type TaskFormType = z.infer<typeof TaskFormDataSchema>;
 
@@ -19,3 +23,11 @@ export type TaskFormState = {
     image?: string[];
   };
 } & CustomStateType;
+
+export type Task = BaseEntity & {
+  dueDate: Date | string;
+  status: TASK_STATUS_VALUE;
+  priority: TASK_PRIORITY_VALUE;
+  assignedTo: string;
+  projectId: string;
+};

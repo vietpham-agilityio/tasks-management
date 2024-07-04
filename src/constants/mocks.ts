@@ -1,6 +1,9 @@
 // Models
 import { User } from '@/types';
-import { Project } from '@/models';
+import { Project, Task } from '@/models';
+
+// Constants
+import { TASK_PRIORITY_VALUE, TASK_STATUS_VALUE } from './tasks';
 
 export const MOCK_IMAGE_LINK =
   'https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg';
@@ -89,5 +92,87 @@ export const MOCK_PROJECT_LIST: Project[] = [
     isArchived: false,
     isPublic: false,
     createdBy: '1',
+  },
+];
+
+export const MOCK_TASK_LIST: Task[] = [
+  {
+    id: '1',
+    slug: 'task-1',
+    title: 'Design Landing Page',
+    description:
+      'Create the initial design for the landing page of the project.',
+    image: 'https://example.com/image1.jpg',
+    dueDate: new Date('2024-07-15'),
+    status: TASK_STATUS_VALUE.IN_PROGRESS,
+    priority: TASK_PRIORITY_VALUE.HIGH,
+    createdAt: new Date('2024-06-01'),
+    updatedAt: new Date('2024-07-01'),
+    isArchived: false,
+    createdBy: 'user1',
+    assignedTo: 'designer1',
+    projectId: 'project1',
+  },
+  {
+    id: '2',
+    slug: 'task-2',
+    title: 'Develop Backend API',
+    description: 'Develop the backend API for the user management module.',
+    dueDate: new Date('2024-07-20'),
+    status: TASK_STATUS_VALUE.IN_PROGRESS,
+    priority: TASK_PRIORITY_VALUE.MEDIUM,
+    createdAt: new Date('2024-06-05'),
+    updatedAt: new Date('2024-07-01'),
+    isArchived: false,
+    createdBy: 'user2',
+    assignedTo: 'developer1',
+    projectId: 'project2',
+  },
+  {
+    id: '3',
+    slug: 'task-3',
+    title: 'Write Unit Tests',
+    description: 'Write unit tests for the authentication module.',
+    dueDate: new Date('2024-07-18'),
+    status: TASK_STATUS_VALUE.NOT_STARTED,
+    priority: TASK_PRIORITY_VALUE.HIGH,
+    createdAt: new Date('2024-06-10'),
+    updatedAt: new Date('2024-07-01'),
+    isArchived: false,
+    createdBy: 'user3',
+    assignedTo: 'tester1',
+    projectId: 'project3',
+  },
+  {
+    id: '4',
+    slug: 'task-4',
+    title: 'Create User Documentation',
+    description: 'Draft the user documentation for the application.',
+    image: 'https://example.com/image2.jpg',
+    dueDate: new Date('2024-07-22'),
+    status: TASK_STATUS_VALUE.DONE,
+    priority: TASK_PRIORITY_VALUE.LOW,
+    createdAt: new Date('2024-06-15'),
+    updatedAt: new Date('2024-07-01'),
+    isArchived: false,
+    createdBy: 'user4',
+    assignedTo: 'writer1',
+    projectId: 'project4',
+  },
+  {
+    id: '5',
+    slug: 'task-5',
+    title: 'Conduct User Interviews',
+    description:
+      'Conduct user interviews to gather feedback on the beta version.',
+    dueDate: new Date('2024-07-25'),
+    status: TASK_STATUS_VALUE.NOT_STARTED,
+    priority: TASK_PRIORITY_VALUE.LOW,
+    createdAt: new Date('2024-06-20'),
+    updatedAt: new Date('2024-07-01'),
+    isArchived: false,
+    createdBy: 'user5',
+    assignedTo: 'researcher1',
+    projectId: 'project5',
   },
 ];

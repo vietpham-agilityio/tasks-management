@@ -11,3 +11,15 @@ export type ResponseStateType<T> = {
 export type CustomResponseType<T> = {
   response?: ResponseStateType<T>;
 };
+
+export type BaseEntity = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image?: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  isArchived: boolean;
+  createdBy: string;
+};
