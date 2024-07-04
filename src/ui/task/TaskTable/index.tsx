@@ -9,7 +9,6 @@ import { ItemNotFound, Text } from '@/components';
 // Constants
 import {
   DATE_FORMAT,
-  MOCK_TASK_LIST,
   ROUTES,
   TASK_PRIORITY_VALUE,
   TASK_STATUS_VALUE,
@@ -20,6 +19,9 @@ import { formatDate } from '@/utils';
 
 // Types
 import { TextVariantType } from '@/types';
+
+// APIs
+import { getTasks } from '@/api/tasks';
 
 interface TaskTableProps {
   isAdmin?: boolean;
@@ -53,7 +55,9 @@ const labelMapping = {
 };
 
 export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
-  if (MOCK_TASK_LIST?.length === 0) {
+  const { data: taskList } = await getTasks();
+
+  if (taskList?.length === 0) {
     return (
       <ItemNotFound
         title="Empty Tasks"
@@ -76,10 +80,10 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {MOCK_TASK_LIST?.map((task) => {
-            const { value: status, variant: statusVariant } =
+          {taskList?.map((task) => {
+            const { value: statusValue, variant: statusVariant } =
               labelMapping[task.status];
-            const { value: priority, variant: priorityVariant } =
+            const { value: priorityValue, variant: priorityVariant } =
               labelMapping[task.priority];
 
             return (
@@ -100,7 +104,7 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
                 </td>
                 <td className="min-w-28 px-2 py-4">
                   <Text
-                    value={status}
+                    value={statusValue}
                     variant={statusVariant as TextVariantType}
                     customClass="font-medium px-0"
                   />
@@ -112,7 +116,7 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
                 </td>
                 <td className="px-2 py-4">
                   <Text
-                    value={priority}
+                    value={priorityValue}
                     variant={priorityVariant as TextVariantType}
                     customClass="font-medium px-0"
                   />
