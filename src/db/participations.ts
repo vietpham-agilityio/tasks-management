@@ -43,3 +43,5 @@ export async function assignUsersToProject(
     };
   }
 }
+
+export async function queryParticipantList() {}

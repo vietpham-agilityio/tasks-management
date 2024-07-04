@@ -83,3 +83,21 @@ export async function createProjectWithParticipants(
   }
   return result;
 }
+
+export async function updateProjectWithParticipants(
+  id: string,
+  prevState: ProjectFormState,
+  values: ProjectFormType,
+) {
+  const validators = ProjectFormDataSchema.safeParse(values);
+  let result: ProjectFormState = {};
+  if (validators.success) {
+    result = { success: true, response: { error: id } };
+    return result;
+  }
+  if (validators.error) {
+    result = { success: false, errors: validators.error.flatten().fieldErrors };
+    return result;
+  }
+  return result;
+}

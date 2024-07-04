@@ -28,7 +28,7 @@ type ProjectFormProps = {
   memberOptions: User[];
   state: ProjectFormState;
   projectValue?: Project;
-  participations?: User[];
+  participations?: string[];
   onSubmit: (formValues: ProjectFormType) => void;
 };
 
@@ -37,6 +37,7 @@ const ProjectFormContent = ({
   control,
   responseMessage,
   isDisabled,
+  isCreated,
 }: {
   memberOptions: User[];
   control: Control<{
@@ -48,6 +49,7 @@ const ProjectFormContent = ({
   }>;
   responseMessage?: string;
   isDisabled: boolean;
+  isCreated?: boolean;
 }) => {
   const { pending } = useFormStatus();
 
@@ -219,7 +221,7 @@ const ProjectFormContent = ({
         disabled={isDisabled}
         isLoading={pending}
       >
-        Create Project
+        {isCreated ? 'Create' : 'Edit'} Project
       </Button>
       <span className={cn('mt-3', responseMessage ? 'mb-2' : 'mb-8')}>
         {responseMessage && (
@@ -249,7 +251,7 @@ export const ProjectForm = ({
       description: description || '',
       image: image || '',
       isPublic: isPublic || true,
-      members: participations?.map((member) => member.id) || [],
+      members: participations || [],
     }),
     [title, description, image, isPublic, participations],
   );
@@ -299,6 +301,7 @@ export const ProjectForm = ({
         control={control}
         isDisabled={isDisabled}
         responseMessage={state?.response?.error}
+        isCreated={isEmpty(projectValue)}
       />
     </form>
   );
