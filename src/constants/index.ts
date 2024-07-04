@@ -8,3 +8,4 @@ export * from './collection';
 export * from './errors';
 export * from './tasks';
 export * from './queryParams';
+export * from './tags';

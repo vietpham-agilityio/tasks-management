@@ -3,3 +3,5 @@ export const COLLECTION = {
   PROJECTS: 'projects',
   PARTICIPATIONS: 'participations',
 };
+
+export const LIMIT_ITEMS = 5;
