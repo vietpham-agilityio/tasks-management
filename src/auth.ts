@@ -62,6 +62,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       }
       return session;
     },
+    authorized: async ({ auth }) => {
+      return !!auth;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {

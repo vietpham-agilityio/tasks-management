@@ -4,13 +4,18 @@ import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Components
 import { Button, Text, Input, InputPassword } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, ROUTES, UserSigninFormDataSchema } from '@/constants';
+import {
+  ERROR_MESSAGES,
+  QUERY_PARAMS,
+  ROUTES,
+  UserSigninFormDataSchema,
+} from '@/constants';
 
 // Models
 import { UserSignin } from '@/models';
@@ -21,6 +26,9 @@ import { cn, isEnableSubmitButton } from '@/utils';
 const REQUIRED_FIELDS = ['email', 'password'];
 
 export const SignInForm = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get(QUERY_PARAMS.CALLBACK_URL);
+
   const router = useRouter();
   const [error, setError] = useState<string>('');
   const [isLoading, setLoading] = useState(false);
@@ -60,7 +68,7 @@ export const SignInForm = () => {
         setError(ERROR_MESSAGES.USER_NOT_FOUND);
         return;
       }
-      router.replace(ROUTES.ADMIN_BOARDS);
+      router.push(callbackUrl || ROUTES.ADMIN_BOARDS);
     } catch (error) {
       setError((error as Error).message);
     }

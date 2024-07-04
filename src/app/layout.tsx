@@ -3,6 +3,9 @@ import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import './globals.css';
 
+// Auth
+import { auth } from '@/auth';
+
 // Components
 import { AdminNavBar, PublicNavBar } from '../components';
 
@@ -22,13 +25,13 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  // TODO: Handle get user session
-  const isAdmin = true;
+  const session = await auth();
+  const isAdmin = !!session;
 
   return (
     <html lang="en">
