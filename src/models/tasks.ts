@@ -8,7 +8,7 @@ import {
 } from '@/constants';
 
 // Models
-import { BaseEntity, CustomStateType } from './base';
+import { BaseEntity, CustomResponseType, CustomStateType } from './base';
 
 export type TaskFormType = z.infer<typeof TaskFormDataSchema>;
 
@@ -22,10 +22,11 @@ export type TaskFormState = {
     assignedTo?: string[];
     image?: string[];
   };
-} & CustomStateType;
+} & CustomStateType &
+  CustomResponseType<void>;
 
 export type Task = BaseEntity & {
-  dueDate: Date | string;
+  dueDate: Date;
   status: TASK_STATUS_VALUE;
   priority: TASK_PRIORITY_VALUE;
   assignedTo: string;
