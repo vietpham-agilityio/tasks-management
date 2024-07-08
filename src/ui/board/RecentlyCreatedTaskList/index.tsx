@@ -1,0 +1,48 @@
+// Auth
+import { auth } from '@/auth';
+
+// Components
+import { OverviewCard } from '@/components';
+
+// Constants
+import { DATE_FORMAT, MOCK_PROJECT_LIST, ROUTES } from '@/constants';
+
+// Utils
+import { formatDate } from '@/utils';
+
+const RecentlyCreatedTasktList = async () => {
+  const session = await auth();
+  const data = MOCK_PROJECT_LIST;
+
+  return (
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg">
+      <span className="text-xl font-bold dark:text-white">
+        Recently Created Task
+      </span>
+      <div className="flex flex-col gap-4 pt-3 ">
+        {data.map((task) => {
+          return (
+            <OverviewCard
+              key={task.id}
+              href={
+                session
+                  ? ROUTES.ADMIN_TASK_DETAIL(task.id)
+                  : ROUTES.TASK_DETAIL(task.slug)
+              }
+              time={formatDate(task.createdAt, DATE_FORMAT.Hour)}
+              title={task.title}
+              description={task.description}
+              isRowDisplay={true}
+              customClass={{
+                wrapper: 'hover:bg-zinc-100',
+                image: 'max-w-24',
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export { RecentlyCreatedTasktList };

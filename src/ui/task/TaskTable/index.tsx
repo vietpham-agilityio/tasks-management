@@ -18,7 +18,7 @@ import {
 import { formatDate } from '@/utils';
 
 // Types
-import { TextVariantType } from '@/types';
+import { VariantType } from '@/types';
 
 // APIs
 import { getTasks } from '@/api/tasks';
@@ -105,7 +105,7 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
                 <td className="min-w-28 px-2 py-4">
                   <Text
                     value={statusValue}
-                    variant={statusVariant as TextVariantType}
+                    variant={statusVariant as VariantType}
                     customClass="font-medium px-0"
                   />
                 </td>
@@ -117,7 +117,7 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
                 <td className="px-2 py-4">
                   <Text
                     value={priorityValue}
-                    variant={priorityVariant as TextVariantType}
+                    variant={priorityVariant as VariantType}
                     customClass="font-medium px-0"
                   />
                 </td>

@@ -16,3 +16,4 @@ export { AvatarGroup } from './AvatarGroup';
 export { Checkbox } from './Checkbox';
 export { ItemNotFound } from './ItemNotFound';
 export { Pagination } from './Pagination';
+export { StatCard } from './StatCard';
