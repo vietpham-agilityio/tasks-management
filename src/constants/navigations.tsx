@@ -1,5 +1,11 @@
+// Models
 import { Navigation } from '@/models';
+
+// Icons
 import { BoardIcon, ProjectIcon, TaskIcon, UserIcon } from '@/icons';
+
+// Utils
+import { getQueryParams } from '@/utils';
 
 export const ROUTES = {
   // Authentication
@@ -10,7 +16,8 @@ export const ROUTES = {
   ADMIN_BOARDS: '/admin/boards',
   ADMIN_PROJECT_LIST: '/admin/projects',
   ADMIN_PROJECT_DETAIL: (id?: string) => `/admin/projects/${id}`,
-  ADMIN_CREATE_PROJECT: '/admin/projects/create',
+  ADMIN_UPSERT_PROJECT: (id?: string) =>
+    `/admin/projects/upsert${getQueryParams({ id })}`,
   ADMIN_TASK_LIST: '/admin/tasks',
   ADMIN_TASK_DETAIL: (id?: string) => `/admin/tasks/${id}`,
   ADMIN_CREATE_TASK: '/admin/tasks/create',
