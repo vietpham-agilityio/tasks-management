@@ -1,6 +1,8 @@
 import {
+  DocumentData,
   DocumentSnapshot,
   OrderByDirection,
+  WithFieldValue,
   addDoc,
   collection,
   deleteDoc,
@@ -69,9 +71,9 @@ export const getDocuments = async <T>(
 };
 
 // Add new document
-export const addDocument = async (
+export const addDocument = async <T>(
   collectionKey: string,
-  formData: FormData,
+  formData: T & WithFieldValue<DocumentData>,
 ) => {
   const docRef = collection(db, collectionKey);
 
