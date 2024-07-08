@@ -1,6 +1,9 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 
+// Types
+import { VariantType } from '@/types';
+
 // Utils
 import { cn } from '@/utils';
 
@@ -9,15 +12,13 @@ type StatCardProps = {
   icon: ReactNode;
   label: string;
   description: string;
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'warning'
-    | 'error'
-    | 'success';
-  customClass?: string;
-  customIconClass?: string;
+  variant?: VariantType;
+  customClass?: {
+    wrapper?: string;
+    icon?: string;
+    title?: string;
+    desciption?: string;
+  };
 };
 
 export const StatCard = ({
@@ -27,7 +28,6 @@ export const StatCard = ({
   description,
   variant = 'primary',
   customClass,
-  customIconClass,
 }: StatCardProps) => {
   return (
     <Link href={to}>
@@ -43,7 +43,7 @@ export const StatCard = ({
             'bg-rose-200': variant === 'error',
             'bg-lime-100': variant === 'success',
           },
-          customClass,
+          customClass?.wrapper,
         )}
       >
         <div
@@ -57,13 +57,22 @@ export const StatCard = ({
               'bg-red-500': variant === 'error',
               'bg-lime-500': variant === 'success',
             },
-            customIconClass,
+            customClass?.icon,
           )}
         >
           {icon}
         </div>
-        <h1 className="text-sm text-zinc-500">{label}</h1>
-        <span className="text-neutral-800 font-bold text-[24px]">
+        <h1
+          className={cn('text-sm text-zinc-500 truncate', customClass?.title)}
+        >
+          {label}
+        </h1>
+        <span
+          className={cn(
+            'text-neutral-800 font-bold text-[24px] truncate',
+            customClass?.desciption,
+          )}
+        >
           {description}
         </span>
       </div>

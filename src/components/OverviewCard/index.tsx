@@ -42,7 +42,7 @@ export const OverviewCard = ({
       className={cn(
         'flex flex-col border rounded-lg p-5 dark:bg-zinc-800 dark:border-gray-700',
         imageSrc && 'gap-4',
-        isRowDisplay && 'md:flex-row gap-4',
+        isRowDisplay && 'md:flex-row md:gap-4',
         customClass?.wrapper,
       )}
     >

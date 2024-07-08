@@ -1,4 +1,4 @@
-export type TextVariantType =
+export type VariantType =
   | 'primary'
   | 'secondary'
   | 'tertiary'
