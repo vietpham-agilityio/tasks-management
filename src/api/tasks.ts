@@ -12,7 +12,10 @@ import { Task } from '@/models';
 export const getTasks = async () => {
   const tasks = await cache(getDocuments, [TAGS.TASK_LIST], {
     tags: [TAGS.TASK_LIST],
-  })<Task>(COLLECTION.TASKS, { field: 'updatedAt', type: 'desc' }, 10);
+  })<Task>(COLLECTION.TASKS, {
+    orderItem: { field: 'updatedAt', type: 'desc' },
+    limitItem: 10,
+  });
 
   return tasks;
 };

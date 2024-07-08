@@ -3,17 +3,20 @@ import {
   DocumentSnapshot,
   OrderByDirection,
   WithFieldValue,
+  WhereFilterOp,
   addDoc,
   collection,
   deleteDoc,
   doc,
   getCountFromServer,
+  getDoc,
   getDocs,
   limit,
   orderBy,
   query,
   startAfter,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 
 // DB
@@ -22,23 +25,38 @@ import { db } from '@/config';
 // GET all documents of a collection
 export const getDocuments = async <T>(
   collectionKey: string,
-  orderItem: { field: string; type: OrderByDirection },
-  limitItem?: number,
-  startPoint?: DocumentSnapshot<T>,
+  queryParam?: {
+    orderItem?: { field: string; type: OrderByDirection };
+    query?: { field: string; comparison: WhereFilterOp; value: string };
+    limitItem?: number;
+    startPoint?: DocumentSnapshot<T>;
+  },
 ) => {
   try {
     let dataQuery = query(collection(db, collectionKey));
 
-    if (orderItem) {
-      dataQuery = query(dataQuery, orderBy(orderItem.field, orderItem.type));
+    // TODO: Create a helper function to generate queryConstraint
+    if (queryParam?.orderItem) {
+      dataQuery = query(
+        dataQuery,
+        orderBy(queryParam?.orderItem.field, queryParam?.orderItem.type),
+      );
     }
-
-    if (limitItem) {
-      dataQuery = query(dataQuery, limit(limitItem));
+    if (queryParam?.limitItem) {
+      dataQuery = query(dataQuery, limit(queryParam?.limitItem));
     }
-
-    if (startPoint) {
-      dataQuery = query(dataQuery, startAfter(startPoint));
+    if (queryParam?.startPoint) {
+      dataQuery = query(dataQuery, startAfter(queryParam?.startPoint));
+    }
+    if (queryParam?.query) {
+      dataQuery = query(
+        dataQuery,
+        where(
+          queryParam?.query.field,
+          queryParam?.query.comparison,
+          queryParam?.query.value,
+        ),
+      );
     }
 
     const snapshot = await getDocs(dataQuery);
@@ -52,7 +70,6 @@ export const getDocuments = async <T>(
 
     return {
       data,
-      error: null,
       total: total,
     };
   } catch (error) {
@@ -99,15 +116,14 @@ export const addDocument = async <T>(
 
 // GET details document by id
 export const getDocument = async <T>(collectionKey: string, itemId: string) => {
-  const dataQuery = query(collection(db, collectionKey, itemId));
-
+  const dataQuery = doc(db, collectionKey, itemId);
   try {
-    const snapshot = (await getDocs(dataQuery)).docs[0];
-
-    return {
-      data: { ...snapshot, id: snapshot.id } as T,
-      error: null,
-    };
+    const snapshot = await getDoc(dataQuery);
+    if (snapshot.exists()) {
+      return {
+        data: { ...snapshot.data(), id: snapshot.id } as T,
+      };
+    }
   } catch (error) {
     return {
       data: null,

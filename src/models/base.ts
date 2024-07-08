@@ -5,7 +5,7 @@ export type CustomStateType = {
 export type ResponseStateType<T> = {
   success?: boolean;
   error?: string;
-  data?: T;
+  data?: T | null;
 };
 
 export type CustomResponseType<T> = {
@@ -22,4 +22,11 @@ export type BaseEntity = {
   updatedAt: Date | string;
   isArchived: boolean;
   createdBy: string;
+};
+
+export type CacheOption = {
+  keyParts?: string[];
+  options?: {
+    tags?: string[];
+  };
 };

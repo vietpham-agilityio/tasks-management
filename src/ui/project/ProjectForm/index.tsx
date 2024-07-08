@@ -250,7 +250,7 @@ export const ProjectForm = ({
       title: title || '',
       description: description || '',
       image: image || '',
-      isPublic: isPublic || true,
+      isPublic: isPublic !== undefined ? isPublic : true,
       members: participations || [],
     }),
     [title, description, image, isPublic, participations],

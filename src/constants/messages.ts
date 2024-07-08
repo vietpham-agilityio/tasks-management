@@ -13,4 +13,5 @@ export const ERROR_MESSAGES = {
     `An error occurred when upserting data into ${label} collection`,
   REMOVING_DATA_ERROR: (label: string, id: string) =>
     `An error occurred when removing data with id ${id} from ${label} collection`,
+  DATA_NOT_FOUND: 'Not found',
 };
