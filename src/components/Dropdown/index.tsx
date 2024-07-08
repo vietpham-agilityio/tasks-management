@@ -87,7 +87,7 @@ export const Dropdown = ({
       </Button>
       {isOpenDropdown && (
         <div
-          className="absolute transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-neutral-900"
+          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-neutral-900"
           style={{
             width: dropdownRef?.current?.clientWidth,
           }}

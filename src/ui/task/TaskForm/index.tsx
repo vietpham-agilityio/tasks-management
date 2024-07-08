@@ -1,7 +1,8 @@
 'use client';
+
 import { useEffect, useMemo } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Control, Controller, useForm } from 'react-hook-form';
+import { Control, Controller, UseFormSetValue, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 
@@ -18,7 +19,7 @@ import {
 
 // Models
 import { User } from '@/types';
-import { Task, TaskFormState, TaskFormType } from '@/models';
+import { Task, Project, TaskFormState, TaskFormType } from '@/models';
 
 // Utils
 import {
@@ -27,18 +28,22 @@ import {
   isEnableSubmitButton,
   formatDate,
   setServerActionErrors,
+  generateSlug,
 } from '@/utils';
 
 const DEFAULT_REQUIRED_FIELDS = [
   'title',
+  'slug',
   'description',
   'status',
   'priority',
   'assignedTo',
+  'projectId',
 ];
 
 type TaskFormProps = {
   assginedToOptions: User[];
+  fromProject: Project[];
   taskValue?: Task;
   state: TaskFormState;
   onSubmit: (formValues: TaskFormType) => void;
@@ -46,14 +51,28 @@ type TaskFormProps = {
 
 type TaskFormContentType = {
   assginedToOptions: User[];
+  listProject: Project[];
   control: Control<{
     title: string;
+    slug: string;
     description: string;
     image?: string;
     status: string;
     priority: string;
     assignedTo: string;
+    projectId: string;
     dueDate: Date;
+  }>;
+  setValue: UseFormSetValue<{
+    title: string;
+    status: string;
+    slug: string;
+    description: string;
+    dueDate: Date;
+    priority: string;
+    assignedTo: string;
+    projectId: string;
+    image?: string | undefined;
   }>;
   responseMessage?: string;
   isDisabled: boolean;
@@ -62,7 +81,9 @@ type TaskFormContentType = {
 
 const TaskFormContent = ({
   assginedToOptions,
+  listProject,
   control,
+  setValue,
   responseMessage,
   isDisabled,
   isCreated,
@@ -82,6 +103,37 @@ const TaskFormContent = ({
             <label className="font-bold text-md">Title</label>
             <Input
               placeholder="Title"
+              value={value}
+              onChange={(value) => {
+                onChange(value);
+                setValue('slug', generateSlug(value.target.value));
+              }}
+              customClass="py-5"
+              {...rest}
+            />
+            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+              {error?.message && (
+                <Text
+                  customClass="text-xs px-0 whitespace-pre"
+                  value={error?.message}
+                  variant="error"
+                />
+              )}
+            </span>
+          </div>
+        )}
+      />
+      <Controller
+        name="slug"
+        control={control}
+        render={({
+          field: { onChange, value, ...rest },
+          fieldState: { error },
+        }) => (
+          <div className="flex flex-col gap-2">
+            <label className="font-bold text-md">Slug</label>
+            <Input
+              placeholder="Slug"
               value={value}
               onChange={(value) => {
                 onChange(value);
@@ -161,7 +213,7 @@ const TaskFormContent = ({
           </div>
         )}
       />
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-col sm:flex-row sm:gap-4">
         <Controller
           name="status"
           control={control}
@@ -172,7 +224,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2">
               <label className="font-bold text-md">Status</label>
               <Dropdown
-                placeholder="Select Status"
+                placeholder="Status"
                 options={TASK_STATUS_OPTIONS}
                 selectedItemValue={value}
                 onSelect={(value) => {
@@ -204,7 +256,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2 z-10">
               <label className="font-bold text-md">Priority</label>
               <Dropdown
-                placeholder="Select Priority"
+                placeholder="Priority"
                 options={TASK_PRIORITY_OPTIONS}
                 selectedItemValue={value}
                 onSelect={(value) => {
@@ -242,6 +294,40 @@ const TaskFormContent = ({
               options={assginedToOptions.map((user) => ({
                 name: user.name,
                 value: user.id,
+              }))}
+              selectedItemValue={value}
+              onSelect={(value) => {
+                onChange(value);
+              }}
+              onBlur={onBlur}
+            />
+            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+              {error?.message && (
+                <Text
+                  customClass="text-xs px-0 whitespace-pre"
+                  value={error?.message}
+                  variant="error"
+                />
+              )}
+            </span>
+          </div>
+        )}
+      />
+
+      <Controller
+        name="projectId"
+        control={control}
+        render={({
+          field: { onChange, value, onBlur },
+          fieldState: { error },
+        }) => (
+          <div className="flex flex-col gap-2">
+            <label className="font-bold text-md">Project</label>
+            <Dropdown
+              placeholder="Select a Project"
+              options={listProject.map((project) => ({
+                name: project.title,
+                value: project.id,
               }))}
               selectedItemValue={value}
               onSelect={(value) => {
@@ -316,24 +402,46 @@ const TaskFormContent = ({
 
 export const TaskForm = ({
   assginedToOptions,
+  fromProject,
   taskValue,
   state,
   onSubmit,
 }: TaskFormProps) => {
-  const { title, description, image, status, priority, assignedTo, dueDate } =
-    taskValue || {};
+  const {
+    title,
+    slug,
+    description,
+    image,
+    status,
+    priority,
+    assignedTo,
+    projectId,
+    dueDate,
+  } = taskValue || {};
 
   const taskFormInitValues: TaskFormType = useMemo(
     () => ({
       title: title || '',
+      slug: slug || '',
       description: description || '',
       image: image || '',
       status: status || '',
       priority: priority || '',
       assignedTo: assignedTo || '',
+      projectId: projectId || '',
       dueDate: dueDate || new Date(),
     }),
-    [title, description, image, dueDate, status, priority, assignedTo],
+    [
+      title,
+      slug,
+      description,
+      image,
+      dueDate,
+      status,
+      priority,
+      assignedTo,
+      projectId,
+    ],
   );
 
   const {
@@ -341,6 +449,7 @@ export const TaskForm = ({
     setError,
     getValues,
     reset,
+    setValue,
     formState: { dirtyFields, errors },
   } = useForm<TaskFormType>({
     mode: 'onBlur',
@@ -378,7 +487,9 @@ export const TaskForm = ({
     <form className="dark:text-white" action={handleSubmit}>
       <TaskFormContent
         assginedToOptions={assginedToOptions}
+        listProject={fromProject}
         control={control}
+        setValue={setValue}
         responseMessage={state?.response?.error}
         isDisabled={isDisabled}
         isCreated={isEmpty(taskValue)}
