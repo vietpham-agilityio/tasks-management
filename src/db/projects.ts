@@ -14,7 +14,8 @@ import { db } from '@/config';
 import { COLLECTION, ERROR_MESSAGES } from '@/constants';
 
 // Models
-import { Project, ResponseStateType } from '@/models';
+import { Project, ProjectFormType, ResponseStateType } from '@/models';
+import { getDocument } from './query';
 
 export async function createProject(
   values: Omit<Project, 'id'>,
@@ -59,13 +60,28 @@ export async function deleteProject(
 }
 
 export async function updateProject(
-  values: Project,
+  id: string,
+  values: Omit<ProjectFormType, 'members'> & { updatedAt: string },
 ): Promise<ResponseStateType<Project>> {
   try {
-    await updateDoc(doc(db, COLLECTION.PROJECTS, values.id), values);
-    return {
-      success: true,
-    };
+    // Get data from db
+    const queryData = await getDocument<Project>(COLLECTION.PROJECTS, id);
+    if (queryData?.data) {
+      const data: Project = {
+        ...queryData.data,
+        ...values,
+      };
+      await updateDoc(doc(db, COLLECTION.PROJECTS, id), data);
+      return {
+        data,
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: ERROR_MESSAGES.DATA_NOT_FOUND,
+      };
+    }
   } catch (error) {
     return {
       success: false,
@@ -74,4 +90,23 @@ export async function updateProject(
   }
 }
 
-export async function queryProjectById() {}
+export async function getProjectDetail(
+  id: string,
+): Promise<ResponseStateType<Project>> {
+  try {
+    const response = await getDocument<Project>(COLLECTION.PROJECTS, id);
+    if (response?.data) {
+      return {
+        ...response,
+        success: true,
+      };
+    }
+    return {
+      ...response,
+      success: false,
+      error: ERROR_MESSAGES.DATA_NOT_FOUND,
+    };
+  } catch (error) {
+    return { success: false, error: (error as Error).message };
+  }
+}

@@ -1,14 +1,27 @@
 'use server';
 import { redirect } from 'next/navigation';
+import { revalidateTag } from 'next/cache';
 
 // Constants
-import { ProjectFormDataSchema, ROUTES } from '@/constants';
+import { ProjectFormDataSchema, ROUTES, TAGS } from '@/constants';
 
-// DB
-import { deleteProject, assignUsersToProject, createProject } from '@/db';
+// DBs
+import {
+  deleteProject,
+  assignUsersToProject,
+  createProject,
+  updateProject,
+  removeUsersFromProject,
+  queryParticipationsByProjectId,
+} from '@/db';
 
 // Models
-import { Project, ProjectFormState, ProjectFormType } from '@/models';
+import {
+  EditProjetDataType,
+  Project,
+  ProjectFormState,
+  ProjectFormType,
+} from '@/models';
 
 // HOCs
 import { withAuth } from '@/hocs';
@@ -58,8 +71,99 @@ export const createProjectWithParticipants = async (
               deleteProject,
               true,
             );
+            result = {
+              ...result,
+              response: {
+                data: projectResponse.data,
+              },
+            };
             if (!participantResponse.success) {
               throw new Error(participantResponse.error);
+            }
+          }
+        } catch (error) {
+          return {
+            success: false,
+            response: {
+              error: (error as Error).message,
+            },
+          };
+        }
+      }
+
+      if (validators.error) {
+        return {
+          success: false,
+          errors: validators.error.flatten().fieldErrors,
+        };
+      }
+      if (result.success && result.response?.data) {
+        revalidateTag(TAGS.PROJECT_LIST);
+        redirect(ROUTES.ADMIN_PROJECT_DETAIL(result.response.data.id));
+      }
+      return result;
+    },
+    { prevState, values },
+  );
+};
+
+export const updateProjectWithParticipants = async (
+  id: string,
+  prevState: ProjectFormState,
+  newData: ProjectFormType,
+) => {
+  return await withAuth<
+    {
+      id: string;
+      prevState: ProjectFormState;
+      newData: ProjectFormType;
+    },
+    ProjectFormState
+  >(
+    async (args, session) => {
+      const validators = ProjectFormDataSchema.safeParse(args.newData);
+      let result: ProjectFormState = {};
+      if (validators.success && session?.user.id) {
+        result = { success: true };
+        try {
+          const time = new Date().toISOString();
+          const data: EditProjetDataType = {
+            title: newData.title,
+            description: newData.description,
+            image: newData.image,
+            isPublic: newData.isPublic,
+            updatedAt: time,
+          };
+          const projectResponse = await updateProject(id, data);
+          if (!projectResponse.success) {
+            throw new Error(projectResponse.error);
+          }
+          if (projectResponse.success && projectResponse.data) {
+            // Get array of old participations from db
+            const previousPartipcipantsResponse =
+              await queryParticipationsByProjectId(id);
+            if (!previousPartipcipantsResponse.data) {
+              throw new Error(previousPartipcipantsResponse.error);
+            }
+            // Get the removed participations
+            const removedParticipant = previousPartipcipantsResponse.data
+              .map((usr) => usr.userId)
+              .filter((user) => !newData.members.includes(user));
+            // Unassign members from project
+            const removedParticipantRepsonse = await removeUsersFromProject(
+              removedParticipant,
+              id,
+            );
+            if (removedParticipantRepsonse.error) {
+              throw new Error(removedParticipantRepsonse.error);
+            }
+            // Include current user into the list of participants
+            const assignedParticipantResponse = await assignUsersToProject(
+              [...newData.members, session.user.id],
+              id,
+            );
+            if (assignedParticipantResponse.error) {
+              throw new Error(assignedParticipantResponse.error);
             }
           }
         } catch (error) {
@@ -71,37 +175,19 @@ export const createProjectWithParticipants = async (
           };
         }
       }
-
       if (validators.error) {
-        result = {
+        return {
           success: false,
           errors: validators.error.flatten().fieldErrors,
         };
       }
       if (result.success) {
-        // TODO: Revalidate Tags
-        redirect(ROUTES.ADMIN_PROJECT_LIST);
+        revalidateTag(TAGS.PROJECT_LIST);
+        revalidateTag(TAGS.PROJECT_DETAIL(id));
+        redirect(ROUTES.ADMIN_PROJECT_DETAIL(id));
       }
       return result;
     },
-    { prevState, values },
+    { id, prevState, newData },
   );
 };
-
-export async function updateProjectWithParticipants(
-  id: string,
-  prevState: ProjectFormState,
-  values: ProjectFormType,
-) {
-  const validators = ProjectFormDataSchema.safeParse(values);
-  let result: ProjectFormState = {};
-  if (validators.success) {
-    result = { success: true, response: { error: id } };
-    return result;
-  }
-  if (validators.error) {
-    result = { success: false, errors: validators.error.flatten().fieldErrors };
-    return result;
-  }
-  return result;
-}

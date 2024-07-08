@@ -17,8 +17,12 @@ export type ProjectFormState = {
     image?: string[];
   };
 } & CustomStateType &
-  CustomResponseType<void>;
+  CustomResponseType<Project>;
 
 export type Project = BaseEntity & {
   isPublic: boolean;
+};
+
+export type EditProjetDataType = Omit<ProjectFormType, 'members'> & {
+  updatedAt: string;
 };

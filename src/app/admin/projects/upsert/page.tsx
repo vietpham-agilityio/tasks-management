@@ -1,12 +1,13 @@
 // APIs
 import { queryUserList } from '@/db';
+import { getPartipationsByProjectId, getProjectById } from '@/api';
 
 // Components
 import { CreateProjectFormWrapper, EditProjectFormWrapper } from '@/ui';
 import { ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, MOCK_PROJECT_LIST } from '@/constants';
+import { ERROR_MESSAGES, TAGS } from '@/constants';
 
 const UpserProjectPage = async ({
   searchParams,
@@ -14,15 +15,19 @@ const UpserProjectPage = async ({
   searchParams: { id: string };
 }) => {
   const { data: userList, error: userListError } = await queryUserList();
-
-  // TODO: Query Project Detail and Participants List
-  const projectData = searchParams.id ? MOCK_PROJECT_LIST[0] : null;
-  const participationData = searchParams.id
-    ? ['gjrdDS6Qu5Ogh6jebhFNWW1dBRx1']
-    : [];
+  const { data: projectData, error: projectError } = await getProjectById(
+    searchParams.id,
+    { options: { tags: [TAGS.PROJECT_DETAIL(searchParams.id)] } },
+  );
+  const { data: participationData, error: participationError } =
+    await getPartipationsByProjectId(searchParams.id, {
+      options: { tags: [TAGS.PROJECT_DETAIL(searchParams.id)] },
+    });
 
   const isEdited = !!projectData;
-  const isError = !!userListError;
+  const error =
+    userListError ||
+    (!!searchParams.id && (projectError || participationError));
 
   return (
     <main className="p-4 flex flex-col gap-8 pt-8 justify-items-stretch">
@@ -38,10 +43,10 @@ const UpserProjectPage = async ({
       </div>
       <div className="bg-white rounded-lg">
         <div className="w-full md:w-2/3 max-w-[700px] p-10 mx-auto ">
-          {isError ? (
+          {error ? (
             <ItemNotFound
               title={ERROR_MESSAGES.REQUESTING_DATA}
-              description={`Please try again later. (Error:${userListError})`}
+              description={`Please try again later. (Error:${error})`}
             />
           ) : (
             <>
@@ -49,7 +54,9 @@ const UpserProjectPage = async ({
                 <EditProjectFormWrapper
                   memberOptions={userList}
                   data={projectData}
-                  participations={participationData}
+                  participations={
+                    participationData?.map((user) => user.userId) || []
+                  }
                 />
               ) : (
                 <CreateProjectFormWrapper memberOptions={userList} />
