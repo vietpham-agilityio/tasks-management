@@ -29,7 +29,7 @@ export type TaskFormState = {
 
 export type Task = BaseEntity & {
   slug: string;
-  dueDate: Date;
+  dueDate: Date | string;
   status: TASK_STATUS_VALUE;
   priority: TASK_PRIORITY_VALUE;
   assignedTo: string;
