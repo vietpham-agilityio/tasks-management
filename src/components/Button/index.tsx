@@ -49,7 +49,7 @@ export const Button = ({
         {
           'bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-black dark:hover:opacity-70 disabled:bg-neutral-800/50':
             variant === 'primary',
-          'border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50':
+          'border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black':
             variant === 'outline',
         },
         customClass,

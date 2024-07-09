@@ -69,7 +69,7 @@ exports[`Header component Should match snapshot 1`] = `
           Create New Task
         </button>
         <button
-          class="flex items-center rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 p-4"
+          class="flex items-center rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black p-4"
           type="button"
         >
           <svg
@@ -167,7 +167,7 @@ exports[`Header component Should match snapshot 1`] = `
         Create New Task
       </button>
       <button
-        class="flex items-center rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 p-4"
+        class="flex items-center rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black p-4"
         type="button"
       >
         <svg
