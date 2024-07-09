@@ -5,4 +5,7 @@ export const COLLECTION = {
   PARTICIPATIONS: 'participations',
 };
 
-export const LIMIT_ITEMS = 5;
+export const LIMIT_ITEMS = {
+  DEFAULT: 5,
+  BOARD_PAGE: 6,
+};

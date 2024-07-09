@@ -13,13 +13,14 @@ import { isEmpty } from '@/utils';
 export const withAuth = async <T, H>(
   childFunction: (args: T, session: Session | null) => Promise<H>,
   args: T,
+  checkAuthenticated = true,
 ) => {
   const session = await auth();
 
-  if (isEmpty(session)) {
+  if (checkAuthenticated && isEmpty(session)) {
     return {
       success: false,
-      response: { error: ERROR_MESSAGES.UNAUTHORIZED_ACCESS },
+      error: ERROR_MESSAGES.UNAUTHORIZED_ACCESS,
     };
   }
   const response = await childFunction(args, session);

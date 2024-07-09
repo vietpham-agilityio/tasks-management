@@ -1,47 +1,58 @@
 // Auth
 import { auth } from '@/auth';
 
+// APIs
+import { getTaskStatistic } from '@/api';
+
 // Components
-import { StatCard } from '@/components';
+import { ItemNotFound, StatCard } from '@/components';
 
 // Constants
-import { ROUTES, TASK_PRIORITY_VALUE, TASK_STATUS_VALUE } from '@/constants';
+import {
+  QUERY_PARAMS,
+  ROUTES,
+  TASK_PRIORITY_VALUE,
+  TASK_STATUS_VALUE,
+} from '@/constants';
 
 // Types
 import { VariantType } from '@/types';
+import { TaskStatQueryParam, TaskStatResponse } from '@/models';
 
 // Icons
 import { BoardIcon, ProjectIcon } from '@/icons';
 
+const TASK_STAT_QUERY_PARAMS: TaskStatQueryParam[] = [
+  {
+    field: QUERY_PARAMS.STATUS,
+    value: TASK_STATUS_VALUE.NOT_STARTED,
+  },
+  {
+    field: QUERY_PARAMS.STATUS,
+    value: TASK_STATUS_VALUE.IN_PROGRESS,
+  },
+  {
+    field: QUERY_PARAMS.STATUS,
+    value: TASK_STATUS_VALUE.DONE,
+  },
+  {
+    field: QUERY_PARAMS.PRIORITY,
+    value: TASK_PRIORITY_VALUE.HIGH,
+  },
+  {
+    field: QUERY_PARAMS.PRIORITY,
+    value: TASK_PRIORITY_VALUE.MEDIUM,
+  },
+  {
+    field: QUERY_PARAMS.PRIORITY,
+    value: TASK_PRIORITY_VALUE.LOW,
+  },
+];
+
 const TaskList = async () => {
   const session = await auth();
 
-  const data = [
-    {
-      title: 'high',
-      description: '23',
-    },
-    {
-      title: 'low',
-      description: '23',
-    },
-    {
-      title: 'medium',
-      description: '23',
-    },
-    {
-      title: 'done',
-      description: '23',
-    },
-    {
-      title: 'in_progress',
-      description: '23',
-    },
-    {
-      title: 'not_started',
-      description: '23',
-    },
-  ];
+  const { data, error } = await getTaskStatistic(TASK_STAT_QUERY_PARAMS);
 
   const statCardMapping = {
     [TASK_STATUS_VALUE.NOT_STARTED]: {
@@ -76,22 +87,46 @@ const TaskList = async () => {
     },
   };
 
+  if (error)
+    return (
+      <ItemNotFound
+        title="Error"
+        description={error}
+        customClass={{
+          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg',
+          description: 'text-red-500',
+        }}
+      />
+    );
+
+  if (!data || data?.length == 0) {
+    return (
+      <ItemNotFound
+        title="Empty Tasks"
+        description="Your Tasks are currently empty. Please create new tasks or stay tuned for updates"
+        customClass={{
+          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg',
+        }}
+      />
+    );
+  }
+
   return (
-    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg">
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
       <span className="text-xl font-bold dark:text-white">My Task</span>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-7 pt-3">
-        {data.map((stat) => {
+        {data.map((stat: TaskStatResponse) => {
           const statCard =
             statCardMapping[
-              stat.title as TASK_PRIORITY_VALUE | TASK_STATUS_VALUE
+              stat.label as TASK_PRIORITY_VALUE | TASK_STATUS_VALUE
             ];
           return (
             <StatCard
-              key={stat.title}
+              key={stat.label}
               to={session ? ROUTES.ADMIN_TASK_LIST : ROUTES.TASK_LIST}
               icon={statCard.icon}
               label={statCard.label}
-              description={stat.description}
+              description={stat.total.toString()}
               variant={statCard.variant as VariantType}
               customClass={{
                 wrapper: 'hover:opacity-1.1',

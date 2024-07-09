@@ -33,7 +33,6 @@ import {
 
 const DEFAULT_REQUIRED_FIELDS = [
   'title',
-  'slug',
   'description',
   'status',
   'priority',
@@ -490,7 +489,7 @@ export const TaskForm = ({
         listProject={fromProject}
         control={control}
         setValue={setValue}
-        responseMessage={state?.response?.error}
+        responseMessage={state?.error}
         isDisabled={isDisabled}
         isCreated={isEmpty(taskValue)}
       />

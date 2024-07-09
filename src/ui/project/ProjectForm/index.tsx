@@ -300,7 +300,7 @@ export const ProjectForm = ({
         memberOptions={memberOptions}
         control={control}
         isDisabled={isDisabled}
-        responseMessage={state?.response?.error}
+        responseMessage={state?.error}
         isCreated={isEmpty(projectValue)}
       />
     </form>

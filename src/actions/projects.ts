@@ -73,9 +73,7 @@ export const createProjectWithParticipants = async (
             );
             result = {
               ...result,
-              response: {
-                data: projectResponse.data,
-              },
+              data: projectResponse.data,
             };
             if (!participantResponse.success) {
               throw new Error(participantResponse.error);
@@ -84,9 +82,7 @@ export const createProjectWithParticipants = async (
         } catch (error) {
           return {
             success: false,
-            response: {
-              error: (error as Error).message,
-            },
+            error: (error as Error).message,
           };
         }
       }
@@ -97,9 +93,9 @@ export const createProjectWithParticipants = async (
           errors: validators.error.flatten().fieldErrors,
         };
       }
-      if (result.success && result.response?.data) {
+      if (result.success && result?.data) {
         revalidateTag(TAGS.PROJECT_LIST);
-        redirect(ROUTES.ADMIN_PROJECT_DETAIL(result.response.data.id));
+        redirect(ROUTES.ADMIN_PROJECT_DETAIL(result.data.id));
       }
       return result;
     },
@@ -169,9 +165,7 @@ export const updateProjectWithParticipants = async (
         } catch (error) {
           result = {
             success: false,
-            response: {
-              error: (error as Error).message,
-            },
+            error: (error as Error).message,
           };
         }
       }

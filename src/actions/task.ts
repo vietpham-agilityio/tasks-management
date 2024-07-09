@@ -74,9 +74,7 @@ export const createTask = async (
         } catch (error) {
           result = {
             success: false,
-            response: {
-              error: (error as Error).message,
-            },
+            error: (error as Error).message,
           };
         }
       }
