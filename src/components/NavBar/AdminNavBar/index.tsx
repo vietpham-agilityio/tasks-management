@@ -41,7 +41,7 @@ export const AdminNavBar = () => {
       className="relative lg:static w-full"
       ref={navBarRef as RefObject<HTMLDivElement>}
     >
-      <div className="flex items-center justify-between py-[10px] pr-5 md:pr-0 px-[5px] md:mb-[31px] rounded-lg bg-white dark:bg-zinc-800 ">
+      <div className="flex items-center justify-between py-[10px] pr-5 lg:pr-0 px-[5px] lg:mb-[31px] rounded-lg bg-white dark:bg-zinc-800 ">
         <Link
           href={ROUTES.ADMIN_BOARDS}
           className="flex items-center gap-2 w-full"
@@ -50,13 +50,13 @@ export const AdminNavBar = () => {
           <h1 className="text-xl font-bold dark:text-white">Taskboard</h1>
         </Link>
         <CiMenuBurger
-          className="md:hidden cursor-pointer"
+          className="lg:hidden cursor-pointer"
           onClick={toggleShowNavBar}
         />
       </div>
       <div
         className={cn(
-          'rounded-lg bg-white dark:bg-zinc-800 px-[19px] pb-9 pt-[15px] w-full absolute md:static md:block',
+          'rounded-lg bg-white dark:bg-zinc-800 px-[19px] pb-9 pt-[15px] w-full absolute lg:static lg:block',
           !isShowNavBar && 'hidden',
         )}
       >
