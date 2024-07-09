@@ -90,7 +90,7 @@ export const createProjectWithParticipants = async (
       if (validators.error) {
         return {
           success: false,
-          errors: validators.error.flatten().fieldErrors,
+          formErrors: validators.error.flatten().fieldErrors,
         };
       }
       if (result.success && result?.data) {
@@ -172,7 +172,7 @@ export const updateProjectWithParticipants = async (
       if (validators.error) {
         return {
           success: false,
-          errors: validators.error.flatten().fieldErrors,
+          formErrors: validators.error.flatten().fieldErrors,
         };
       }
       if (result.success) {

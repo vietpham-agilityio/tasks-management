@@ -224,7 +224,7 @@ export const SignUpForm = () => {
     [dirtyItems, errors],
   );
 
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: null, formErrors: {} };
   const [state, dispatch] = useFormState(userSignUp, initialState);
 
   useEffect(() => {

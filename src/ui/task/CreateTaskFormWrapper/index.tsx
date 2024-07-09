@@ -21,7 +21,7 @@ export const CreateTaskFormWrapper = ({
   memberOptions,
   listProject,
 }: CreateTaskFormWrapperProps) => {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: null, formErrors: {} };
   const [state, dispatch] = useFormState(createTask, initialState);
 
   return (

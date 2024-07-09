@@ -23,7 +23,7 @@ export const EditProjectFormWrapper = ({
   participations,
   memberOptions,
 }: EditProjectFormWrapperProps) => {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: null, formErrors: {} };
   const updateProjectWithParticipantsWithId =
     updateProjectWithParticipants.bind(null, data.id);
   const [state, dispatch] = useFormState(
