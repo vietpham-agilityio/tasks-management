@@ -287,8 +287,8 @@ export const ProjectForm = ({
   };
 
   useEffect(() => {
-    state.errors && setServerActionErrors(state.errors, setError);
-  }, [state.errors, setError]);
+    state.formErrors && setServerActionErrors(state.formErrors, setError);
+  }, [state.formErrors, setError]);
 
   useEffect(() => {
     !isEmpty(projectValue) && reset(projectFormInitValues);

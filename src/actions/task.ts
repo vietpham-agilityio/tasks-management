@@ -97,7 +97,7 @@ export const createTask = async (
       if (validators.error) {
         result = {
           success: false,
-          errors: validators.error.flatten().fieldErrors,
+          formErrors: validators.error.flatten().fieldErrors,
         };
       }
 
@@ -153,7 +153,7 @@ export const editTask = async (
       if (validators.error) {
         result = {
           success: false,
-          errors: validators.error.flatten().fieldErrors,
+          formErrors: validators.error.flatten().fieldErrors,
         };
       }
 

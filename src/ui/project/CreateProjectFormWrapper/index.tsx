@@ -18,7 +18,7 @@ type CreateProjectFormWrapperProps = {
 export const CreateProjectFormWrapper = ({
   memberOptions,
 }: CreateProjectFormWrapperProps) => {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: null, formErrors: {} };
   const [state, dispatch] = useFormState(
     createProjectWithParticipants,
     initialState,

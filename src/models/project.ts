@@ -9,7 +9,7 @@ import { BaseEntity, CustomStateType, ResponseStateType } from './base';
 export type ProjectFormType = z.infer<typeof ProjectFormDataSchema>;
 
 export type ProjectFormState = {
-  errors?: {
+  formErrors?: {
     title?: string[];
     description?: string[];
     isPublic?: string[];

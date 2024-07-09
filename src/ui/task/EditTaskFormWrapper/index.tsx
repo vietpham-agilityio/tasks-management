@@ -23,7 +23,7 @@ export const EditTaskFormWrapper = ({
   listProject,
   taskData,
 }: CreateTaskFormWrapperProps) => {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: null, formErrors: {} };
   const editTaskWithId = editTask.bind(null, taskData.id);
   const [state, dispatch] = useFormState(editTaskWithId, initialState);
 

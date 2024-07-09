@@ -13,7 +13,7 @@ import { BaseEntity, CustomStateType, ResponseStateType } from './base';
 export type TaskFormType = z.infer<typeof TaskFormDataSchema>;
 
 export type TaskFormState = {
-  errors?: {
+  formErrors?: {
     title?: string[];
     slug?: string[];
     status?: string[];

@@ -488,8 +488,8 @@ export const TaskForm = ({
   };
 
   useEffect(() => {
-    state.errors && setServerActionErrors(state.errors, setError);
-  }, [state.errors, setError]);
+    state.formErrors && setServerActionErrors(state.formErrors, setError);
+  }, [state.formErrors, setError]);
 
   useEffect(() => {
     !isEmpty(taskValue) && reset(taskFormInitValues);

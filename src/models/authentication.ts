@@ -12,7 +12,7 @@ import { CustomStateType } from './base';
 export type UserSignin = z.infer<typeof UserSigninFormDataSchema>;
 
 export type UserSigninState = {
-  errors?: {
+  formErrors?: {
     username?: string[];
     password?: string[];
   };
