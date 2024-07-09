@@ -6,7 +6,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
     class="relative lg:static w-full"
   >
     <div
-      class="flex items-center justify-between py-[10px] pr-5 md:pr-0 px-[5px] md:mb-[31px] rounded-lg bg-white dark:bg-zinc-800 "
+      class="flex items-center justify-between py-[10px] pr-5 lg:pr-0 px-[5px] lg:mb-[31px] rounded-lg bg-white dark:bg-zinc-800 "
     >
       <a
         class="flex items-center gap-2 w-full"
@@ -39,7 +39,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
         </h1>
       </a>
       <svg
-        class="md:hidden cursor-pointer"
+        class="lg:hidden cursor-pointer"
         fill="currentColor"
         height="1em"
         stroke="currentColor"
@@ -64,7 +64,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
       </svg>
     </div>
     <div
-      class="rounded-lg bg-white dark:bg-zinc-800 px-[19px] pb-9 pt-[15px] w-full absolute md:static md:block"
+      class="rounded-lg bg-white dark:bg-zinc-800 px-[19px] pb-9 pt-[15px] w-full absolute lg:static lg:block"
     >
       <span
         class="text-xs pb-2 font-bold text-zinc-500 dark:text-white "

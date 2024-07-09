@@ -8,11 +8,11 @@ const AdminLayout = ({
 }: Readonly<{
   children: ReactNode;
 }>) => (
-  <div className="grid grid-flow-row md:grid-flow-col md:gap-8">
-    <div className="row-auto md:col-span-1">
+  <div className="grid grid-flow-row lg:grid-cols-12 lg:gap-8">
+    <div className="row-auto lg:col-span-2">
       <AdminNavBar />
     </div>
-    <div className="row-auto md:col-span-11">{children}</div>
+    <div className="row-auto lg:col-span-10">{children}</div>
   </div>
 );
 
