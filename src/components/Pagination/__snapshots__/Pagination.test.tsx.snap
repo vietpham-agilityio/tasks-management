@@ -6,7 +6,7 @@ exports[`Pagination component renders the Pagination with children 1`] = `
     class="flex flex-row items-center gap-3"
   >
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg flex justify-center px-3 bg-zinc-300"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg flex justify-center px-3 bg-zinc-300"
       disabled=""
       type="button"
     >
@@ -30,19 +30,19 @@ exports[`Pagination component renders the Pagination with children 1`] = `
       Previous
     </button>
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg justify-center w-10 h-10 hidden md:block bg-zinc-300"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg justify-center w-10 h-10 hidden md:block bg-zinc-300"
       type="button"
     >
       1
     </button>
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg justify-center w-10 h-10 hidden md:block"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg justify-center w-10 h-10 hidden md:block"
       type="button"
     >
       2
     </button>
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg justify-center w-10 h-10 hidden md:block"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg justify-center w-10 h-10 hidden md:block"
       type="button"
     >
       3
@@ -53,13 +53,13 @@ exports[`Pagination component renders the Pagination with children 1`] = `
       …
     </span>
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg justify-center w-10 h-10 hidden md:block"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg justify-center w-10 h-10 hidden md:block"
       type="button"
     >
       17
     </button>
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black disabled:bg-white/50 text-black rounded-lg flex justify-center px-3"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg flex justify-center px-3"
       type="button"
     >
       Next

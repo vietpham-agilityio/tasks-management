@@ -142,7 +142,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
           Tasks
         </a>
         <button
-          class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed border border-gray-200 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:hover:text-black disabled:bg-white/50 gap-2 px-4 hover:bg-black hover:text-white hover:fill-white hover:font-bold text-zinc-500 fill-zinc-500 dark:text-white dark:fill-white border-none"
+          class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed border border-gray-200 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:hover:text-black gap-2 px-4 hover:bg-black hover:text-white hover:fill-white hover:font-bold text-zinc-500 fill-zinc-500 dark:text-white dark:fill-white border-none"
           type="button"
         >
           <div
