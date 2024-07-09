@@ -1,9 +1,6 @@
 import {
   DocumentData,
-  DocumentSnapshot,
-  OrderByDirection,
   WithFieldValue,
-  WhereFilterOp,
   addDoc,
   collection,
   deleteDoc,
@@ -22,15 +19,13 @@ import {
 // DB
 import { db } from '@/config';
 
+// Models
+import { QueryParam } from '@/models';
+
 // GET all documents of a collection
 export const getDocuments = async <T>(
   collectionKey: string,
-  queryParam?: {
-    orderItem?: { field: string; type: OrderByDirection };
-    query?: { field: string; comparison: WhereFilterOp; value: string };
-    limitItem?: number;
-    startPoint?: DocumentSnapshot<T>;
-  },
+  queryParam?: QueryParam<T>,
 ) => {
   try {
     let dataQuery = query(collection(db, collectionKey));

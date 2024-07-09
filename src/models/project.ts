@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { ProjectFormDataSchema } from '@/constants';
 
 // Models
-import { BaseEntity, CustomResponseType, CustomStateType } from './base';
+import { BaseEntity, CustomStateType, ResponseStateType } from './base';
 
 export type ProjectFormType = z.infer<typeof ProjectFormDataSchema>;
 
@@ -17,7 +17,7 @@ export type ProjectFormState = {
     image?: string[];
   };
 } & CustomStateType &
-  CustomResponseType<Project>;
+  ResponseStateType<Project>;
 
 export type Project = BaseEntity & {
   isPublic: boolean;

@@ -7,7 +7,7 @@ import { CreateProjectFormWrapper, EditProjectFormWrapper } from '@/ui';
 import { ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, TAGS } from '@/constants';
+import { ERROR_MESSAGES } from '@/constants';
 
 const UpserProjectPage = async ({
   searchParams,
@@ -17,12 +17,9 @@ const UpserProjectPage = async ({
   const { data: userList, error: userListError } = await queryUserList();
   const { data: projectData, error: projectError } = await getProjectById(
     searchParams.id,
-    { options: { tags: [TAGS.PROJECT_DETAIL(searchParams.id)] } },
   );
   const { data: participationData, error: participationError } =
-    await getPartipationsByProjectId(searchParams.id, {
-      options: { tags: [TAGS.PROJECT_DETAIL(searchParams.id)] },
-    });
+    await getPartipationsByProjectId(searchParams.id);
 
   const isEdited = !!projectData;
   const error =

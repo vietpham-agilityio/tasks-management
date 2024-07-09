@@ -8,7 +8,7 @@ import {
 } from '@/constants';
 
 // Models
-import { BaseEntity, CustomResponseType, CustomStateType } from './base';
+import { BaseEntity, CustomStateType, ResponseStateType } from './base';
 
 export type TaskFormType = z.infer<typeof TaskFormDataSchema>;
 
@@ -25,7 +25,7 @@ export type TaskFormState = {
     image?: string[];
   };
 } & CustomStateType &
-  CustomResponseType<void>;
+  ResponseStateType<Task>;
 
 export type Task = BaseEntity & {
   slug: string;
@@ -34,4 +34,14 @@ export type Task = BaseEntity & {
   priority: TASK_PRIORITY_VALUE;
   assignedTo: string;
   projectId: string;
+};
+
+export type TaskStatResponse = {
+  label: string;
+  total: number;
+};
+
+export type TaskStatQueryParam = {
+  field: string;
+  value: string;
 };

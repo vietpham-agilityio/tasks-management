@@ -7,26 +7,61 @@ import { getDocuments, getProjectDetail } from '@/db';
 import { COLLECTION, TAGS } from '@/constants';
 
 // Models
-import { CacheOption, Project, ResponseStateType } from '@/models';
+import { CacheOption, Project, QueryParam, ResponseStateType } from '@/models';
 
-export const getProjects = async () => {
-  const projects = await cache(getDocuments, [TAGS.PROJECT_LIST], {
-    tags: [TAGS.PROJECT_LIST],
-  })<Project>(COLLECTION.PROJECTS, {
-    orderItem: { field: 'updatedAt', type: 'desc' },
-    limitItem: 10,
-  });
+// HOCs
+import { withAuth } from '@/hocs';
 
-  return projects;
+export const getProjects = async (
+  queryParam?: QueryParam<Project>,
+): Promise<ResponseStateType<Project[]>> => {
+  // TODO: Get project by userId in admin pages
+  return await withAuth<
+    {
+      queryParam?: QueryParam<Project>;
+    },
+    ResponseStateType<Project[]>
+  >(
+    async (args, session) => {
+      const tasks = session
+        ? await getDocuments(COLLECTION.PROJECTS, args.queryParam)
+        : await cache(getDocuments, [TAGS.PROJECT_LIST], {
+            tags: [TAGS.PROJECT_LIST],
+          })<Project>(COLLECTION.PROJECTS, args.queryParam);
+
+      return tasks;
+    },
+    { queryParam },
+    false,
+  );
 };
 
 export const getProjectById = async (
   id: string,
   cacheOptions?: CacheOption,
 ): Promise<ResponseStateType<Project>> => {
-  return await cache(
-    getProjectDetail,
-    [TAGS.PROJECT_DETAIL(id), ...(cacheOptions?.keyParts || [])],
-    cacheOptions?.options,
-  )(id);
+  return await withAuth<
+    {
+      id: string;
+      cacheOptions?: CacheOption;
+    },
+    ResponseStateType<Project>
+  >(
+    async (args, session) => {
+      const tasks = session
+        ? await getProjectDetail(args.id)
+        : await cache(
+            getProjectDetail,
+            [
+              TAGS.PROJECT_DETAIL(args.id),
+              ...(args.cacheOptions?.keyParts || []),
+            ],
+            args.cacheOptions?.options,
+          )(args.id);
+
+      return tasks;
+    },
+    { id, cacheOptions },
+    false,
+  );
 };

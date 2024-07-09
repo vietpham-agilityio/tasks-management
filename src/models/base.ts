@@ -1,3 +1,9 @@
+import {
+  DocumentSnapshot,
+  OrderByDirection,
+  WhereFilterOp,
+} from 'firebase/firestore';
+
 export type CustomStateType = {
   success?: boolean;
 };
@@ -6,6 +12,7 @@ export type ResponseStateType<T> = {
   success?: boolean;
   error?: string;
   data?: T | null;
+  total?: number;
 };
 
 export type CustomResponseType<T> = {
@@ -29,4 +36,11 @@ export type CacheOption = {
   options?: {
     tags?: string[];
   };
+};
+
+export type QueryParam<T> = {
+  orderItem?: { field: string; type: OrderByDirection };
+  query?: { field: string; comparison: WhereFilterOp; value: string };
+  limitItem?: number;
+  startPoint?: DocumentSnapshot<T>;
 };

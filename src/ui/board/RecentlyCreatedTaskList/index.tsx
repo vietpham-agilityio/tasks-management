@@ -1,21 +1,51 @@
+// APIs
+import { getTasks } from '@/api';
+
 // Auth
 import { auth } from '@/auth';
 
 // Components
-import { OverviewCard } from '@/components';
+import { ItemNotFound, OverviewCard } from '@/components';
 
 // Constants
-import { DATE_FORMAT, MOCK_PROJECT_LIST, ROUTES } from '@/constants';
+import { DATE_FORMAT, LIMIT_ITEMS, ORDER_BY, ROUTES } from '@/constants';
 
 // Utils
 import { formatDate } from '@/utils';
 
 const RecentlyCreatedTasktList = async () => {
   const session = await auth();
-  const data = MOCK_PROJECT_LIST;
+  const { data, error } = await getTasks({
+    limitItem: LIMIT_ITEMS.BOARD_PAGE,
+    orderItem: { field: ORDER_BY.CREATED_AT, type: 'desc' },
+  });
+
+  if (error)
+    return (
+      <ItemNotFound
+        title="Error"
+        description={error}
+        customClass={{
+          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg',
+          description: 'text-red-500',
+        }}
+      />
+    );
+
+  if (!data || data?.length == 0) {
+    return (
+      <ItemNotFound
+        title="Empty Tasks"
+        description="Your tasks are currently empty. Please create new tasks or stay tuned for updates"
+        customClass={{
+          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg p-10',
+        }}
+      />
+    );
+  }
 
   return (
-    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg">
+    <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
       <span className="text-xl font-bold dark:text-white">
         Recently Created Task
       </span>
