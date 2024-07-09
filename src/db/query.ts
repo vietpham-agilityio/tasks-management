@@ -129,11 +129,25 @@ export const getDocument = async <T>(collectionKey: string, itemId: string) => {
 
 export const updateDocument = async <T>(
   collectionKey: string,
-  data: T & { id: string },
+  formData: T & WithFieldValue<DocumentData>,
 ) => {
-  const dataQuery = doc(db, collectionKey, data.id);
-
-  await updateDoc(dataQuery, data);
+  const dataQuery = doc(db, collectionKey, formData.id);
+  try {
+    const ItemUpdated = await updateDoc(dataQuery, formData);
+    return {
+      success: true,
+      data: {
+        ItemUpdated,
+      },
+      error: null,
+    };
+  } catch (error) {
+    error instanceof Error && {
+      success: false,
+      data: null,
+      error: error.message,
+    };
+  }
 };
 
 export const deleteDocument = async (collectionKey: string, id: string) => {

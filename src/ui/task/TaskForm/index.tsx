@@ -45,6 +45,7 @@ type TaskFormProps = {
   fromProject: Project[];
   taskValue?: Task;
   state: TaskFormState;
+  isReadOnly?: boolean;
   onSubmit: (formValues: TaskFormType) => void;
 };
 
@@ -76,6 +77,7 @@ type TaskFormContentType = {
   responseMessage?: string;
   isDisabled: boolean;
   isCreated?: boolean;
+  isReadOnly?: boolean;
 };
 
 const TaskFormContent = ({
@@ -86,11 +88,12 @@ const TaskFormContent = ({
   responseMessage,
   isDisabled,
   isCreated,
+  isReadOnly,
 }: TaskFormContentType) => {
   const { pending } = useFormStatus();
 
   return (
-    <div className="">
+    <div>
       <Controller
         name="title"
         control={control}
@@ -101,6 +104,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Title</label>
             <Input
+              readOnly={isReadOnly}
               placeholder="Title"
               value={value}
               onChange={(value) => {
@@ -132,6 +136,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Slug</label>
             <Input
+              readOnly={isReadOnly}
               placeholder="Slug"
               value={value}
               onChange={(value) => {
@@ -162,6 +167,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Description</label>
             <Input
+              readOnly={isReadOnly}
               placeholder="Description"
               value={value}
               onChange={(value) => {
@@ -192,6 +198,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Image</label>
             <Input
+              readOnly={isReadOnly}
               placeholder="Image"
               value={value}
               onChange={(value) => {
@@ -223,6 +230,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2">
               <label className="font-bold text-md">Status</label>
               <Dropdown
+                disabled={isReadOnly}
                 placeholder="Status"
                 options={TASK_STATUS_OPTIONS}
                 selectedItemValue={value}
@@ -255,6 +263,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2 z-10">
               <label className="font-bold text-md">Priority</label>
               <Dropdown
+                disabled={isReadOnly}
                 placeholder="Priority"
                 options={TASK_PRIORITY_OPTIONS}
                 selectedItemValue={value}
@@ -289,6 +298,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Assigned To</label>
             <Dropdown
+              disabled={isReadOnly}
               placeholder="Assigned To User"
               options={assginedToOptions.map((user) => ({
                 name: user.name,
@@ -323,6 +333,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Project</label>
             <Dropdown
+              disabled={isReadOnly}
               placeholder="Select a Project"
               options={listProject.map((project) => ({
                 name: project.title,
@@ -356,6 +367,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Due Date</label>
             <Input
+              readOnly={isReadOnly}
               placeholder="Due Date"
               type="date"
               value={formatDate(value, DATE_FORMAT.Tertiary)}
@@ -381,7 +393,7 @@ const TaskFormContent = ({
       <Button
         type="submit"
         customClass="w-full justify-center py-[19px] font-bold mb-8"
-        disabled={isDisabled}
+        disabled={isDisabled || isReadOnly}
         isLoading={pending}
       >
         {isCreated ? 'Create' : 'Edit'} Task
@@ -404,6 +416,7 @@ export const TaskForm = ({
   fromProject,
   taskValue,
   state,
+  isReadOnly,
   onSubmit,
 }: TaskFormProps) => {
   const {
@@ -428,7 +441,7 @@ export const TaskForm = ({
       priority: priority || '',
       assignedTo: assignedTo || '',
       projectId: projectId || '',
-      dueDate: dueDate || new Date(),
+      dueDate: (dueDate && new Date(dueDate)) || new Date(),
     }),
     [
       title,
@@ -491,6 +504,7 @@ export const TaskForm = ({
         setValue={setValue}
         responseMessage={state?.error}
         isDisabled={isDisabled}
+        isReadOnly={isReadOnly}
         isCreated={isEmpty(taskValue)}
       />
     </form>

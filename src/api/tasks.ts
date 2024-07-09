@@ -1,10 +1,10 @@
 import { unstable_cache as cache } from 'next/cache';
 
 // DB
-import { getDocuments, countTaskByType } from '@/db';
+import { getDocument, getDocuments, countTaskByType } from '@/db';
 
 // Constants
-import { COLLECTION, TAGS } from '@/constants';
+import { COLLECTION, ERROR_MESSAGES, TAGS } from '@/constants';
 
 // Types
 import {
@@ -88,4 +88,25 @@ export const getTaskStatistic = async (
     { stats, cacheOptions },
     false,
   );
+};
+
+export const getTaskById = async (id: string) => {
+  try {
+    const response = await cache(getDocument, [TAGS.TASK_DETAIL(id)], {
+      tags: [TAGS.TASK_DETAIL(id)],
+    })<Task>(COLLECTION.TASKS, id);
+    if (response?.data) {
+      return {
+        ...response,
+        success: true,
+      };
+    }
+    return {
+      ...response,
+      success: false,
+      error: ERROR_MESSAGES.DATA_NOT_FOUND,
+    };
+  } catch (error) {
+    return { success: false, error: (error as Error).message };
+  }
 };
