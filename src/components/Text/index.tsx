@@ -12,7 +12,8 @@ type TextProps = {
     | 'quaternary'
     | 'warning'
     | 'error'
-    | 'success';
+    | 'success'
+    | 'active';
   icon?: ReactNode;
   customClass?: string;
 };
@@ -33,10 +34,11 @@ export const Text = ({
           'fill-black text-black': variant === 'primary',
           'fill-blue-950 text-blue-950': variant === 'secondary',
           'fill-indigo-500 text-indigo-500': variant === 'tertiary',
-          'fill-purple-500 text-purple-500': variant === 'quaternary',
+          'fill-purple-600 text-purple-600': variant === 'quaternary',
+          'fill-red-600 text-red-600': variant === 'error',
+          'fill-sky-700 text-sky-700': variant === 'active',
           'fill-amber-400 text-amber-400': variant === 'warning',
-          'fill-red-500 text-red-500': variant === 'error',
-          'fill-emerald-500 text-emerald-500': variant === 'success',
+          'fill-green-700 text-green-700': variant === 'success',
         },
         customClass,
       )}
