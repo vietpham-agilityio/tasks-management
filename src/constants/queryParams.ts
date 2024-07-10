@@ -11,3 +11,18 @@ export const ORDER_BY = {
   CREATED_AT: 'createdAt',
   UPDATED_AT: 'updatedAt',
 };
+
+export enum ORDER_TYPES {
+  DESC = 'desc',
+  ASC = 'asc',
+}
+
+export const FIELDS = {
+  UPDATED_AT: 'updatedAt',
+  CREATED_AT: 'createdAt',
+  TITLE: 'title',
+};
+
+export const SEARCH_PARAMS = {
+  PAGE: 'page',
+};

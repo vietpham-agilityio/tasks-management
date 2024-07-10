@@ -1,16 +1,21 @@
 'use client';
-import React, { ReactNode, useCallback, useMemo } from 'react';
 
-// Components
-import { Button } from '../Button';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ReactNode, useCallback, useMemo, useTransition } from 'react';
 
 // Icons
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
-// Utils
-import { cn, getNumRange } from '@/utils';
+// Components
+import { Button } from '@/components';
 
-type PaginationProps = {
+// Utils
+import { cn, getNumRange, getQueryParams } from '@/utils';
+
+// Constants
+import { SEARCH_PARAMS } from '@/constants';
+
+interface PaginationProps {
   total: number;
   currentPage: number;
   pageSize: number;
@@ -23,7 +28,7 @@ type PaginationProps = {
     button?: string;
   };
   onChangePageNumber: (value: number) => void;
-};
+}
 
 const LEFT_DOTS = 'left-dots';
 const RIGHT_DOTS = 'right-dots';
@@ -178,5 +183,40 @@ export const Pagination = ({
         Next
       </Button>
     </div>
+  );
+};
+
+export const PaginationWrapper = ({
+  total,
+  pageSize,
+}: Pick<PaginationProps, 'total' | 'pageSize'>) => {
+  const router = useRouter();
+
+  const searchParams = useSearchParams() ?? '';
+  const params = useMemo(
+    () => new URLSearchParams(searchParams),
+    [searchParams],
+  );
+
+  const [_, startTransition] = useTransition();
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      params.set(SEARCH_PARAMS.PAGE, page.toString());
+
+      startTransition(() => {
+        router.push(getQueryParams({ page }));
+      });
+    },
+    [router, params],
+  );
+
+  return (
+    <Pagination
+      total={total}
+      currentPage={parseInt(params.get(SEARCH_PARAMS.PAGE) ?? '1')}
+      pageSize={pageSize}
+      onChangePageNumber={handlePageChange}
+    />
   );
 };

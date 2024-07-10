@@ -25,10 +25,11 @@ import { QueryParam } from '@/models';
 // GET all documents of a collection
 export const getDocuments = async <T>(
   collectionKey: string,
-  queryParam?: QueryParam<T>,
+  queryParam?: QueryParam,
 ) => {
   try {
     let dataQuery = query(collection(db, collectionKey));
+    let lastVisible;
 
     // TODO: Create a helper function to generate queryConstraint
     if (queryParam?.orderItem) {
@@ -37,12 +38,11 @@ export const getDocuments = async <T>(
         orderBy(queryParam?.orderItem.field, queryParam?.orderItem.type),
       );
     }
+
     if (queryParam?.limitItem) {
       dataQuery = query(dataQuery, limit(queryParam?.limitItem));
     }
-    if (queryParam?.startPoint) {
-      dataQuery = query(dataQuery, startAfter(queryParam?.startPoint));
-    }
+
     if (queryParam?.query) {
       dataQuery = query(
         dataQuery,
@@ -52,6 +52,25 @@ export const getDocuments = async <T>(
           queryParam?.query.value,
         ),
       );
+    }
+
+    if (queryParam?.page && queryParam?.limitItem && queryParam.orderItem) {
+      if (queryParam.page > 1) {
+        const lastDocs = await getDocs(
+          query(
+            collection(db, collectionKey),
+            orderBy(queryParam?.orderItem!.field, queryParam?.orderItem!.type),
+            limit(queryParam.limitItem * (queryParam.page - 1)),
+          ),
+        );
+
+        // Get the query cursor
+        lastVisible = lastDocs.docs[lastDocs.docs.length - 1];
+
+        dataQuery = query(dataQuery, startAfter(lastVisible));
+      } else {
+        dataQuery = query(dataQuery);
+      }
     }
 
     const snapshot = await getDocs(dataQuery);
@@ -70,13 +89,13 @@ export const getDocuments = async <T>(
   } catch (error) {
     if (error instanceof Error) {
       return {
-        data: null,
+        data: [],
         error: error.message,
       };
     }
 
     return {
-      data: null,
+      data: [],
       error: 'Something went wrong!',
     };
   }
