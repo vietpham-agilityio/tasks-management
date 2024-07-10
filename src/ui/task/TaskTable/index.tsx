@@ -1,14 +1,16 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 
 // Icons
 import { MdArrowRightAlt } from 'react-icons/md';
 
 // Components
-import { ItemNotFound, Text } from '@/components';
+import { ItemNotFound, PaginationWrapper, Text } from '@/components';
 
 // Constants
 import {
   DATE_FORMAT,
+  LIMIT_ITEMS,
   ROUTES,
   TASK_PRIORITY_VALUE,
   TASK_STATUS_VALUE,
@@ -19,12 +21,12 @@ import { formatDate } from '@/utils';
 
 // Types
 import { VariantType } from '@/types';
-
-// APIs
-import { getTasks } from '@/api/tasks';
+import { Task } from '@/models';
 
 interface TaskTableProps {
   isAdmin?: boolean;
+  data: Task[];
+  total?: number;
 }
 
 const labelMapping = {
@@ -54,10 +56,12 @@ const labelMapping = {
   },
 };
 
-export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
-  const { data: taskList } = await getTasks();
-
-  if (taskList?.length === 0) {
+export const TaskTable = async ({
+  isAdmin = false,
+  data,
+  total,
+}: TaskTableProps) => {
+  if (data.length === 0) {
     return (
       <ItemNotFound
         title="Empty Tasks"
@@ -80,7 +84,7 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {taskList?.map((task) => {
+          {data.map((task) => {
             const { value: statusValue, variant: statusVariant } =
               labelMapping[task.status];
             const { value: priorityValue, variant: priorityVariant } =
@@ -142,6 +146,13 @@ export const TaskTable = async ({ isAdmin = false }: TaskTableProps) => {
           })}
         </tbody>
       </table>
+      <div className="mt-4 flex justify-end">
+        {total && (
+          <Suspense>
+            <PaginationWrapper total={total} pageSize={LIMIT_ITEMS.DEFAULT} />
+          </Suspense>
+        )}
+      </div>
     </div>
   );
 };
