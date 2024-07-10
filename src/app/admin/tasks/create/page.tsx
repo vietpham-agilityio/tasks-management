@@ -9,11 +9,16 @@ import { ItemNotFound } from '@/components';
 import { getProjects } from '@/api';
 
 // Constants
-import { ERROR_MESSAGES } from '@/constants';
+import { ERROR_MESSAGES, FIELDS, ORDER_TYPES } from '@/constants';
 
 const CreateTaskPage = async () => {
   const { data: userList, error: userError } = await queryUserList();
-  const { data: projectList, error: projectError } = await getProjects();
+  const { data: projectList, error: projectError } = await getProjects({
+    orderItem: {
+      field: FIELDS.TITLE,
+      type: ORDER_TYPES.DESC,
+    },
+  });
 
   return (
     <main className="p-4 flex flex-col gap-8 pt-8 justify-items-stretch">

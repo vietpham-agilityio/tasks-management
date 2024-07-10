@@ -20,18 +20,18 @@ import {
 import { withAuth } from '@/hocs';
 
 export const getTasks = async (
-  queryParam?: QueryParam<Task>,
+  queryParam?: QueryParam,
 ): Promise<ResponseStateType<Task[]>> => {
   // TODO: Get project by userId in admin pages
   return await withAuth<
     {
-      queryParam?: QueryParam<Task>;
+      queryParam?: QueryParam;
     },
     ResponseStateType<Task[]>
   >(
     async (args, session) => {
       const tasks = session
-        ? await getDocuments(COLLECTION.TASKS, args.queryParam)
+        ? await getDocuments<Task>(COLLECTION.TASKS, args.queryParam)
         : await cache(getDocuments, [TAGS.TASK_LIST], {
             tags: [TAGS.TASK_LIST],
           })<Task>(COLLECTION.TASKS, args.queryParam);

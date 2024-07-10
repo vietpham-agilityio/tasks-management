@@ -1,29 +1,33 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 // Icons
 import { MdArrowRightAlt } from 'react-icons/md';
 
 // Components
-import { ItemNotFound, Text } from '@/components';
+import { ItemNotFound, PaginationWrapper, Text } from '@/components';
 
 // Constants
-import { DATE_FORMAT, ROUTES } from '@/constants';
+import { DATE_FORMAT, LIMIT_ITEMS, ROUTES } from '@/constants';
 
 // Utils
 import { formatDate } from '@/utils';
 
-// APIs
-import { getProjects } from '@/api';
+// Types
+import { Project } from '@/models';
 
 type ProjectTableProps = {
   isAdmin?: boolean;
+  data: Project[];
+  total?: number;
 };
 
-export const ProjectTable = async ({ isAdmin = false }: ProjectTableProps) => {
-  // Caching data with tags
-  const { data, error } = await getProjects();
-
-  if (data?.length === 0) {
+export const ProjectTable = async ({
+  isAdmin = false,
+  data,
+  total,
+}: ProjectTableProps) => {
+  if (data.length === 0) {
     return (
       <ItemNotFound
         title="Empty Projects"
@@ -31,14 +35,6 @@ export const ProjectTable = async ({ isAdmin = false }: ProjectTableProps) => {
       />
     );
   }
-
-  if (error)
-    return (
-      <div className="text-center py-10 flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Error</h1>
-        <h2 className="text-md md:text-lg">{error}</h2>
-      </div>
-    );
 
   return (
     <div className="relative overflow-x-auto">
@@ -111,6 +107,13 @@ export const ProjectTable = async ({ isAdmin = false }: ProjectTableProps) => {
           ))}
         </tbody>
       </table>
+      <div className="mt-4 flex justify-end">
+        {total && (
+          <Suspense>
+            <PaginationWrapper total={total} pageSize={LIMIT_ITEMS.DEFAULT} />
+          </Suspense>
+        )}
+      </div>
     </div>
   );
 };

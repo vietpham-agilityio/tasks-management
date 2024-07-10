@@ -1,8 +1,4 @@
-import {
-  DocumentSnapshot,
-  OrderByDirection,
-  WhereFilterOp,
-} from 'firebase/firestore';
+import { OrderByDirection, WhereFilterOp } from 'firebase/firestore';
 
 export type CustomStateType = {
   success?: boolean;
@@ -38,9 +34,9 @@ export type CacheOption = {
   };
 };
 
-export type QueryParam<T> = {
+export type QueryParam = {
   orderItem?: { field: string; type: OrderByDirection };
   query?: { field: string; comparison: WhereFilterOp; value: string };
   limitItem?: number;
-  startPoint?: DocumentSnapshot<T>;
+  page?: number;
 };

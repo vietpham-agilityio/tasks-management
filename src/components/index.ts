@@ -15,5 +15,6 @@ export { Text } from './Text';
 export { AvatarGroup } from './AvatarGroup';
 export { Checkbox } from './Checkbox';
 export { ItemNotFound } from './ItemNotFound';
-export { Pagination } from './Pagination';
+export { Pagination, PaginationWrapper } from './Pagination';
 export { StatCard } from './StatCard';
+export { ErrorMessage } from './ErrorMessage';
