@@ -16,6 +16,9 @@ import {
   where,
 } from 'firebase/firestore';
 
+// Constants
+import { ERROR_MESSAGES } from '@/constants';
+
 // DB
 import { db } from '@/config';
 
@@ -83,20 +86,23 @@ export const getDocuments = async <T>(
     })) as T[];
 
     return {
+      success: true,
       data,
       total: total,
     };
   } catch (error) {
     if (error instanceof Error) {
       return {
+        success: false,
         data: [],
         error: error.message,
       };
     }
 
     return {
+      success: false,
       data: [],
-      error: 'Something went wrong!',
+      error: ERROR_MESSAGES.REQUESTING_DATA,
     };
   }
 };
@@ -117,7 +123,6 @@ export const addDocument = async <T>(
         ...formData,
         id: addedItem.id,
       },
-      error: null,
     };
   } catch (error) {
     error instanceof Error && {
@@ -135,13 +140,20 @@ export const getDocument = async <T>(collectionKey: string, itemId: string) => {
     const snapshot = await getDoc(dataQuery);
     if (snapshot.exists()) {
       return {
+        success: true,
         data: { ...snapshot.data(), id: snapshot.id } as T,
       };
     }
+    return {
+      success: false,
+      data: null,
+      error: ERROR_MESSAGES.DATA_NOT_FOUND,
+    };
   } catch (error) {
     return {
+      success: false,
       data: null,
-      error: 'Cannot get details of item',
+      error: ERROR_MESSAGES.REQUESTING_DATA,
     };
   }
 };
@@ -152,13 +164,10 @@ export const updateDocument = async <T>(
 ) => {
   const dataQuery = doc(db, collectionKey, formData.id);
   try {
-    const ItemUpdated = await updateDoc(dataQuery, formData);
+    const updatedItem = await updateDoc(dataQuery, formData);
     return {
       success: true,
-      data: {
-        ItemUpdated,
-      },
-      error: null,
+      data: updatedItem,
     };
   } catch (error) {
     error instanceof Error && {

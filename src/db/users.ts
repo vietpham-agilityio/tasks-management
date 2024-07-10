@@ -9,11 +9,9 @@ import { COLLECTION } from '@/constants';
 
 // Models
 import { User } from '@/types';
+import { ResponseStateType } from '@/models';
 
-export async function queryUserList(): Promise<{
-  data: User[];
-  error: string;
-}> {
+export async function queryUserList(): Promise<ResponseStateType<User[]>> {
   try {
     const querySnapshot = await getDocs(collection(db, COLLECTION.USERS));
     const userList: User[] = [];
@@ -27,11 +25,12 @@ export async function queryUserList(): Promise<{
       });
     });
     return {
+      success: true,
       data: userList,
-      error: '',
     };
   } catch (error) {
     return {
+      success: false,
       data: [],
       error: (error as Error).message,
     };

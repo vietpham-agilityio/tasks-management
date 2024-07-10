@@ -103,9 +103,10 @@ export async function queryParticipationsByProjectId(
     }
     return {
       success: false,
+      data: [],
       error: ERROR_MESSAGES.DATA_NOT_FOUND,
     };
   } catch (error) {
-    return { success: false, error: (error as Error).message };
+    return { success: false, data: [], error: (error as Error).message };
   }
 }

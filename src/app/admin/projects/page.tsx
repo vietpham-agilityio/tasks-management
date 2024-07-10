@@ -21,11 +21,7 @@ const ProjectListPage = async ({
 }) => {
   const { page = '1' } = searchParams;
 
-  const {
-    data = [],
-    error,
-    total,
-  } = await getProjects({
+  const { data, error, total } = await getProjects({
     page: parseInt(page),
     limitItem: LIMIT_ITEMS.DEFAULT,
     orderItem: {
@@ -49,7 +45,7 @@ const ProjectListPage = async ({
           className="bg-neutral-800 text-white font-bold py-3"
         />
       </div>
-      <ProjectTable isAdmin={true} data={data || []} total={total} />
+      <ProjectTable isAdmin={true} data={data} total={total} />
     </main>
   );
 };

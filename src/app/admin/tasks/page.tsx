@@ -21,11 +21,7 @@ const TaskListPage = async ({
 }) => {
   const { page = '1' } = searchParams;
 
-  const {
-    data = [],
-    error,
-    total,
-  } = await getTasks({
+  const { data, error, total } = await getTasks({
     page: parseInt(page),
     limitItem: LIMIT_ITEMS.DEFAULT,
     orderItem: {
@@ -49,7 +45,7 @@ const TaskListPage = async ({
           className="bg-neutral-800 text-white font-bold py-3"
         />
       </div>
-      <TaskTable isAdmin={true} data={data || []} total={total} />
+      <TaskTable isAdmin={true} data={data} total={total} />
     </main>
   );
 };

@@ -19,7 +19,7 @@ import { getDocument } from './query';
 
 export async function createProject(
   values: Omit<Project, 'id'>,
-): Promise<ResponseStateType<Project>> {
+): Promise<ResponseStateType<Project | null>> {
   try {
     const projectRef = await addDoc(
       collection(db, COLLECTION.PROJECTS),
@@ -35,6 +35,7 @@ export async function createProject(
   } catch (error) {
     return {
       success: false,
+      data: null,
       error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
     };
   }
@@ -42,7 +43,7 @@ export async function createProject(
 
 export async function deleteProject(
   projectId: string,
-): Promise<ResponseStateType<{ projectId: string }>> {
+): Promise<ResponseStateType<{ projectId: string } | null>> {
   try {
     await deleteDoc(doc(db, COLLECTION.PROJECTS, projectId));
     return {
@@ -54,6 +55,7 @@ export async function deleteProject(
   } catch (error) {
     return {
       success: false,
+      data: null,
       error: ERROR_MESSAGES.REMOVING_DATA_ERROR('Project', projectId),
     };
   }
@@ -62,7 +64,7 @@ export async function deleteProject(
 export async function updateProject(
   id: string,
   values: Omit<ProjectFormType, 'members'> & { updatedAt: string },
-): Promise<ResponseStateType<Project>> {
+): Promise<ResponseStateType<Project | null>> {
   try {
     // Get data from db
     const queryData = await getDocument<Project>(COLLECTION.PROJECTS, id);
@@ -79,12 +81,14 @@ export async function updateProject(
     } else {
       return {
         success: false,
+        data: null,
         error: ERROR_MESSAGES.DATA_NOT_FOUND,
       };
     }
   } catch (error) {
     return {
       success: false,
+      data: null,
       error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
     };
   }
@@ -92,7 +96,7 @@ export async function updateProject(
 
 export async function getProjectDetail(
   id: string,
-): Promise<ResponseStateType<Project>> {
+): Promise<ResponseStateType<Project | null>> {
   try {
     const response = await getDocument<Project>(COLLECTION.PROJECTS, id);
     if (response?.data) {
@@ -103,10 +107,11 @@ export async function getProjectDetail(
     }
     return {
       ...response,
+      data: null,
       success: false,
       error: ERROR_MESSAGES.DATA_NOT_FOUND,
     };
   } catch (error) {
-    return { success: false, error: (error as Error).message };
+    return { success: false, data: null, error: (error as Error).message };
   }
 }
