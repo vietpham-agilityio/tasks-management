@@ -47,7 +47,7 @@ const RecentlyCreatedTasktList = async () => {
   return (
     <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
       <span className="text-xl font-bold dark:text-white">
-        Recently Created Task
+        Recently Created Tasks
       </span>
       <div className="flex flex-col gap-4 pt-3 ">
         {data.map((task) => {

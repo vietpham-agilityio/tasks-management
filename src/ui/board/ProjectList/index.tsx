@@ -44,7 +44,9 @@ const ProjectList = async () => {
 
   return (
     <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
-      <span className="text-xl font-bold dark:text-white">My Project</span>
+      <span className="text-xl font-bold dark:text-white">
+        {session ? 'My' : 'All'} Projects
+      </span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-3 gap-6 ">
         {data.map((project) => {
           return (

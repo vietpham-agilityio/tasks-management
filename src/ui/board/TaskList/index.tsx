@@ -113,7 +113,9 @@ const TaskList = async () => {
 
   return (
     <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
-      <span className="text-xl font-bold dark:text-white">My Task</span>
+      <span className="text-xl font-bold dark:text-white">
+        {session ? 'My' : 'All'} Tasks
+      </span>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-7 pt-3">
         {data.map((stat: TaskStatResponse) => {
           const statCard =
