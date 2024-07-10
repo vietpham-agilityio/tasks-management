@@ -18,4 +18,6 @@ export { ItemNotFound } from './ItemNotFound';
 export { Pagination, PaginationWrapper } from './Pagination';
 export { StatCard } from './StatCard';
 export { ErrorMessage } from './ErrorMessage';
+export { Badge } from './Badge';
+
 export * from './Skeleton';

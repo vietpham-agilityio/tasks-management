@@ -103,7 +103,7 @@ export const MOCK_TASK_LIST: Task[] = [
     description:
       'Create the initial design for the landing page of the project.',
     image: 'https://example.com/image1.jpg',
-    dueDate: new Date('2024-07-15'),
+    dueDate: new Date('2024-06-15'),
     status: TASK_STATUS_VALUE.IN_PROGRESS,
     priority: TASK_PRIORITY_VALUE.HIGH,
     createdAt: new Date('2024-06-01'),
@@ -174,5 +174,37 @@ export const MOCK_TASK_LIST: Task[] = [
     createdBy: 'user5',
     assignedTo: 'researcher1',
     projectId: 'project5',
+  },
+];
+
+export const MOCK_PROJECT_DATA = {
+  id: '1',
+  slug: 'slug-1',
+  title:
+    'Website Design Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pulvinar, nisl sed commodo viverra, urna enim interdum ligula, vitae tempor lorem nibh tincidunt nisi. ',
+  description: 'Description-1',
+  image: '',
+  createdAt: new Date(2024, 20, 6, 15, 0, 0),
+  updatedAt: new Date(2024, 20, 6, 15, 0, 0),
+  isArchived: false,
+  isPublic: true,
+  createdBy: '1',
+};
+
+export const MOCK_PARTICIPATIONS = [
+  {
+    id: '1',
+    name: 'Patrick Jordan',
+    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
+  },
+  {
+    id: '2',
+    name: 'Jeremiah Collins',
+    avatar: 'https://randomuser.me/api/portraits/men/81.jpg',
+  },
+  {
+    id: '3',
+    name: 'Gerald Garrett',
+    avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
   },
 ];

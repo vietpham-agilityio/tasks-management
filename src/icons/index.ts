@@ -6,3 +6,4 @@ export * from './LogoIcon';
 export * from './ProjectIcon';
 export * from './TaskIcon';
 export * from './UserIcon';
+export * from './AddIcon';

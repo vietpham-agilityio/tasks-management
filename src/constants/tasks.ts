@@ -39,3 +39,9 @@ export const TASK_PRIORITY_OPTIONS = [
     value: TASK_PRIORITY_VALUE.HIGH,
   },
 ];
+
+export const TASK_SECTION_VARIANT_MAPPING = {
+  [TASK_STATUS_VALUE.NOT_STARTED]: 'error',
+  [TASK_STATUS_VALUE.IN_PROGRESS]: 'warning',
+  [TASK_STATUS_VALUE.DONE]: 'success',
+};
