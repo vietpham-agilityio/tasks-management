@@ -19,7 +19,7 @@ export const countTaskByType = async (
   field: string,
   value: string,
   userId?: string,
-): Promise<ResponseStateType<string>> => {
+): Promise<ResponseStateType<string | null>> => {
   try {
     const queryConstraints: QueryConstraint[] = [];
     queryConstraints.push(where(field, '==', value));
@@ -38,6 +38,8 @@ export const countTaskByType = async (
   } catch (error) {
     return {
       success: false,
+      data: value,
+      total: 0,
       error: (error as Error).message,
     };
   }

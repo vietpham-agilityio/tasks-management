@@ -18,11 +18,9 @@ export const withAuth = async <T, H>(
   const session = await auth();
 
   if (checkAuthenticated && isEmpty(session)) {
-    return {
-      success: false,
-      error: ERROR_MESSAGES.UNAUTHORIZED_ACCESS,
-    };
+    throw new Error(ERROR_MESSAGES.UNAUTHORIZED_ACCESS);
   }
+
   const response = await childFunction(args, session);
   return response;
 };

@@ -25,7 +25,7 @@ export type TaskFormState = {
     image?: string[];
   };
 } & CustomStateType &
-  ResponseStateType<Task>;
+  Partial<ResponseStateType<Task | null>>;
 
 export type Task = BaseEntity & {
   slug: string;

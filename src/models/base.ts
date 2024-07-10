@@ -7,12 +7,8 @@ export type CustomStateType = {
 export type ResponseStateType<T> = {
   success?: boolean;
   error?: string;
-  data?: T | null;
+  data: T;
   total?: number;
-};
-
-export type CustomResponseType<T> = {
-  response?: ResponseStateType<T>;
 };
 
 export type BaseEntity = {

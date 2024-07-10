@@ -30,22 +30,23 @@ export const createProjectWithParticipants = async (
   prevState: ProjectFormState,
   values: ProjectFormType,
 ) => {
-  return await withAuth<
-    {
-      prevState: ProjectFormState;
-      values: ProjectFormType;
-    },
-    ProjectFormState
-  >(
-    async (args, session) => {
-      const { values } = args;
+  let response: ProjectFormState = {};
+  try {
+    response = await withAuth<
+      {
+        prevState: ProjectFormState;
+        values: ProjectFormType;
+      },
+      ProjectFormState
+    >(
+      async (args, session) => {
+        const { values } = args;
 
-      const validators = ProjectFormDataSchema.safeParse(values);
-      let result: ProjectFormState = {};
-      if (validators.success && session?.user.id) {
-        result = { success: true };
+        const validators = ProjectFormDataSchema.safeParse(values);
+        let result: ProjectFormState = {};
+        if (validators.success && session?.user.id) {
+          result = { success: true };
 
-        try {
           const time = new Date().toISOString();
           const slugId = crypto.getRandomValues(new Uint32Array(1))[0];
           const data: Omit<Project, 'id'> = {
@@ -79,28 +80,32 @@ export const createProjectWithParticipants = async (
               throw new Error(participantResponse.error);
             }
           }
-        } catch (error) {
+        }
+
+        if (validators.error) {
           return {
             success: false,
-            error: (error as Error).message,
+            data: null,
+            formErrors: validators.error.flatten().fieldErrors,
           };
         }
-      }
 
-      if (validators.error) {
-        return {
-          success: false,
-          formErrors: validators.error.flatten().fieldErrors,
-        };
-      }
-      if (result.success && result?.data) {
-        revalidateTag(TAGS.PROJECT_LIST);
-        redirect(ROUTES.ADMIN_PROJECT_DETAIL(result.data.id));
-      }
-      return result;
-    },
-    { prevState, values },
-  );
+        return result;
+      },
+      { prevState, values },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+  if (response.success && response?.data) {
+    revalidateTag(TAGS.PROJECT_LIST);
+    redirect(ROUTES.ADMIN_PROJECT_DETAIL(response.data.id));
+  }
+  return response;
 };
 
 export const updateProjectWithParticipants = async (
@@ -108,20 +113,21 @@ export const updateProjectWithParticipants = async (
   prevState: ProjectFormState,
   newData: ProjectFormType,
 ) => {
-  return await withAuth<
-    {
-      id: string;
-      prevState: ProjectFormState;
-      newData: ProjectFormType;
-    },
-    ProjectFormState
-  >(
-    async (args, session) => {
-      const validators = ProjectFormDataSchema.safeParse(args.newData);
-      let result: ProjectFormState = {};
-      if (validators.success && session?.user.id) {
-        result = { success: true };
-        try {
+  let response: ProjectFormState = {};
+  try {
+    response = await withAuth<
+      {
+        id: string;
+        prevState: ProjectFormState;
+        newData: ProjectFormType;
+      },
+      ProjectFormState
+    >(
+      async (args, session) => {
+        const validators = ProjectFormDataSchema.safeParse(args.newData);
+        let result: ProjectFormState = {};
+        if (validators.success && session?.user.id) {
+          result = { success: true };
           const time = new Date().toISOString();
           const data: EditProjetDataType = {
             title: newData.title,
@@ -162,26 +168,30 @@ export const updateProjectWithParticipants = async (
               throw new Error(assignedParticipantResponse.error);
             }
           }
-        } catch (error) {
-          result = {
+        }
+        if (validators.error) {
+          return {
             success: false,
-            error: (error as Error).message,
+            data: null,
+            formErrors: validators.error.flatten().fieldErrors,
           };
         }
-      }
-      if (validators.error) {
-        return {
-          success: false,
-          formErrors: validators.error.flatten().fieldErrors,
-        };
-      }
-      if (result.success) {
-        revalidateTag(TAGS.PROJECT_LIST);
-        revalidateTag(TAGS.PROJECT_DETAIL(id));
-        redirect(ROUTES.ADMIN_PROJECT_DETAIL(id));
-      }
-      return result;
-    },
-    { id, prevState, newData },
-  );
+
+        return result;
+      },
+      { id, prevState, newData },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+  if (response.success) {
+    revalidateTag(TAGS.PROJECT_LIST);
+    revalidateTag(TAGS.PROJECT_DETAIL(id));
+    redirect(ROUTES.ADMIN_PROJECT_DETAIL(id));
+  }
+  return response;
 };

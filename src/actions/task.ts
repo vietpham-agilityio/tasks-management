@@ -51,24 +51,25 @@ export const createTask = async (
   prevState: TaskFormState,
   values: TaskFormType,
 ) => {
-  return await withAuth<
-    {
-      prevState: TaskFormState;
-      values: TaskFormType;
-    },
-    TaskFormState
-  >(
-    async (args, session) => {
-      const { values } = args;
+  let response: TaskFormState = {};
+  try {
+    response = await withAuth<
+      {
+        prevState: TaskFormState;
+        values: TaskFormType;
+      },
+      TaskFormState
+    >(
+      async (args, session) => {
+        const { values } = args;
 
-      const validators = TaskFormDataSchema.safeParse(values);
+        const validators = TaskFormDataSchema.safeParse(values);
 
-      let result: TaskFormState = {};
+        let result: TaskFormState = {};
 
-      if (validators.success && session?.user.id) {
-        result = { success: true };
+        if (validators.success && session?.user.id) {
+          result = { success: true };
 
-        try {
           const data: Omit<Task, 'id'> = taskPayload(values, session);
 
           const taskResponse = await addDocument<Omit<Task, 'id'>>(
@@ -86,30 +87,32 @@ export const createTask = async (
               data: taskResponse.data,
             };
           }
-        } catch (error) {
+        }
+
+        if (validators.error) {
           result = {
             success: false,
-            error: (error as Error).message,
+            data: null,
+            formErrors: validators.error.flatten().fieldErrors,
           };
         }
-      }
 
-      if (validators.error) {
-        result = {
-          success: false,
-          formErrors: validators.error.flatten().fieldErrors,
-        };
-      }
-
-      if (result.success && result?.data) {
-        revalidateTag(TAGS.TASK_LIST);
-        redirect(ROUTES.ADMIN_TASK_DETAIL(result?.data.id));
-      }
-
-      return result;
-    },
-    { prevState, values },
-  );
+        return result;
+      },
+      { prevState, values },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+  if (response.success && response?.data) {
+    revalidateTag(TAGS.TASK_LIST);
+    redirect(ROUTES.ADMIN_TASK_DETAIL(response?.data.id));
+  }
+  return response;
 };
 
 export const editTask = async (
@@ -117,24 +120,25 @@ export const editTask = async (
   prevState: TaskFormState,
   values: TaskFormType,
 ) => {
-  return await withAuth<
-    {
-      prevState: TaskFormState;
-      values: TaskFormType;
-    },
-    TaskFormState
-  >(
-    async (args, session) => {
-      const { values } = args;
+  let response: TaskFormState = {};
+  try {
+    response = await withAuth<
+      {
+        prevState: TaskFormState;
+        values: TaskFormType;
+      },
+      TaskFormState
+    >(
+      async (args, session) => {
+        const { values } = args;
 
-      const validators = TaskFormDataSchema.safeParse(values);
+        const validators = TaskFormDataSchema.safeParse(values);
 
-      let result: TaskFormState = {};
+        let result: TaskFormState = {};
 
-      if (validators.success && session?.user.id) {
-        result = { success: true };
+        if (validators.success && session?.user.id) {
+          result = { success: true };
 
-        try {
           const payload: Task = { ...taskPayload(values, session), id: taskId };
 
           const taskResponse = await updateDocument(COLLECTION.TASKS, payload);
@@ -142,28 +146,30 @@ export const editTask = async (
           if (!taskResponse?.success) {
             throw new Error(ERROR_MESSAGES.UPSERTING_DATA_ERROR('Task'));
           }
-        } catch (error) {
+        }
+
+        if (validators.error) {
           result = {
             success: false,
-            error: (error as Error).message,
+            data: null,
+            formErrors: validators.error.flatten().fieldErrors,
           };
         }
-      }
 
-      if (validators.error) {
-        result = {
-          success: false,
-          formErrors: validators.error.flatten().fieldErrors,
-        };
-      }
-
-      if (result.success) {
-        revalidateTag(TAGS.TASK_DETAIL(taskId));
-        revalidateTag(TAGS.TASK_LIST);
-      }
-
-      return result;
-    },
-    { prevState, values },
-  );
+        return result;
+      },
+      { prevState, values },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+  if (response.success) {
+    revalidateTag(TAGS.TASK_DETAIL(taskId));
+    revalidateTag(TAGS.TASK_LIST);
+  }
+  return response;
 };

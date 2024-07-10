@@ -17,7 +17,7 @@ export type ProjectFormState = {
     image?: string[];
   };
 } & CustomStateType &
-  ResponseStateType<Project>;
+  Partial<ResponseStateType<Project | null>>;
 
 export type Project = BaseEntity & {
   isPublic: boolean;
