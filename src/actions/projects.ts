@@ -48,10 +48,9 @@ export const createProjectWithParticipants = async (
           result = { success: true };
 
           const time = new Date().toISOString();
-          const slugId = crypto.getRandomValues(new Uint32Array(1))[0];
           const data: Omit<Project, 'id'> = {
-            slug: `${values.title.replace(/\s+/g, '-').toLowerCase()}-${slugId}`,
             title: values.title,
+            slug: values.slug,
             description: values.description,
             image: values.image,
             createdAt: time,
@@ -131,6 +130,7 @@ export const updateProjectWithParticipants = async (
           const time = new Date().toISOString();
           const data: EditProjetDataType = {
             title: newData.title,
+            slug: newData.slug,
             description: newData.description,
             image: newData.image,
             isPublic: newData.isPublic,
