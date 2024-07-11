@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Control, Controller, useForm } from 'react-hook-form';
+import { Control, Controller, UseFormSetValue, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 // Components
@@ -17,6 +17,7 @@ import { User } from '@/types';
 // Utils
 import {
   cn,
+  generateSlug,
   isEmpty,
   isEnableSubmitButton,
   setServerActionErrors,
@@ -35,18 +36,14 @@ type ProjectFormProps = {
 const ProjectFormContent = ({
   memberOptions,
   control,
+  setValue,
   responseMessage,
   isDisabled,
   isCreated,
 }: {
   memberOptions: User[];
-  control: Control<{
-    title: string;
-    isPublic: boolean;
-    description: string;
-    members: string[];
-    image?: string | undefined;
-  }>;
+  control: Control<ProjectFormType>;
+  setValue: UseFormSetValue<ProjectFormType>;
   responseMessage?: string;
   isDisabled: boolean;
   isCreated?: boolean;
@@ -69,9 +66,40 @@ const ProjectFormContent = ({
               value={value}
               onChange={(value) => {
                 onChange(value);
+                setValue('slug', generateSlug(value.target.value));
               }}
               customClass="py-5"
               disabled={pending}
+              {...rest}
+            />
+            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+              {error?.message && (
+                <Text
+                  customClass="text-xs px-0 whitespace-pre"
+                  value={error?.message}
+                  variant="error"
+                />
+              )}
+            </span>
+          </div>
+        )}
+      />
+      <Controller
+        name="slug"
+        control={control}
+        render={({
+          field: { onChange, value, ...rest },
+          fieldState: { error },
+        }) => (
+          <div className="flex flex-col gap-2">
+            <label className="font-bold text-md">Slug</label>
+            <Input
+              placeholder="Slug"
+              value={value}
+              onChange={(value) => {
+                onChange(value);
+              }}
+              customClass="py-5"
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -243,23 +271,25 @@ export const ProjectForm = ({
   participations,
   onSubmit,
 }: ProjectFormProps) => {
-  const { title, description, image, isPublic } = projectValue || {};
+  const { title, description, slug, image, isPublic } = projectValue || {};
 
   const projectFormInitValues: ProjectFormType = useMemo(
     () => ({
       title: title || '',
+      slug: slug || '',
       description: description || '',
       image: image || '',
       isPublic: isPublic !== undefined ? isPublic : true,
       members: participations || [],
     }),
-    [title, description, image, isPublic, participations],
+    [title, slug, description, image, isPublic, participations],
   );
 
   const {
     control,
     setError,
     getValues,
+    setValue,
     reset,
     formState: { dirtyFields, errors },
   } = useForm<ProjectFormType>({
@@ -299,6 +329,7 @@ export const ProjectForm = ({
       <ProjectFormContent
         memberOptions={memberOptions}
         control={control}
+        setValue={setValue}
         isDisabled={isDisabled}
         responseMessage={state?.error}
         isCreated={isEmpty(projectValue)}

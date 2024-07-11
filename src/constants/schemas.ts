@@ -42,8 +42,9 @@ export const UserSignupFormDataSchema = z
 
 export const ProjectFormDataSchema = z.object({
   title: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
+  slug: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   description: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
-  image: z.string().optional(),
+  image: z.string().url().optional().or(z.literal('')),
   isPublic: z.boolean(),
   members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
 });
