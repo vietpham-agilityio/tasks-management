@@ -2,10 +2,10 @@
 import { Avatar } from '@/components';
 
 // Types
-import { User } from '@/types';
+import { Participation } from '@/models';
 
 type AvatarGroupProps = {
-  listUsers: User[];
+  listUsers: Participation[];
   maxDisplayed?: number;
 };
 
@@ -18,12 +18,12 @@ export const AvatarGroup = ({
 
   return (
     <div className="flex -space-x-4" data-testid="avatar-group">
-      {itemsToShow.map(({ id, avatar, name }) => {
+      {itemsToShow.map(({ userId, avatar }) => {
         return (
-          <div key={id}>
+          <div key={userId}>
             <Avatar
-              src={avatar}
-              name={name}
+              src={avatar || ''}
+              name={userId}
               customClass="border-white border-2"
               variant="circle"
             />

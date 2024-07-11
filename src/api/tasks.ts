@@ -9,12 +9,12 @@ import { COLLECTION, TAGS } from '@/constants';
 // Types
 import {
   CacheOption,
-  QueryParam,
   ResponseStateType,
   Task,
   TaskStatQueryParam,
   TaskStatResponse,
 } from '@/models';
+import { QueryParam } from '@/types';
 
 // HOCs
 import { withAuth } from '@/hocs';

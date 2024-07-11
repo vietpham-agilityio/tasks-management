@@ -1,5 +1,6 @@
 import {
   DocumentData,
+  QueryConstraint,
   WithFieldValue,
   addDoc,
   collection,
@@ -23,7 +24,7 @@ import { ERROR_MESSAGES } from '@/constants';
 import { db } from '@/config';
 
 // Models
-import { QueryParam } from '@/models';
+import { QueryParam } from '@/types';
 
 // GET all documents of a collection
 export const getDocuments = async <T>(
@@ -31,28 +32,24 @@ export const getDocuments = async <T>(
   queryParam?: QueryParam,
 ) => {
   try {
-    let dataQuery = query(collection(db, collectionKey));
     let lastVisible;
+    let queryConstraints: QueryConstraint[] = [];
 
     // TODO: Create a helper function to generate queryConstraint
     if (queryParam?.orderItem) {
-      dataQuery = query(
-        dataQuery,
-        orderBy(queryParam?.orderItem.field, queryParam?.orderItem.type),
+      queryConstraints.push(
+        orderBy(queryParam.orderItem.field, queryParam.orderItem.type),
       );
     }
 
     if (queryParam?.limitItem) {
-      dataQuery = query(dataQuery, limit(queryParam?.limitItem));
+      queryConstraints.push(limit(queryParam.limitItem));
     }
 
     if (queryParam?.query) {
-      dataQuery = query(
-        dataQuery,
-        where(
-          queryParam?.query.field,
-          queryParam?.query.comparison,
-          queryParam?.query.value,
+      queryConstraints = queryConstraints.concat(
+        queryParam.query.map((element) =>
+          where(element.field, element.comparison, element.value),
         ),
       );
     }
@@ -66,16 +63,13 @@ export const getDocuments = async <T>(
             limit(queryParam.limitItem * (queryParam.page - 1)),
           ),
         );
-
         // Get the query cursor
         lastVisible = lastDocs.docs[lastDocs.docs.length - 1];
-
-        dataQuery = query(dataQuery, startAfter(lastVisible));
-      } else {
-        dataQuery = query(dataQuery);
+        queryConstraints.push(startAfter(lastVisible));
       }
     }
 
+    const dataQuery = query(collection(db, collectionKey), ...queryConstraints);
     const snapshot = await getDocs(dataQuery);
     const getCount = await getCountFromServer(collection(db, collectionKey));
     const total = getCount.data().count;

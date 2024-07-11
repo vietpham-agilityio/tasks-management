@@ -3,4 +3,6 @@ export type Participation = {
   projectId: string;
   createdAt: string;
   isArchived: boolean;
+  username?: string;
+  avatar?: string;
 };
