@@ -11,7 +11,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       >
         <div>
           <img
-            alt="Patrick Jordan avatar"
+            alt="1 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -25,7 +25,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Jeremiah Collins avatar"
+            alt="2 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -39,7 +39,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Gerald Garrett avatar"
+            alt="3 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -53,7 +53,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Ethel Mckinney avatar"
+            alt="4 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -67,7 +67,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Kyle Allen avatar"
+            alt="6 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -81,7 +81,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Florence Obrien avatar"
+            alt="7 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -95,7 +95,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         </div>
         <div>
           <img
-            alt="Ruben Cunningham avatar"
+            alt="8 avatar"
             class="rounded-full border-white border-2"
             data-nimg="1"
             decoding="async"
@@ -117,7 +117,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
     >
       <div>
         <img
-          alt="Patrick Jordan avatar"
+          alt="1 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -131,7 +131,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Jeremiah Collins avatar"
+          alt="2 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -145,7 +145,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Gerald Garrett avatar"
+          alt="3 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -159,7 +159,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Ethel Mckinney avatar"
+          alt="4 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -173,7 +173,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Kyle Allen avatar"
+          alt="6 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -187,7 +187,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Florence Obrien avatar"
+          alt="7 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"
@@ -201,7 +201,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       </div>
       <div>
         <img
-          alt="Ruben Cunningham avatar"
+          alt="8 avatar"
           class="rounded-full border-white border-2"
           data-nimg="1"
           decoding="async"

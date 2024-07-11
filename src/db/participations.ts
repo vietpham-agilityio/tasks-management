@@ -87,11 +87,13 @@ export async function queryParticipationsByProjectId(
     const response = await getDocuments<Participation>(
       COLLECTION.PARTICIPATIONS,
       {
-        query: {
-          field: QUERY_PARAMS.PROJECT_ID,
-          comparison: '==',
-          value: projectId,
-        },
+        query: [
+          {
+            field: QUERY_PARAMS.PROJECT_ID,
+            comparison: '==',
+            value: projectId,
+          },
+        ],
       },
     );
 

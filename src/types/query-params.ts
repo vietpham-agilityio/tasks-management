@@ -1,11 +1,15 @@
-export interface QueryParams {
-  page?: number;
-  order?: {
+import { OrderByDirection, WhereFilterOp } from 'firebase/firestore';
+
+export type QueryParam = {
+  orderItem?: { field: string; type: OrderByDirection };
+  query?: {
     field: string;
-    type: 'asc' | 'desc';
-  };
-  limit?: number;
-}
+    comparison: WhereFilterOp;
+    value: string | string[];
+  }[];
+  limitItem?: number;
+  page?: number;
+};
 
 export interface SearchParams {
   page?: string;

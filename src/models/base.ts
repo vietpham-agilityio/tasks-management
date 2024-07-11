@@ -1,5 +1,3 @@
-import { OrderByDirection, WhereFilterOp } from 'firebase/firestore';
-
 export type CustomStateType = {
   success?: boolean;
 };
@@ -28,11 +26,4 @@ export type CacheOption = {
   options?: {
     tags?: string[];
   };
-};
-
-export type QueryParam = {
-  orderItem?: { field: string; type: OrderByDirection };
-  query?: { field: string; comparison: WhereFilterOp; value: string };
-  limitItem?: number;
-  page?: number;
 };

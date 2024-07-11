@@ -7,7 +7,8 @@ import { getDocuments, getProjectDetail } from '@/db';
 import { COLLECTION, TAGS } from '@/constants';
 
 // Models
-import { CacheOption, Project, QueryParam, ResponseStateType } from '@/models';
+import { CacheOption, Project, ResponseStateType } from '@/models';
+import { QueryParam } from '@/types';
 
 // HOCs
 import { withAuth } from '@/hocs';

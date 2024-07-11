@@ -193,18 +193,52 @@ export const MOCK_PROJECT_DATA = {
 
 export const MOCK_PARTICIPATIONS = [
   {
-    id: '1',
-    name: 'Patrick Jordan',
+    projectId: '1',
+    createdAt: '1',
+    userId: '1',
     avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
+    isArchived: false,
   },
   {
-    id: '2',
-    name: 'Jeremiah Collins',
+    projectId: '1',
+    createdAt: '1',
+    userId: '2',
     avatar: 'https://randomuser.me/api/portraits/men/81.jpg',
+    isArchived: false,
   },
   {
-    id: '3',
-    name: 'Gerald Garrett',
+    projectId: '1',
+    createdAt: '1',
+    userId: '3',
     avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
+    isArchived: false,
+  },
+  {
+    projectId: '1',
+    createdAt: '1',
+    userId: '4',
+    avatar: 'https://randomuser.me/api/portraits/women/19.jpg',
+    isArchived: false,
+  },
+  {
+    projectId: '1',
+    createdAt: '1',
+    userId: '6',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    isArchived: false,
+  },
+  {
+    projectId: '1',
+    createdAt: '1',
+    userId: '7',
+    avatar: 'https://randomuser.me/api/portraits/women/9.jpg',
+    isArchived: false,
+  },
+  {
+    projectId: '1',
+    createdAt: '1',
+    userId: '8',
+    avatar: 'https://randomuser.me/api/portraits/men/36.jpg',
+    isArchived: false,
   },
 ];

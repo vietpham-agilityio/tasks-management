@@ -9,7 +9,7 @@ import { ROUTES } from '@/constants';
 import { Button } from '@/components';
 
 // Icons
-import { FaPen, FaTrash } from 'react-icons/fa';
+import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
 
 type ActionBarProps = {
   projectId: string;
@@ -25,8 +25,20 @@ export const ProjectActionBar = ({ projectId }: ActionBarProps) => {
     router.push(ROUTES.ADMIN_UPSERT_PROJECT(projectId));
   }, [projectId, router]);
 
+  const handleCreateNewTask = useCallback(() => {
+    router.push(ROUTES.ADMIN_CREATE_TASK);
+  }, [projectId, router]);
+
   return (
     <div className="flex flex-row gap-3 w-full justify-end">
+      <Button
+        onClick={handleCreateNewTask}
+        startIcon={<FaPlus className="w-5 h-5 mr-2" />}
+        variant="outline"
+        customClass="border-black hover:bg-zinc-300 font-bold dark:text-white lg:hidden"
+      >
+        Create New Task
+      </Button>
       <Button
         onClick={handleEditProject}
         startIcon={<FaPen className="w-5 h-5 mr-2" />}
