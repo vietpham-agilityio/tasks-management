@@ -1,10 +1,19 @@
 'use client';
 
+import { useCallback, useMemo, useTransition } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+
 // Components
 import { Dropdown, MultipleSelect } from '@/components';
 
 // Types
 import { OptionType } from '@/types';
+
+// Constants
+import { SEARCH_PARAMS } from '@/constants';
+
+// Utils
+import { getQueryParams } from '@/utils';
 
 export const STATUS_OPTIONS: OptionType[] = [
   {
@@ -48,11 +57,33 @@ export const SORT_OPTIONS: OptionType[] = [
 ];
 
 export const FilterWrapper = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [_, startTransition] = useTransition();
+
+  const params = useMemo(
+    () => new URLSearchParams(searchParams),
+    [searchParams],
+  );
+
+  // store the current query parameters
+  const page = searchParams.get('page') || '';
+
   const handleStatusOnChange = () => {};
 
   const handlePriorityOnChange = () => {};
 
-  const handleSelectSort = () => {};
+  const handleSelectSort = useCallback(
+    (sortBy: string) => {
+      params.set(SEARCH_PARAMS.SORT_BY, sortBy);
+
+      startTransition(() => {
+        router.push(getQueryParams({ page, sortBy }));
+      });
+    },
+    [params, router, page],
+  );
 
   return (
     <div className="mb-6">

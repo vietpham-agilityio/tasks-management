@@ -193,6 +193,10 @@ export const PaginationWrapper = ({
   const router = useRouter();
 
   const searchParams = useSearchParams() ?? '';
+
+  // store the current query parameters
+  const sortBy = searchParams.get('sortBy') || '';
+
   const params = useMemo(
     () => new URLSearchParams(searchParams),
     [searchParams],
@@ -205,10 +209,10 @@ export const PaginationWrapper = ({
       params.set(SEARCH_PARAMS.PAGE, page.toString());
 
       startTransition(() => {
-        router.push(getQueryParams({ page }));
+        router.push(getQueryParams({ page, sortBy }));
       });
     },
-    [router, params],
+    [router, params, sortBy],
   );
 
   return (
