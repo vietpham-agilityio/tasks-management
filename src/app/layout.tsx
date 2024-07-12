@@ -1,6 +1,9 @@
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
+
+// Styles
 import './globals.css';
 
 // Utils
@@ -25,9 +28,16 @@ export default async function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn(manRope.className, 'bg-zinc-50 px-6 my-[21px]')}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          manRope.className,
+          'bg-zinc-50 dark:bg-neutral-900 px-6 my-[21px]',
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

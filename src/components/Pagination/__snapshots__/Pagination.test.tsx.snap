@@ -6,7 +6,7 @@ exports[`Pagination component renders the Pagination with children 1`] = `
     class="flex flex-row items-center gap-3"
   >
     <button
-      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg flex justify-center px-3 bg-zinc-300"
+      class="items-center p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent dark:border-white dark:hover:bg-zinc-100 dark:text-white dark:hover:text-black text-black rounded-lg flex justify-center px-3"
       disabled=""
       type="button"
     >
@@ -48,7 +48,7 @@ exports[`Pagination component renders the Pagination with children 1`] = `
       3
     </button>
     <span
-      class="hidden md:block"
+      class="hidden md:block dark:text-white"
     >
       …
     </span>

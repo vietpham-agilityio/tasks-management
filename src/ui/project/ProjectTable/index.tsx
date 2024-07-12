@@ -39,7 +39,7 @@ export const ProjectTable = async ({
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-zinc-700 dark:text-gray-300">
           <tr className="font-bold">
             <th className="px-6 py-4">Project Name</th>
             <th colSpan={2} className="px-6">
@@ -50,13 +50,13 @@ export const ProjectTable = async ({
             <th className="px-2">Last modified</th>
           </tr>
         </thead>
-        <tbody className="bg-white">
+        <tbody className="bg-white dark:bg-zinc-800">
           {data?.map((project) => (
             <tr
               key={project.id}
-              className="border-b-2 px-8 py-5 rounded-lg hover:bg-zinc-300 text-sm"
+              className="border-b-2 px-8 py-5 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-white"
             >
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-full max-w-0 sm:w-auto">
+              <td className="px-6 py-4 font-medium whitespace-nowrap w-full max-w-0 sm:w-auto">
                 <Link
                   href={
                     isAdmin
@@ -68,27 +68,27 @@ export const ProjectTable = async ({
                 </Link>
               </td>
               <td
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-full max-w-0 sm:w-auto"
+                className="px-6 py-4 font-medium whitespace-nowrap w-full max-w-0 sm:w-auto"
                 colSpan={2}
               >
                 <p className="truncate">{project.description}</p>
               </td>
               <td>
                 <Text
-                  customClass="basis-4/12 capitalize"
+                  customClass="basis-4/12 capitalize text-gray-900 dark:text-white"
                   value={project.isPublic ? 'public' : 'private'}
                 />
               </td>
               <td>
                 <Text
-                  customClass="basis-4/12"
+                  customClass="basis-4/12 text-gray-900 dark:text-white"
                   value={formatDate(project.createdAt, DATE_FORMAT.Secondary)}
                 />
               </td>
               <td>
                 <div className="flex justify-between w-full">
                   <Text
-                    customClass="w-full"
+                    customClass="w-full text-gray-900 dark:text-white"
                     value={formatDate(project.updatedAt, DATE_FORMAT.Secondary)}
                   />
                   <Link
@@ -98,6 +98,7 @@ export const ProjectTable = async ({
                         : ROUTES.PROJECT_DETAIL(project.slug)
                     }
                     className="w-full px-4 flex justify-end"
+                    aria-label={project.title}
                   >
                     <MdArrowRightAlt className="w-6 h-6" />
                   </Link>

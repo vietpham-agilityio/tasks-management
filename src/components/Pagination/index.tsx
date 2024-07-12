@@ -107,7 +107,6 @@ export const Pagination = ({
           buttonBaseClass,
           'px-3',
           variant === 'primary' && 'text-white',
-          !hasPrevious && 'bg-zinc-300',
           customClass?.button,
         )}
         onClick={handleClickPrevious}
@@ -133,7 +132,10 @@ export const Pagination = ({
       {paginationRange.map((page) => {
         if (typeof page === 'string' && page.includes('dots')) {
           return (
-            <span className="hidden md:block" key={`page-number-${page}`}>
+            <span
+              className="hidden md:block dark:text-white"
+              key={`page-number-${page}`}
+            >
               &#8230;
             </span>
           );
