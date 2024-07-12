@@ -1,5 +1,8 @@
 import { OrderByDirection, WhereFilterOp } from 'firebase/firestore';
 
+// constants
+import { ORDER_TYPES } from '@/constants';
+
 export type QueryParam = {
   orderItem?: { field: string; type: OrderByDirection };
   query?: {
@@ -14,4 +17,5 @@ export type QueryParam = {
 export interface SearchParams {
   page?: string;
   query?: string;
+  sortBy?: ORDER_TYPES;
 }

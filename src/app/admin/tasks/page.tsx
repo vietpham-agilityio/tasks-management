@@ -19,14 +19,14 @@ const TaskListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
-  const { page = '1' } = searchParams;
+  const { page = '1', sortBy } = searchParams;
 
   const { data, error, total } = await getTasks({
     page: parseInt(page),
     limitItem: LIMIT_ITEMS.DEFAULT,
     orderItem: {
       field: FIELDS.UPDATED_AT,
-      type: ORDER_TYPES.DESC,
+      type: sortBy || ORDER_TYPES.DESC,
     },
   });
 
