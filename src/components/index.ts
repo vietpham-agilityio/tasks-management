@@ -21,3 +21,4 @@ export { ErrorMessage } from './ErrorMessage';
 export { Badge } from './Badge';
 export { BaseModal } from './BaseModal';
 export * from './Skeleton';
+export { ToggleTheme } from './ToggleTheme';

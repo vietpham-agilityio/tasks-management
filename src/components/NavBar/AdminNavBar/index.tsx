@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 // Components
-import { NavLink } from '../../NavLink';
+import { Button, NavLink, ToggleTheme } from '@/components';
 
 // Constants
 import { ADMIN_NAVIGATION_LIST, ROUTES } from '@/constants';
@@ -19,7 +19,6 @@ import { FaSignOutAlt } from 'react-icons/fa';
 
 // Utils
 import { cn } from '@/utils';
-import { Button } from '../../Button';
 
 export const AdminNavBar = () => {
   const pathName = usePathname();
@@ -84,6 +83,9 @@ export const AdminNavBar = () => {
             Sign Out
           </Button>
         </div>
+      </div>
+      <div className="mt-10">
+        <ToggleTheme />
       </div>
     </nav>
   );
