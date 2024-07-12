@@ -1,5 +1,5 @@
 'use client';
-import { RefObject, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 // Icons
 import { GoChevronDown } from 'react-icons/go';
@@ -36,6 +36,25 @@ export const Dropdown = ({
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState(selectedItemValue);
+
+  const listRef = useRef<null | HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (listRef.current && isOpenDropdown) {
+      const targetIndex = options.findIndex(
+        (item) => item.value === selectedValue,
+      );
+      if (targetIndex !== -1) {
+        const selectedOption = listRef.current?.children[targetIndex];
+        if (selectedOption) {
+          selectedOption.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          });
+        }
+      }
+    }
+  }, [selectedValue, listRef, isOpenDropdown, options]);
 
   const handleToggleDropdown = () => {
     setIsOpenDropdown(!isOpenDropdown);
@@ -87,14 +106,15 @@ export const Dropdown = ({
       </Button>
       {isOpenDropdown && (
         <div
-          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-neutral-900"
+          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 overflow-y-auto max-h-40"
           style={{
             width: dropdownRef?.current?.clientWidth,
           }}
         >
           <ul
-            className="rounded-lg border border-gray-200 mt-2"
+            className="rounded-lg border border-gray-200 mt-2 "
             data-testid="options"
+            ref={listRef}
           >
             {options.map((item) => {
               const { value, name } = item;
@@ -109,6 +129,7 @@ export const Dropdown = ({
                         selectedValue === value,
                     },
                   )}
+                  value={value}
                   onClick={() => handleChangeDropdown(value)}
                 >
                   {name}

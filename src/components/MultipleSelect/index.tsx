@@ -111,7 +111,7 @@ export const MultipleSelect = ({
           )}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
-              className="absolute w-full px-2 pb-2 bg-zinc-50 rounded-lg  border border-zinc-300 outline outline-1 outline-zinc-300"
+              className="absolute w-full px-2 pb-2 bg-zinc-50 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"
               data-testid="options"
             >
               {filteredOptions.map(({ value, name }: OptionType) => (
