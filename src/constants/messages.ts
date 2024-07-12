@@ -20,4 +20,5 @@ export const SUCCESS_MESSAGES = {
   REMOVE_PROJECT: 'Remove Project Successfully.',
   ARCHIVE_PROJECT: 'Archive Project Successfully.',
   UNARCHIVE_PROJECT: 'Unarchive Project Successfully.',
+  EDIT_PARTICIPANTS: 'Edit Participants Successfully.',
 };

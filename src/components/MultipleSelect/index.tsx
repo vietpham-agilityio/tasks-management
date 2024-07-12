@@ -63,11 +63,8 @@ export const MultipleSelect = ({
   const dropdownRef = useOutsideClick(() => {
     setIsOpenOptions(false);
     onChange(selectedData);
-  });
-
-  const handleBlur = () => {
     onBlur?.();
-  };
+  });
 
   return (
     <>
@@ -83,7 +80,7 @@ export const MultipleSelect = ({
         )}
         tabIndex={1}
         onClick={showOptions}
-        onBlur={handleBlur}
+        onBlur={onBlur}
         ref={dropdownRef as RefObject<HTMLDivElement>}
         data-testid="multiple-select"
       >
