@@ -1,25 +1,40 @@
 'use client';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+// APIS
+import { archiveProjectById } from '@/actions';
+
 // Constants
-import { ROUTES } from '@/constants';
+import { ROUTES, SUCCESS_MESSAGES } from '@/constants';
 
 // Components
 import { Button } from '@/components';
+import { ConfirmDeleteModal } from '../ConfirmDeleteModal';
 
 // Icons
 import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
 
-type ActionBarProps = {
+// HOCs
+import { TWithToast, withToast } from '@/hocs';
+
+type ProjectActionBarBaseProps = {
   projectId: string;
+  isArchived: boolean;
 };
 
-export const ProjectActionBar = ({ projectId }: ActionBarProps) => {
+const ProjectActionBarBase = ({
+  projectId,
+  isArchived,
+  openToast,
+}: TWithToast<ProjectActionBarBaseProps>) => {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const router = useRouter();
 
-  // TODO: Create a modal to confirm removing project
-  const handleRemoveProject = useCallback(() => {}, []);
+  const handleRemoveProject = useCallback(() => {
+    setOpenDeleteModal(true);
+  }, []);
 
   const handleEditProject = useCallback(() => {
     router.push(ROUTES.ADMIN_UPSERT_PROJECT(projectId));
@@ -27,34 +42,73 @@ export const ProjectActionBar = ({ projectId }: ActionBarProps) => {
 
   const handleCreateNewTask = useCallback(() => {
     router.push(ROUTES.ADMIN_CREATE_TASK);
-  }, [projectId, router]);
+  }, [router]);
 
+  const handleUnarchiveProject = useCallback(async () => {
+    setLoading(true);
+    const { success, error } = await archiveProjectById(projectId, false);
+    setLoading(false);
+    if (success) {
+      openToast({
+        variant: 'success',
+        message: SUCCESS_MESSAGES.UNARCHIVE_PROJECT,
+      });
+      router.refresh();
+    }
+    if (error) {
+      openToast({ variant: 'error', message: error });
+    }
+  }, [projectId, openToast, router]);
   return (
-    <div className="flex flex-row gap-3 w-full justify-end">
-      <Button
-        onClick={handleCreateNewTask}
-        startIcon={<FaPlus className="w-5 h-5 mr-2" />}
-        variant="outline"
-        customClass="border-black hover:bg-zinc-300 font-bold dark:text-white lg:hidden"
-      >
-        Create New Task
-      </Button>
-      <Button
-        onClick={handleEditProject}
-        startIcon={<FaPen className="w-5 h-5 mr-2" />}
-        variant="outline"
-        customClass="border-black hover:bg-zinc-300 font-bold dark:text-white"
-      >
-        Edit
-      </Button>
-      <Button
-        onClick={handleRemoveProject}
-        startIcon={<FaTrash className="w-5 h-5 mr-2" />}
-        variant="outline"
-        customClass="border-black hover:bg-zinc-300 font-bold dark:text-white"
-      >
-        Remove
-      </Button>
-    </div>
+    <>
+      {!isArchived ? (
+        <div className="flex flex-row gap-3 w-full justify-end">
+          <Button
+            onClick={handleCreateNewTask}
+            startIcon={<FaPlus className="w-5 h-5 mr-2" />}
+            variant="outline"
+            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white lg:hidden"
+          >
+            Create New Task
+          </Button>
+          <Button
+            onClick={handleEditProject}
+            startIcon={<FaPen className="w-5 h-5 mr-2" />}
+            variant="outline"
+            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white"
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={handleRemoveProject}
+            startIcon={<FaTrash className="w-5 h-5 mr-2" />}
+            variant="outline"
+            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white"
+          >
+            Remove
+          </Button>
+        </div>
+      ) : (
+        <div className="flex flex-row gap-3 w-full justify-end">
+          <Button
+            isLoading={isLoading}
+            onClick={handleUnarchiveProject}
+            startIcon={<FaPen className="w-5 h-5 mr-2" />}
+            variant="outline"
+            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white"
+          >
+            Unarchive Project
+          </Button>
+        </div>
+      )}
+
+      <ConfirmDeleteModal
+        isOpen={isOpenDeleteModal}
+        setModalState={setOpenDeleteModal}
+        projectId={projectId}
+      />
+    </>
   );
 };
+
+export const ProjectActionBar = withToast(ProjectActionBarBase);

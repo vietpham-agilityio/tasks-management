@@ -3,7 +3,13 @@ import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
 
 // Constants
-import { ProjectFormDataSchema, ROUTES, TAGS } from '@/constants';
+import {
+  ERROR_MESSAGES,
+  ProjectFormDataSchema,
+  ROUTES,
+  TAGS,
+  COLLECTION,
+} from '@/constants';
 
 // DBs
 import {
@@ -13,6 +19,7 @@ import {
   updateProject,
   removeUsersFromProject,
   queryParticipationsByProjectId,
+  updateDocument,
 } from '@/db';
 
 // Models
@@ -21,6 +28,7 @@ import {
   Project,
   ProjectFormState,
   ProjectFormType,
+  ResponseStateType,
 } from '@/models';
 
 // HOCs
@@ -194,4 +202,68 @@ export const updateProjectWithParticipants = async (
     redirect(ROUTES.ADMIN_PROJECT_DETAIL(id));
   }
   return response;
+};
+
+export const removeProjectById = async (projectId: string) => {
+  try {
+    return await withAuth<
+      {
+        projectId: string;
+      },
+      ResponseStateType<{ projectId: string } | null>
+    >(
+      async (args) => {
+        const result = await deleteProject(args.projectId);
+        if (result.success) {
+          revalidateTag(TAGS.PROJECT_LIST);
+          revalidateTag(TAGS.PROJECT_DETAIL(args.projectId));
+        }
+        return result;
+      },
+      { projectId },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const archiveProjectById = async (id: string, isArchived: boolean) => {
+  try {
+    return await withAuth<
+      {
+        id: string;
+        isArchived: boolean;
+      },
+      ResponseStateType<null>
+    >(
+      async (args) => {
+        const projectResult = await updateDocument(COLLECTION.PROJECTS, args);
+        if (projectResult?.success) {
+          revalidateTag(TAGS.PROJECT_LIST);
+          revalidateTag(TAGS.PROJECT_DETAIL(args.id));
+          return {
+            success: true,
+            data: null,
+          };
+        }
+
+        return {
+          success: false,
+          data: null,
+          error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
+        };
+      },
+      { id, isArchived },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
 };

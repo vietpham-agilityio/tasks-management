@@ -71,7 +71,9 @@ export const getDocuments = async <T>(
 
     const dataQuery = query(collection(db, collectionKey), ...queryConstraints);
     const snapshot = await getDocs(dataQuery);
-    const getCount = await getCountFromServer(collection(db, collectionKey));
+    const getCount = await getCountFromServer(
+      query(collection(db, collectionKey), ...queryConstraints),
+    );
     const total = getCount.data().count;
 
     const data = snapshot.docs.map((doc) => ({
@@ -173,7 +175,17 @@ export const updateDocument = async <T>(
 };
 
 export const deleteDocument = async (collectionKey: string, id: string) => {
-  const dataQuery = doc(db, collectionKey, id);
+  try {
+    const dataQuery = doc(db, collectionKey, id);
 
-  await deleteDoc(dataQuery);
+    await deleteDoc(dataQuery);
+    return {
+      success: true,
+    };
+  } catch (error) {
+    error instanceof Error && {
+      success: false,
+      error: error.message,
+    };
+  }
 };

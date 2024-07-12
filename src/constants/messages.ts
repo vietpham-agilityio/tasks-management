@@ -15,3 +15,9 @@ export const ERROR_MESSAGES = {
     `An error occurred when removing data with id ${id} from ${label} collection`,
   DATA_NOT_FOUND: 'Not found',
 };
+
+export const SUCCESS_MESSAGES = {
+  REMOVE_PROJECT: 'Remove Project Successfully.',
+  ARCHIVE_PROJECT: 'Archive Project Successfully.',
+  UNARCHIVE_PROJECT: 'Unarchive Project Successfully.',
+};
