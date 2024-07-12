@@ -14,7 +14,11 @@ import { useOutsideClick } from '@/hooks';
 // Types
 import { CustomClassType, OptionType } from '@/types';
 
+// icons
+import { FilterIcon, SelectIcon } from '@/icons';
+
 type MultipleSelectProps = {
+  title?: string;
   options: OptionType[];
   selectedOptions?: string[];
   disabled?: boolean;
@@ -23,6 +27,7 @@ type MultipleSelectProps = {
 } & CustomClassType;
 
 export const MultipleSelect = ({
+  title,
   options,
   selectedOptions = [],
   disabled = false,
@@ -72,6 +77,7 @@ export const MultipleSelect = ({
           {
             'outline outline-1 outline-zinc-300': isOpenOptions,
             'cursor-not-allowed': disabled,
+            'w-auto': title,
           },
           customClass,
         )}
@@ -83,7 +89,12 @@ export const MultipleSelect = ({
       >
         {filteredSelectedOptions.length > 0 && (
           <div className="bg-transparent w-full px-2">
-            <div className="w-full py-[14px] flex flex-wrap	gap-2">
+            <div
+              className={cn(
+                'w-full flex flex-wrap	gap-2',
+                title ? 'py-[5px]' : 'py-[14px]',
+              )}
+            >
               {filteredSelectedOptions.map(({ value, name }: OptionType) => (
                 <span
                   key={value}
@@ -106,9 +117,20 @@ export const MultipleSelect = ({
         )}
 
         <div className="relative w-full focus:outline-2 focus:outline-blue-500 focus:border-none">
-          {filteredSelectedOptions.length === 0 && (
-            <p className="p-5 opacity-50">Select options</p>
-          )}
+          {filteredSelectedOptions.length === 0 &&
+            (title ? (
+              <div className="flex items-center py-3 px-5 gap-3">
+                <div className="w-5 h-5 flex items-center justify-center">
+                  <FilterIcon />
+                </div>
+                <p className="text-black">{title}</p>
+                <div className="w-5 h-5 flex items-center justify-center">
+                  <SelectIcon />
+                </div>
+              </div>
+            ) : (
+              <p className="p-5 opacity-50">Select options</p>
+            ))}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
               className="absolute w-full px-2 pb-2 bg-zinc-50 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"

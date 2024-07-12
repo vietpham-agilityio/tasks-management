@@ -7,3 +7,5 @@ export * from './ProjectIcon';
 export * from './TaskIcon';
 export * from './UserIcon';
 export * from './AddIcon';
+export * from './SelectIcon';
+export * from './FilterIcon';

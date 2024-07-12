@@ -4,20 +4,7 @@ import { fn } from '@storybook/test';
 // Components
 import { MultipleSelect } from '.';
 
-const mockOptions = [
-  {
-    name: 'HTML',
-    value: '1',
-  },
-  {
-    name: 'CSS',
-    value: '2',
-  },
-  {
-    name: 'Javascript',
-    value: '3',
-  },
-];
+import { PRIORITY_OPTIONS } from '@/ui/task/FilterWrapper';
 
 const mockSelectedOptions = ['2'];
 
@@ -41,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    options: mockOptions,
+    options: PRIORITY_OPTIONS,
     selectedOptions: mockSelectedOptions,
     onChange: fn(),
   },
@@ -57,7 +44,7 @@ export const Default: Story = {
 };
 export const Disabled: Story = {
   args: {
-    options: mockOptions,
+    options: PRIORITY_OPTIONS,
     selectedOptions: mockSelectedOptions,
     onChange: fn(),
     disabled: true,
@@ -72,4 +59,12 @@ export const Disabled: Story = {
       />
     </div>
   ),
+};
+
+export const MultipleSelectWithLabel: Story = {
+  args: {
+    title: 'Priority',
+    options: PRIORITY_OPTIONS,
+    onChange: fn(),
+  },
 };

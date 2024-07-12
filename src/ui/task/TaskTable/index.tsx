@@ -6,6 +6,7 @@ import { MdArrowRightAlt } from 'react-icons/md';
 
 // Components
 import { ItemNotFound, PaginationWrapper, Text } from '@/components';
+import { FilterWrapper } from '../FilterWrapper';
 
 // Constants
 import {
@@ -21,6 +22,8 @@ import { formatDate } from '@/utils';
 
 // Types
 import { VariantType } from '@/types';
+
+// Models
 import { Task } from '@/models';
 
 interface TaskTableProps {
@@ -48,7 +51,7 @@ const labelMapping = {
   },
   [TASK_PRIORITY_VALUE.MEDIUM]: {
     value: 'Medium',
-    variant: 'warning',
+    variant: 'active',
   },
   [TASK_PRIORITY_VALUE.HIGH]: {
     value: 'High',
@@ -72,6 +75,7 @@ export const TaskTable = async ({
 
   return (
     <div className="relative overflow-x-auto">
+      <FilterWrapper />
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr className="font-bold">

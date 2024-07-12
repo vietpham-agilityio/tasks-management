@@ -3,23 +3,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 // Component
 import { Dropdown } from '.';
 
-const mockOptions = [
-  {
-    name: 'Option 1',
-    value: '1',
-  },
-  {
-    name: 'Option 2',
-    value: '2',
-  },
-  {
-    name: 'Option 3',
-    value: '3',
-  },
-];
+import { SORT_OPTIONS } from '@/ui/task/FilterWrapper';
 
 const mockProps = {
-  options: mockOptions,
+  options: SORT_OPTIONS,
   onSelect: jest.fn(),
 };
 
@@ -29,8 +16,10 @@ describe('Dropdown component', () => {
   });
 
   test('Show the selected item', () => {
-    render(<Dropdown {...mockProps} selectedItemValue="1" />);
-    const comp = screen.getByText('Option 1');
+    const { getByText } = render(
+      <Dropdown {...mockProps} selectedItemValue="desc" />,
+    );
+    const comp = getByText('Desc');
     expect(comp).toBeInTheDocument();
   });
 
@@ -48,14 +37,14 @@ describe('Dropdown component', () => {
     expect(button).toBeInTheDocument();
     await fireEvent.click(button);
     const options = screen.getByTestId('options');
-    expect(options.children).toHaveLength(mockOptions.length);
+    expect(options.children).toHaveLength(SORT_OPTIONS.length);
   });
 
   test('Should call onSelect function', async () => {
     render(<Dropdown {...mockProps} />);
     const button = screen.getByRole('button');
     await fireEvent.click(button);
-    await fireEvent.click(screen.getByText(/Option 1/i));
+    await fireEvent.click(screen.getByText('Desc'));
     expect(mockProps.onSelect).toHaveBeenCalledTimes(1);
   });
 });

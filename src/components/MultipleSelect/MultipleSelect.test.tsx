@@ -4,27 +4,14 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { MultipleSelect } from '.';
 import { Button } from '@/components';
 
-const mockOptions = [
-  {
-    name: 'HTML',
-    value: '1',
-  },
-  {
-    name: 'CSS',
-    value: '2',
-  },
-  {
-    name: 'Javascript',
-    value: '3',
-  },
-];
+import { PRIORITY_OPTIONS } from '@/ui/task/FilterWrapper';
 
-const mockSelectedOptions = ['2', '3'];
+const mockSelectedOptions = ['low', 'medium'];
 
 const defaultProps = {
   id: 'dropdown',
   label: 'Select options',
-  options: mockOptions,
+  options: PRIORITY_OPTIONS,
   onChange: jest.fn(),
 };
 
@@ -32,6 +19,14 @@ describe('Dropdown Component', () => {
   test('Should match snapshot', () => {
     const comp = render(<MultipleSelect {...defaultProps} />);
     expect(comp).toMatchSnapshot();
+  });
+
+  test('Should show the title', () => {
+    const { getByText } = render(
+      <MultipleSelect {...defaultProps} title="Priority" />,
+    );
+    const comp = getByText('Priority');
+    expect(comp).toBeInTheDocument();
   });
 
   test('Should show options', async () => {
@@ -47,7 +42,7 @@ describe('Dropdown Component', () => {
     const text = screen.getByTestId('multiple-select');
     await fireEvent.click(text);
     const options = screen.getByTestId('options');
-    expect(options.children).toHaveLength(mockOptions.length);
+    expect(options.children).toHaveLength(PRIORITY_OPTIONS.length);
   });
 
   test('Should call onSelect when select option', async () => {
@@ -62,7 +57,7 @@ describe('Dropdown Component', () => {
     );
     const text = getByTestId('multiple-select');
     fireEvent.click(text);
-    const selectedOption = getByTestId('option-1');
+    const selectedOption = getByTestId('multiple-select-low');
     fireEvent.click(selectedOption);
     const button = getByText('Click me');
 
@@ -82,7 +77,7 @@ describe('Dropdown Component', () => {
     );
     const text = getByTestId('multiple-select');
     fireEvent.click(text);
-    const selectedOption = getByTestId('multiple-select-2');
+    const selectedOption = getByTestId('multiple-select-medium');
     fireEvent.click(selectedOption);
     const button = getByText('Click me');
 

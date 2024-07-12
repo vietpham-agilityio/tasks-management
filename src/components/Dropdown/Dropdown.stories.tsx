@@ -3,21 +3,7 @@ import { fn } from '@storybook/test';
 
 // Components
 import { Dropdown } from './';
-
-const mockOptions = [
-  {
-    name: 'Option 1',
-    value: '1',
-  },
-  {
-    name: 'Option 2',
-    value: '2',
-  },
-  {
-    name: 'Option 3',
-    value: '3',
-  },
-];
+import { SORT_OPTIONS } from '@/ui/task/FilterWrapper';
 
 const meta = {
   title: 'Components/Dropdown',
@@ -39,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    options: mockOptions,
+    options: SORT_OPTIONS,
     placeholder: 'Select item',
     onSelect: fn(),
   },
