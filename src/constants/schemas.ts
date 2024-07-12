@@ -60,3 +60,7 @@ export const TaskFormDataSchema = z.object({
   assignedTo: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   projectId: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
 });
+
+export const ParticipationFormDataSchema = z.object({
+  members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
+});

@@ -2,10 +2,11 @@ import { notFound } from 'next/navigation';
 
 // APIs
 import { getPartipationsByProjectId, getProjectById } from '@/api';
+import { queryUserList } from '@/db';
 
 // Components
 import { AvatarGroup, ErrorMessage } from '@/components';
-import { AddNewMember } from '../AddNewMember';
+import { EditParticipant } from '../EditParticipant';
 import { ProjectActionBar } from '../ProjectActionBar';
 
 // Constants
@@ -26,8 +27,9 @@ export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
     await getProjectById(projectId);
   const { data: participationData, error: participationError } =
     await getPartipationsByProjectId(projectId);
+  const { data: userList, error: userListError } = await queryUserList();
 
-  const error = projectError || participationError;
+  const error = projectError || participationError || userListError;
 
   if (!projectData) {
     notFound();
@@ -45,7 +47,13 @@ export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
         </span>
         <div className="lg:col-span-2 flex flex-row gap-[22px]">
           <AvatarGroup listUsers={participationData} maxDisplayed={3} />
-          {!projectData.isArchived && <AddNewMember />}
+          {!projectData.isArchived && (
+            <EditParticipant
+              projectId={projectId}
+              memberOptions={userList}
+              participations={participationData.map((user) => user.userId)}
+            />
+          )}
         </div>
         <div className="font-bold text-base  dark:text-white dark:fill-white">
           <span className="flex flex-rows gap-4">
