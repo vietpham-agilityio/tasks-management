@@ -21,6 +21,10 @@ type DropdownProps = {
   options: OptionType[];
   disabled?: boolean;
   selectedItemValue?: string;
+  customClass?: {
+    button?: string;
+    placeholder?: string;
+  };
   onSelect: (id: string) => void;
   onBlur?: () => void;
 };
@@ -30,6 +34,7 @@ export const Dropdown = ({
   options = [],
   disabled = false,
   selectedItemValue,
+  customClass,
   onSelect,
   onBlur,
 }: DropdownProps) => {
@@ -70,7 +75,11 @@ export const Dropdown = ({
   const renderTitle = () => {
     const selectedOption = options.find(({ value }) => value === selectedValue);
 
-    return <span>{selectedOption ? selectedOption?.name : placeholder}</span>;
+    return (
+      <span className={cn(customClass?.placeholder)}>
+        {selectedOption ? selectedOption.name : placeholder}
+      </span>
+    );
   };
 
   const dropdownRef = useOutsideClick(() => {
@@ -88,6 +97,7 @@ export const Dropdown = ({
         customClass={cn(
           'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300',
           !selectedValue && 'text-zinc-400',
+          customClass?.button,
         )}
         onClick={handleToggleDropdown}
         endIcon={
