@@ -34,6 +34,7 @@ export const getDocuments = async <T>(
   try {
     let lastVisible;
     let queryConstraints: QueryConstraint[] = [];
+    let countQueryConstraints: QueryConstraint[] = [];
 
     // TODO: Create a helper function to generate queryConstraint
     if (queryParam?.orderItem) {
@@ -47,11 +48,10 @@ export const getDocuments = async <T>(
     }
 
     if (queryParam?.query) {
-      queryConstraints = queryConstraints.concat(
-        queryParam.query.map((element) =>
-          where(element.field, element.comparison, element.value),
-        ),
-      );
+      (countQueryConstraints = queryParam.query.map((element) =>
+        where(element.field, element.comparison, element.value),
+      )),
+        (queryConstraints = queryConstraints.concat(countQueryConstraints));
     }
 
     if (queryParam?.page && queryParam?.limitItem && queryParam.orderItem) {
@@ -72,7 +72,7 @@ export const getDocuments = async <T>(
     const dataQuery = query(collection(db, collectionKey), ...queryConstraints);
     const snapshot = await getDocs(dataQuery);
     const getCount = await getCountFromServer(
-      query(collection(db, collectionKey), ...queryConstraints),
+      query(collection(db, collectionKey), ...countQueryConstraints),
     );
     const total = getCount.data().count;
 
