@@ -64,7 +64,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
       </svg>
     </div>
     <div
-      class="rounded-lg bg-white dark:bg-zinc-800 px-[19px] pb-9 pt-[15px] w-full absolute lg:static lg:block"
+      class="mt-2 rounded-lg bg-white dark:bg-zinc-800 px-3 py-4 w-full absolute lg:static lg:block z-50"
     >
       <span
         class="text-xs pb-2 font-bold text-zinc-500 dark:text-white "
@@ -72,7 +72,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
         Menu
       </span>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-4 mt-2"
       >
         <a
           class="flex gap-2 items-center py-2 px-4 rounded-lg text-zinc-500 fill-zinc-500 dark:text-white dark:fill-white hover:bg-black hover:text-white hover:fill-white hover:font-bold"
@@ -166,40 +166,48 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
           Sign Out
         </button>
       </div>
-    </div>
-    <div
-      class="mt-10"
-    >
-      <button
-        class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 bg-transparent text-black dark:border-white dark:text-white w-full dark:hover:bg-neutral-800 dark:hover:text-white"
-        type="button"
+      <div
+        class="mt-2"
       >
-        <div
-          class="px-2"
+        <span
+          class="text-xs font-bold text-zinc-500 dark:text-white"
         >
-          <svg
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M14 4c.34 0 .68.02 1.01.07C13.1 6.23 12 9.05 12 12s1.1 5.77 3.01 7.93c-.33.05-.67.07-1.01.07-4.41 0-8-3.59-8-8s3.59-8 8-8m0-2C8.48 2 4 6.48 4 12s4.48 10 10 10c1.82 0 3.53-.5 5-1.35-2.99-1.73-5-4.95-5-8.65s2.01-6.92 5-8.65A9.973 9.973 0 0 0 14 2z"
-            />
-          </svg>
-        </div>
-        <span>
-          Dark
+          Theme
         </span>
-      </button>
+        <button
+          class="flex items-center rounded-lg p-2 disabled:cursor-not-allowed border border-gray-200 bg-transparent dark:border-white dark:text-white w-full mt-2 hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-white border-none text-zinc-500"
+          type="button"
+        >
+          <div
+            class="px-2"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0h24v24H0V0z"
+                fill="none"
+              />
+              <path
+                d="M14 4c.34 0 .68.02 1.01.07C13.1 6.23 12 9.05 12 12s1.1 5.77 3.01 7.93c-.33.05-.67.07-1.01.07-4.41 0-8-3.59-8-8s3.59-8 8-8m0-2C8.48 2 4 6.48 4 12s4.48 10 10 10c1.82 0 3.53-.5 5-1.35-2.99-1.73-5-4.95-5-8.65s2.01-6.92 5-8.65A9.973 9.973 0 0 0 14 2z"
+              />
+            </svg>
+          </div>
+          <span>
+            Dark
+          </span>
+        </button>
+      </div>
     </div>
   </nav>
+  <div
+    class="opacity-50 fixed inset-0 z-40 bg-black lg:hidden"
+  />
 </div>
 `;

@@ -97,7 +97,10 @@ export const SignInForm = () => {
                 {...rest}
               />
               <span
-                className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}
+                className={cn(
+                  'bg-transparent',
+                  error?.message ? 'mb-2' : 'mb-8',
+                )}
               >
                 {error?.message && (
                   <Text
@@ -128,7 +131,10 @@ export const SignInForm = () => {
                 {...rest}
               />
               <span
-                className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}
+                className={cn(
+                  'bg-transparent',
+                  error?.message ? 'mb-2' : 'mb-8',
+                )}
               >
                 {error?.message && (
                   <Text
