@@ -12,6 +12,7 @@ import { Button, Dropdown, Input, Text } from '@/components';
 // Constants
 import {
   DATE_FORMAT,
+  QUERY_PARAMS,
   TASK_PRIORITY_OPTIONS,
   TASK_STATUS_OPTIONS,
   TaskFormDataSchema,
@@ -30,15 +31,17 @@ import {
   setServerActionErrors,
   generateSlug,
 } from '@/utils';
+import { useSearchParams } from 'next/navigation';
 
 const DEFAULT_REQUIRED_FIELDS = [
   'title',
   'description',
-  'status',
   'priority',
   'assignedTo',
-  'projectId',
 ];
+
+const STATUS_FIELD = 'status';
+const PROJECT_ID_FIELD = 'projectId';
 
 type TaskFormProps = {
   assginedToOptions: User[];
@@ -419,6 +422,10 @@ export const TaskForm = ({
   isReadOnly,
   onSubmit,
 }: TaskFormProps) => {
+  const searchParams = useSearchParams();
+  const searchParamProjectId = searchParams.get(QUERY_PARAMS.PROJECT_ID) || '';
+  const searchParamStatus = searchParams.get(QUERY_PARAMS.STATUS) || '';
+
   const {
     title,
     slug,
@@ -437,10 +444,10 @@ export const TaskForm = ({
       slug: slug || '',
       description: description || '',
       image: image || '',
-      status: status || '',
+      status: status || searchParamStatus,
       priority: priority || '',
       assignedTo: assignedTo || '',
-      projectId: projectId || '',
+      projectId: projectId || searchParamProjectId,
       dueDate: (dueDate && new Date(dueDate)) || new Date(),
     }),
     [
@@ -453,6 +460,8 @@ export const TaskForm = ({
       priority,
       assignedTo,
       projectId,
+      searchParamProjectId,
+      searchParamStatus,
     ],
   );
 
@@ -471,12 +480,20 @@ export const TaskForm = ({
   });
 
   const dirtyItems = Object.keys(dirtyFields);
-  // If create -> required fields
+  // If create -> default fields with search params value
   // If edit -> Data is already filled ->  no empty fields
-  const updateRequiredFields = useMemo(
-    () => (isEmpty(taskValue) ? DEFAULT_REQUIRED_FIELDS : []),
-    [taskValue],
-  );
+  const updateRequiredFields = useMemo(() => {
+    if (isEmpty(taskValue)) {
+      const required = [...DEFAULT_REQUIRED_FIELDS];
+      // If search param is empty => add to required
+      // Else data is already filled
+      isEmpty(searchParamProjectId) && required.push(PROJECT_ID_FIELD);
+      isEmpty(searchParamStatus) && required.push(STATUS_FIELD);
+      return required;
+    } else {
+      return [];
+    }
+  }, [taskValue, searchParamProjectId, searchParamStatus]);
   const isDisabled = useMemo(
     () => !isEnableSubmitButton(updateRequiredFields, dirtyItems, errors),
     [dirtyItems, errors, updateRequiredFields],

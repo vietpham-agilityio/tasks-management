@@ -124,7 +124,10 @@ export const TaskSection = async ({
 
       {session && (
         <NavLink
-          href={ROUTES.ADMIN_CREATE_TASK}
+          href={ROUTES.ADMIN_TASK_CREATE({
+            projectId,
+            status: value,
+          })}
           label="Add new"
           icon={<FaPlus />}
           className="border text-black dark:text-white hover:bg-zinc-300 hover:font-normal hover:text-black dark:hover:text-white py-3 hidden lg:flex"
