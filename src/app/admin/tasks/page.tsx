@@ -6,20 +6,49 @@ import { TaskTable } from '@/ui';
 import { ErrorMessage, NavLink } from '@/components';
 
 // Constants
-import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, ROUTES } from '@/constants';
+import {
+  FIELDS,
+  LIMIT_ITEMS,
+  ORDER_TYPES,
+  QUERY_PARAMS,
+  ROUTES,
+} from '@/constants';
 
 // APIs
 import { getTasks } from '@/api';
 
 // Types
 import { SearchParams } from '@/types';
+import { WhereFilterOp } from 'firebase/firestore';
 
 const TaskListPage = async ({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) => {
-  const { page = '1', sortBy } = searchParams;
+  const { page = '1', sortBy, status, priority } = searchParams;
+
+  const query = [];
+
+  if (status) {
+    const statusFilterList = decodeURIComponent(status)?.split(',');
+
+    query.push({
+      field: QUERY_PARAMS.STATUS,
+      comparison: 'in' as WhereFilterOp,
+      value: statusFilterList,
+    });
+  }
+
+  if (priority) {
+    const priorityFilterList = decodeURIComponent(priority)?.split(',');
+
+    query.push({
+      field: QUERY_PARAMS.PRIORITY,
+      comparison: 'in' as WhereFilterOp,
+      value: priorityFilterList,
+    });
+  }
 
   const { data, error, total } = await getTasks({
     page: parseInt(page),
@@ -28,6 +57,7 @@ const TaskListPage = async ({
       field: FIELDS.UPDATED_AT,
       type: sortBy || ORDER_TYPES.DESC,
     },
+    query,
   });
 
   if (error) return <ErrorMessage message={error} />;

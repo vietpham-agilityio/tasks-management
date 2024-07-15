@@ -68,21 +68,53 @@ export const FilterWrapper = () => {
   );
 
   // store the current query parameters
-  const page = searchParams.get('page') || '';
+  const page = useMemo(() => searchParams.get('page') || '', [searchParams]);
+  const sortBy = useMemo(
+    () => searchParams.get('sortBy') || '',
+    [searchParams],
+  );
+  const status = useMemo(
+    () => searchParams.get('status') || '',
+    [searchParams],
+  );
+  const priority = useMemo(
+    () => searchParams.get('priority') || '',
+    [searchParams],
+  );
 
-  const handleStatusOnChange = () => {};
+  const handleStatusOnChange = useCallback(
+    (listStatus: string[]) => {
+      const status = encodeURIComponent(listStatus.join(','));
 
-  const handlePriorityOnChange = () => {};
+      params.set(SEARCH_PARAMS.STATUS, status);
+      startTransition(() => {
+        router.push(getQueryParams({ page, sortBy, status, priority }));
+      });
+    },
+    [page, params, priority, router, sortBy],
+  );
+
+  const handlePriorityOnChange = useCallback(
+    (listPriority: string[]) => {
+      const priority = encodeURIComponent(listPriority.join(','));
+
+      params.set(SEARCH_PARAMS.PRIORITY, priority);
+      startTransition(() => {
+        router.push(getQueryParams({ page, sortBy, priority, status }));
+      });
+    },
+    [page, params, router, sortBy, status],
+  );
 
   const handleSelectSort = useCallback(
     (sortBy: string) => {
       params.set(SEARCH_PARAMS.SORT_BY, sortBy);
 
       startTransition(() => {
-        router.push(getQueryParams({ page, sortBy }));
+        router.push(getQueryParams({ page, sortBy, status, priority }));
       });
     },
-    [params, router, page],
+    [params, router, page, status, priority],
   );
 
   return (

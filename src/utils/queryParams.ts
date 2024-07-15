@@ -1,6 +1,6 @@
 import { isEmpty } from './validators';
 
-type QueryParam = Record<string, string | boolean | number | undefined>;
+export type QueryParam = Record<string, string | boolean | number | undefined>;
 
 export const getQueryParams = (queryParam: QueryParam): string => {
   const removeEmptyValues = Object.fromEntries(
