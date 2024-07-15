@@ -3,6 +3,9 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ReactNode, useCallback, useMemo, useTransition } from 'react';
 
+// Hooks
+import { useCombinedSearchParams } from '@/hooks';
+
 // Icons
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
@@ -10,7 +13,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import { Button } from '@/components';
 
 // Utils
-import { cn, getNumRange, getQueryParams } from '@/utils';
+import { cn, getNumRange } from '@/utils';
 
 // Constants
 import { SEARCH_PARAMS } from '@/constants';
@@ -197,28 +200,27 @@ export const PaginationWrapper = ({
   pageSize,
 }: Pick<PaginationProps, 'total' | 'pageSize'>) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const searchParams = useSearchParams() ?? '';
-
-  // store the current query parameters
-  const sortBy = searchParams.get('sortBy') || '';
+  const [_, startTransition] = useTransition();
+  const { setQueryParams } = useCombinedSearchParams();
 
   const params = useMemo(
     () => new URLSearchParams(searchParams),
     [searchParams],
   );
 
-  const [_, startTransition] = useTransition();
-
   const handlePageChange = useCallback(
     (page: number) => {
       params.set(SEARCH_PARAMS.PAGE, page.toString());
 
+      const combinedQueryParams = setQueryParams({ page });
+
       startTransition(() => {
-        router.push(getQueryParams({ page, sortBy }));
+        router.push(combinedQueryParams);
       });
     },
-    [router, params, sortBy],
+    [params, router, setQueryParams],
   );
 
   return (
