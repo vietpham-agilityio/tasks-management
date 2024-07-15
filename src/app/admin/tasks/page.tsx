@@ -39,7 +39,7 @@ const TaskListPage = async ({
           <h1 className="font-bold text-3xl">Tasks</h1>
         </div>
         <NavLink
-          href={ROUTES.ADMIN_CREATE_TASK}
+          href={ROUTES.ADMIN_TASK_CREATE()}
           label="Create New Task"
           icon={<FaPlus />}
           className="bg-neutral-800 text-white font-bold py-3"

@@ -39,7 +39,7 @@ const ProjectListPage = async ({
           <h1 className="font-bold text-3xl">Projects</h1>
         </div>
         <NavLink
-          href={ROUTES.ADMIN_UPSERT_PROJECT()}
+          href={ROUTES.ADMIN_PROJECT_UPSERT()}
           label="Create New Project"
           icon={<FaPlus />}
           className="bg-neutral-800 text-white font-bold py-3"

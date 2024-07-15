@@ -53,7 +53,7 @@ export const TaskFormDataSchema = z.object({
   title: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   slug: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   description: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
-  image: z.string().optional(),
+  image: z.string().url().optional().or(z.literal('')),
   dueDate: z.coerce.date(),
   status: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   priority: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),

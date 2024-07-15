@@ -37,11 +37,11 @@ const ProjectActionBarBase = ({
   }, []);
 
   const handleEditProject = useCallback(() => {
-    router.push(ROUTES.ADMIN_UPSERT_PROJECT(projectId));
+    router.push(ROUTES.ADMIN_PROJECT_UPSERT(projectId));
   }, [projectId, router]);
 
   const handleCreateNewTask = useCallback(() => {
-    router.push(ROUTES.ADMIN_CREATE_TASK);
+    router.push(ROUTES.ADMIN_TASK_CREATE());
   }, [router]);
 
   const handleUnarchiveProject = useCallback(async () => {
