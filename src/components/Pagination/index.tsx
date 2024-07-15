@@ -55,6 +55,7 @@ export const Pagination = ({
   const secondPageIndex = 2;
   const lastPageIndex = totalPageCount;
   const secondLastPageIndex = totalPageCount - 1;
+  const isShowLastPage = firstPageIndex !== lastPageIndex;
 
   const paginationRange = useMemo(() => {
     const startIndex = Math.max(currentPage - siblingCount, secondPageIndex);
@@ -157,19 +158,22 @@ export const Pagination = ({
           </Button>
         );
       })}
-      <Button
-        customClass={cn(
-          buttonBaseClass,
-          'w-10 h-10 hidden md:block',
-          variant === 'primary' && 'text-white',
-          currentPage === lastPageIndex && 'bg-zinc-300',
-          customClass?.button,
-        )}
-        variant={variant}
-        onClick={() => handleChangePage(lastPageIndex)}
-      >
-        {lastPageIndex}
-      </Button>
+      {isShowLastPage && (
+        <Button
+          customClass={cn(
+            buttonBaseClass,
+            'w-10 h-10 hidden md:block',
+            variant === 'primary' && 'text-white',
+            currentPage === lastPageIndex && 'bg-zinc-300',
+            customClass?.button,
+          )}
+          variant={variant}
+          onClick={() => handleChangePage(lastPageIndex)}
+        >
+          {lastPageIndex}
+        </Button>
+      )}
+
       <Button
         variant={variant}
         customClass={cn(
