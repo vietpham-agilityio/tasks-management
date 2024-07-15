@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
+
 // APIs
-import { getProjectById } from '@/api';
+import { getProjectBySlug } from '@/api';
 
 // Components
 import { ProjectHeader, TaskSection } from '@/ui';
@@ -12,12 +13,14 @@ import {
 } from '@/components';
 
 // Constants
-import { TASK_STATUS_OPTIONS } from '@/constants';
+import { TAGS, TASK_STATUS_OPTIONS } from '@/constants';
 
-const ProjectDetailPage = async ({ params }: { params: { id: string } }) => {
-  const projectId = params.id;
-  const { data: projectData, error: projectError } =
-    await getProjectById(projectId);
+const ProjectDetailPage = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
+  const { data: projectData, error: projectError } = await getProjectBySlug(
+    slug,
+    { options: { tags: [TAGS.PROJECT_DETAIL(slug)] } },
+  );
 
   if (!projectData) {
     return (
@@ -51,7 +54,6 @@ const ProjectDetailPage = async ({ params }: { params: { id: string } }) => {
               projectId={projectData.id}
               title={name}
               value={value}
-              isShowCreateTask={!projectData.isArchived}
             />
           </Suspense>
         ))}

@@ -7,15 +7,22 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
+// DB
+import { getDocument, getDocuments } from './query';
+
 // Configs
 import { db } from '@/config';
 
 // Constants
-import { COLLECTION, ERROR_MESSAGES } from '@/constants';
+import {
+  COLLECTION,
+  ERROR_MESSAGES,
+  LIMIT_ITEMS,
+  QUERY_PARAMS,
+} from '@/constants';
 
 // Models
 import { Project, ProjectFormType, ResponseStateType } from '@/models';
-import { getDocument } from './query';
 
 export async function createProject(
   values: Omit<Project, 'id'>,
@@ -114,4 +121,30 @@ export async function getProjectDetail(
   } catch (error) {
     return { success: false, data: null, error: (error as Error).message };
   }
+}
+
+export async function getProjectDetailBySlug(
+  slug: string,
+): Promise<ResponseStateType<Project | null>> {
+  const response = await getDocuments<Project>(COLLECTION.PROJECTS, {
+    query: [
+      {
+        field: QUERY_PARAMS.SLUG,
+        comparison: '==',
+        value: slug,
+      },
+    ],
+    limitItem: LIMIT_ITEMS.SINGLE_RECORD,
+  });
+  if (response.data.length !== 0) {
+    return {
+      success: true,
+      data: response.data[0],
+    };
+  }
+  return {
+    success: false,
+    data: null,
+    error: ERROR_MESSAGES.DATA_NOT_FOUND,
+  };
 }

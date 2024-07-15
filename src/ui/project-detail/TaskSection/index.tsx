@@ -36,6 +36,7 @@ type TaskSectionProps = {
   projectId: string;
   title: string;
   value: TASK_STATUS_VALUE;
+  isShowCreateTask?: boolean;
   //   queryParams: URLSearchParams
 };
 
@@ -43,6 +44,7 @@ export const TaskSection = async ({
   projectId,
   title,
   value,
+  isShowCreateTask = true,
   //   queryParams,
 }: TaskSectionProps) => {
   const session = await auth();
@@ -122,7 +124,7 @@ export const TaskSection = async ({
         </div>
       )}
 
-      {session && (
+      {session && isShowCreateTask && (
         <NavLink
           href={ROUTES.ADMIN_TASK_CREATE({
             projectId,

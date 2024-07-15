@@ -1,7 +1,8 @@
-import { notFound } from 'next/navigation';
+// Auths
+import { auth } from '@/auth';
 
 // APIs
-import { getPartipationsByProjectId, getProjectById } from '@/api';
+import { getPartipationsByProjectId } from '@/api';
 import { queryUserList } from '@/db';
 
 // Components
@@ -12,6 +13,9 @@ import { ProjectActionBar } from '../ProjectActionBar';
 // Constants
 import { DATE_FORMAT } from '@/constants';
 
+// Models
+import { Project } from '@/models';
+
 // Icons
 import { FaLock, FaLockOpen } from 'react-icons/fa';
 
@@ -19,21 +23,19 @@ import { FaLock, FaLockOpen } from 'react-icons/fa';
 import { formatDate } from '@/utils';
 
 type ProjectHeaderProps = {
-  projectId: string;
+  project: Project;
 };
 
-export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
-  const { data: projectData, error: projectError } =
-    await getProjectById(projectId);
+export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
+  const { id, title, isArchived, isPublic, createdAt } = project;
+
+  const session = await auth();
+
   const { data: participationData, error: participationError } =
-    await getPartipationsByProjectId(projectId);
+    await getPartipationsByProjectId(project.id);
   const { data: userList, error: userListError } = await queryUserList();
 
-  const error = projectError || participationError || userListError;
-
-  if (!projectData) {
-    notFound();
-  }
+  const error = participationError || userListError;
 
   if (error) {
     return <ErrorMessage message={error} />;
@@ -42,14 +44,12 @@ export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
   return (
     <>
       <div className="grid grid-rows-1 lg:grid-cols-5 px-[29px] py-12 bg-zinc-100 dark:bg-neutral-700 rounded-lg items-center lg:place-items-center gap-4 ">
-        <span className="font-bold text-2xl dark:text-white">
-          {projectData.title}
-        </span>
+        <span className="font-bold text-2xl dark:text-white">{title}</span>
         <div className="lg:col-span-2 flex flex-row gap-[22px]">
           <AvatarGroup listUsers={participationData} maxDisplayed={3} />
-          {!projectData.isArchived && (
+          {!isArchived && session && (
             <EditParticipant
-              projectId={projectId}
+              projectId={id}
               memberOptions={userList}
               participations={participationData.map((user) => user.userId)}
             />
@@ -57,7 +57,7 @@ export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
         </div>
         <div className="font-bold text-base  dark:text-white dark:fill-white">
           <span className="flex flex-rows gap-4">
-            {projectData.isPublic ? (
+            {isPublic ? (
               <>
                 {' '}
                 <FaLockOpen className="w-5 h-5" />
@@ -70,21 +70,18 @@ export const ProjectHeader = async ({ projectId }: ProjectHeaderProps) => {
                 Private{' '}
               </>
             )}
-            {projectData.isArchived && '(Archived)'}
+            {isArchived && '(Archived)'}
           </span>
         </div>
 
         <div className="flex flex-col gap-3 dark:text-white">
           <span>Created</span>
           <time className="font-bold text-lg">
-            {formatDate(projectData.createdAt, DATE_FORMAT.Secondary)}
+            {formatDate(createdAt, DATE_FORMAT.Secondary)}
           </time>
         </div>
       </div>
-      <ProjectActionBar
-        projectId={projectId}
-        isArchived={projectData.isArchived}
-      />
+      {session && <ProjectActionBar projectId={id} isArchived={isArchived} />}
     </>
   );
 };

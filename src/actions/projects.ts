@@ -20,6 +20,7 @@ import {
   removeUsersFromProject,
   queryParticipationsByProjectId,
   updateDocument,
+  getProjectDetail,
 } from '@/db';
 
 // Models
@@ -196,8 +197,9 @@ export const updateProjectWithParticipants = async (
       error: (error as Error).message,
     };
   }
-  if (response.success) {
+  if (response.success && response.data) {
     revalidateTag(TAGS.PROJECT_LIST);
+    revalidateTag(TAGS.PROJECT_DETAIL(response.data.slug));
     revalidateTag(TAGS.PROJECT_DETAIL(id));
     redirect(ROUTES.ADMIN_PROJECT_DETAIL(id));
   }
@@ -213,12 +215,17 @@ export const removeProjectById = async (projectId: string) => {
       ResponseStateType<{ projectId: string } | null>
     >(
       async (args) => {
-        const result = await deleteProject(args.projectId);
-        if (result.success) {
-          revalidateTag(TAGS.PROJECT_LIST);
-          revalidateTag(TAGS.PROJECT_DETAIL(args.projectId));
+        const project = await getProjectDetail(args.projectId);
+        if (project.data) {
+          const result = await deleteProject(args.projectId);
+          if (result.success) {
+            revalidateTag(TAGS.PROJECT_LIST);
+            revalidateTag(TAGS.PROJECT_DETAIL(project.data.slug));
+            revalidateTag(TAGS.PROJECT_DETAIL(args.projectId));
+          }
+          return result;
         }
-        return result;
+        throw new Error(ERROR_MESSAGES.REQUESTING_DATA);
       },
       { projectId },
     );
@@ -241,16 +248,19 @@ export const archiveProjectById = async (id: string, isArchived: boolean) => {
       ResponseStateType<null>
     >(
       async (args) => {
-        const projectResult = await updateDocument(COLLECTION.PROJECTS, args);
-        if (projectResult?.success) {
-          revalidateTag(TAGS.PROJECT_LIST);
-          revalidateTag(TAGS.PROJECT_DETAIL(args.id));
-          return {
-            success: true,
-            data: null,
-          };
+        const project = await getProjectDetail(args.id);
+        if (project.data) {
+          const projectResult = await updateDocument(COLLECTION.PROJECTS, args);
+          if (projectResult?.success) {
+            revalidateTag(TAGS.PROJECT_LIST);
+            revalidateTag(TAGS.PROJECT_DETAIL(project.data.slug));
+            revalidateTag(TAGS.PROJECT_DETAIL(args.id));
+            return {
+              success: true,
+              data: null,
+            };
+          }
         }
-
         return {
           success: false,
           data: null,
