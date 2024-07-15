@@ -30,7 +30,7 @@ export const ToggleTheme = () => {
   if (!isMounted)
     return (
       <Button
-        customClass="w-full dark:hover:bg-neutral-800 dark:hover:text-white"
+        customClass="w-full mt-2 hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-white border-none"
         variant="outline"
         startIcon={<AiOutlineLoading className="animate-spin" />}
         customIconClass="px-2 disabled:hover-none"
@@ -42,7 +42,7 @@ export const ToggleTheme = () => {
 
   return (
     <Button
-      customClass="w-full dark:hover:bg-neutral-800 dark:hover:text-white"
+      customClass="w-full mt-2 hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-white border-none text-zinc-500"
       variant="outline"
       onClick={handleToggleTheme}
       startIcon={
