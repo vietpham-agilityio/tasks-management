@@ -1,7 +1,7 @@
 import { unstable_cache as cache } from 'next/cache';
 
 // DB
-import { getDocuments, getProjectDetail } from '@/db';
+import { getDocuments, getProjectDetail, getProjectDetailBySlug } from '@/db';
 
 // Constants
 import { COLLECTION, TAGS } from '@/constants';
@@ -81,4 +81,15 @@ export const getProjectById = async (
       error: (error as Error).message,
     };
   }
+};
+
+export const getProjectBySlug = async (
+  slug: string,
+  cacheOptions?: CacheOption,
+): Promise<ResponseStateType<Project | null>> => {
+  return await cache(
+    getProjectDetailBySlug,
+    [TAGS.PROJECT_DETAIL(slug), ...(cacheOptions?.keyParts || [])],
+    cacheOptions?.options,
+  )(slug);
 };
