@@ -71,11 +71,11 @@ export const BaseModal = ({
               data-testid="modal"
               ref={modalRef as RefObject<HTMLDivElement>}
               className={cn(
-                'w-full md:w-1/2 relative mx-auto top-20 border rounded-lg py-3 bg-white',
+                'w-full md:w-1/2 relative mx-auto top-20 border rounded-lg py-3 bg-white dark:bg-neutral-800',
                 customClass?.modalWrappper,
               )}
             >
-              <div className="flex flex-row justify-between items-center py-4 px-6 border-b-4">
+              <div className="flex flex-row justify-between items-center py-4 px-6 border-b">
                 <h1 className={cn('font-bold text-2xl', customClass?.title)}>
                   {title}
                 </h1>
