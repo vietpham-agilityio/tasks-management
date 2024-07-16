@@ -23,7 +23,7 @@ import { DeleteTaskWrapper } from '@/ui';
 
 // Types
 import { WhereFilterOp } from 'firebase/firestore';
-import { Queries } from '@/types';
+import { QueryFilter } from '@/types';
 
 // Icons
 import { FaPlus } from 'react-icons/fa';
@@ -50,7 +50,7 @@ export const TaskSection = async ({
 }: TaskSectionProps) => {
   const session = await auth();
 
-  const query: Queries[] = [
+  const query: QueryFilter[] = [
     {
       field: QUERY_PARAMS.PROJECT_ID,
       comparison: '==' as WhereFilterOp,
