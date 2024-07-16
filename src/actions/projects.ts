@@ -69,7 +69,7 @@ export const createProjectWithParticipants = async (
             createdBy: session.user.id,
           };
           const projectResponse = await createProject(data);
-          if (!projectResponse.success) {
+          if (projectResponse.error) {
             throw new Error(projectResponse.error);
           }
           if (projectResponse.success && projectResponse.data) {
@@ -84,7 +84,7 @@ export const createProjectWithParticipants = async (
               ...result,
               data: projectResponse.data,
             };
-            if (!participantResponse.success) {
+            if (participantResponse.error) {
               throw new Error(participantResponse.error);
             }
           }
@@ -146,7 +146,7 @@ export const updateProjectWithParticipants = async (
             updatedAt: time,
           };
           const projectResponse = await updateProject(id, data);
-          if (!projectResponse.success) {
+          if (projectResponse.error) {
             throw new Error(projectResponse.error);
           }
           if (projectResponse.success && projectResponse.data) {

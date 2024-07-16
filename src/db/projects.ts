@@ -22,11 +22,11 @@ import {
 } from '@/constants';
 
 // Models
-import { Project, ProjectFormType, ResponseStateType } from '@/models';
+import { Project, ProjectFormType, ResponseStateType, Task } from '@/models';
 
-export async function createProject(
+export const createProject = async (
   values: Omit<Project, 'id'>,
-): Promise<ResponseStateType<Project | null>> {
+): Promise<ResponseStateType<Project | null>> => {
   try {
     const projectRef = await addDoc(
       collection(db, COLLECTION.PROJECTS),
@@ -46,38 +46,45 @@ export async function createProject(
       error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
     };
   }
-}
+};
 
-export async function deleteProject(
+export const deleteProject = async (
   projectId: string,
-): Promise<ResponseStateType<{ projectId: string } | null>> {
+): Promise<ResponseStateType<{ projectId: string } | null>> => {
   try {
-    await deleteDoc(doc(db, COLLECTION.PROJECTS, projectId));
-    return {
-      success: true,
-      data: {
-        projectId,
-      },
-    };
+    const project = await getDocument<Project>(COLLECTION.PROJECTS, projectId);
+    if (project.data) {
+      await deleteDoc(doc(db, COLLECTION.PROJECTS, projectId));
+      return {
+        success: true,
+        data: {
+          projectId,
+        },
+      };
+    }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
   } catch (error) {
     return {
       success: false,
       data: null,
-      error: ERROR_MESSAGES.REMOVING_DATA_ERROR('Project', projectId),
+      error: (error as Error).message,
     };
   }
-}
+};
 
-export async function updateProject(
+export const updateProject = async (
   id: string,
   values: Omit<ProjectFormType, 'members'> & { updatedAt: string },
-): Promise<ResponseStateType<Project | null>> {
+): Promise<ResponseStateType<Project | null>> => {
   try {
     // Get data from db
-    const queryData = await getDocument<Project>(COLLECTION.PROJECTS, id);
-    if (queryData?.data) {
+    const project = await getDocument<Project>(COLLECTION.PROJECTS, id);
+    if (project.data) {
+      if (project.data.isArchived) {
+        throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
+      }
       const data: Project = {
-        ...queryData.data,
+        ...project.data,
         ...values,
       };
       await updateDoc(doc(db, COLLECTION.PROJECTS, id), data);
@@ -85,25 +92,20 @@ export async function updateProject(
         data,
         success: true,
       };
-    } else {
-      return {
-        success: false,
-        data: null,
-        error: ERROR_MESSAGES.DATA_NOT_FOUND,
-      };
     }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
   } catch (error) {
     return {
       success: false,
       data: null,
-      error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Project'),
+      error: (error as Error).message,
     };
   }
-}
+};
 
-export async function getProjectDetail(
+export const getProjectDetail = async (
   id: string,
-): Promise<ResponseStateType<Project | null>> {
+): Promise<ResponseStateType<Project | null>> => {
   try {
     const response = await getDocument<Project>(COLLECTION.PROJECTS, id);
     if (response?.data) {
@@ -121,11 +123,11 @@ export async function getProjectDetail(
   } catch (error) {
     return { success: false, data: null, error: (error as Error).message };
   }
-}
+};
 
-export async function getProjectDetailBySlug(
+export const getProjectDetailBySlug = async (
   slug: string,
-): Promise<ResponseStateType<Project | null>> {
+): Promise<ResponseStateType<Project | null>> => {
   const response = await getDocuments<Project>(COLLECTION.PROJECTS, {
     query: [
       {
@@ -147,4 +149,18 @@ export async function getProjectDetailBySlug(
     data: null,
     error: ERROR_MESSAGES.DATA_NOT_FOUND,
   };
-}
+};
+
+export const getProjectDetailByTagId = async (
+  id: string,
+): Promise<ResponseStateType<Project | null>> => {
+  const response = await getDocument<Task>(COLLECTION.TASKS, id);
+  if (response.data) {
+    return await getProjectDetail(response.data.projectId);
+  }
+  return {
+    success: false,
+    data: null,
+    error: ERROR_MESSAGES.DATA_NOT_FOUND,
+  };
+};

@@ -3,7 +3,7 @@
 import { useFormState } from 'react-dom';
 
 // APIs
-import { createTask } from '@/actions';
+import { addTaskToProject } from '@/actions';
 
 // Components
 import { TaskForm } from '../TaskForm';
@@ -22,7 +22,7 @@ export const CreateTaskFormWrapper = ({
   listProject,
 }: CreateTaskFormWrapperProps) => {
   const initialState = { message: null, formErrors: {} };
-  const [state, dispatch] = useFormState(createTask, initialState);
+  const [state, dispatch] = useFormState(addTaskToProject, initialState);
 
   return (
     <TaskForm
