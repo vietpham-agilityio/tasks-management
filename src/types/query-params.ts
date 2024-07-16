@@ -18,6 +18,12 @@ export type QueryParam = {
   page?: number;
 };
 
+export type Queries = {
+  field: string;
+  comparison: WhereFilterOp;
+  value: string | string[];
+};
+
 export interface SearchParams {
   page?: string;
   query?: string;

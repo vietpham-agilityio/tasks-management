@@ -3,6 +3,9 @@
 import { useCallback, useMemo, useTransition } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
+// Hooks
+import { useCombinedSearchParams } from '@/hooks';
+
 // Components
 import { Dropdown, MultipleSelect } from '@/components';
 
@@ -56,9 +59,14 @@ export const SORT_OPTIONS: OptionType[] = [
   },
 ];
 
-export const FilterWrapper = () => {
+interface FilterWrapperProps {
+  showStatusFilter?: boolean;
+}
+
+export const FilterWrapper = ({ showStatusFilter }: FilterWrapperProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setQueryParams } = useCombinedSearchParams();
 
   const [_, startTransition] = useTransition();
 
@@ -110,22 +118,26 @@ export const FilterWrapper = () => {
     (sortBy: string) => {
       params.set(SEARCH_PARAMS.SORT_BY, sortBy);
 
+      const combinedQueryParams = setQueryParams({ sortBy });
+
       startTransition(() => {
-        router.push(getQueryParams({ page, sortBy, status, priority }));
+        router.push(combinedQueryParams);
       });
     },
-    [params, router, page, status, priority],
+    [params, router, setQueryParams],
   );
 
   return (
     <div className="mb-6">
       <div className="flex gap-2.5">
         <div className="flex flex-col gap-2.5 md:flex-row">
-          <MultipleSelect
-            title="Status"
-            onChange={handleStatusOnChange}
-            options={STATUS_OPTIONS}
-          />
+          {showStatusFilter && (
+            <MultipleSelect
+              title="Status"
+              onChange={handleStatusOnChange}
+              options={STATUS_OPTIONS}
+            />
+          )}
           <MultipleSelect
             title="Priority"
             onChange={handlePriorityOnChange}
@@ -135,7 +147,7 @@ export const FilterWrapper = () => {
         <Dropdown
           placeholder="Sort"
           customClass={{
-            placeholder: 'text-black',
+            placeholder: 'text-black dark:text-white',
             button: 'pb-[11px] pt-3 px-5',
           }}
           options={SORT_OPTIONS}

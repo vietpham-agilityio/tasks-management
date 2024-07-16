@@ -10,8 +10,10 @@ import { auth } from '@/auth';
 import {
   DATE_FORMAT,
   ORDER_BY,
+  ORDER_TYPES,
   QUERY_PARAMS,
   ROUTES,
+  TASK_PRIORITY_VALUE,
   TASK_SECTION_VARIANT_MAPPING,
   TASK_STATUS_VALUE,
 } from '@/constants';
@@ -25,6 +27,10 @@ import {
   ItemNotFound,
 } from '@/components';
 
+// Types
+import { WhereFilterOp } from 'firebase/firestore';
+import { Queries } from '@/types';
+
 // Icons
 import { ClockIcon } from '@/icons';
 import { FaPlus } from 'react-icons/fa';
@@ -35,32 +41,50 @@ import { cn, formatDate } from '@/utils';
 type TaskSectionProps = {
   projectId: string;
   title: string;
+  sortBy?: ORDER_TYPES;
+  priority?: TASK_PRIORITY_VALUE;
   value: TASK_STATUS_VALUE;
   isShowCreateTask?: boolean;
-  //   queryParams: URLSearchParams
 };
 
 export const TaskSection = async ({
   projectId,
   title,
   value,
+  priority,
+  sortBy = ORDER_TYPES.DESC,
   isShowCreateTask = true,
-  //   queryParams,
 }: TaskSectionProps) => {
   const session = await auth();
 
+  const query: Queries[] = [
+    {
+      field: QUERY_PARAMS.PROJECT_ID,
+      comparison: '==' as WhereFilterOp,
+      value: projectId,
+    },
+    {
+      field: QUERY_PARAMS.STATUS,
+      comparison: '==' as WhereFilterOp,
+      value: value,
+    },
+  ];
+
+  if (priority) {
+    const priorityFilterList = decodeURIComponent(priority)?.split(',');
+
+    query.push({
+      field: QUERY_PARAMS.PRIORITY,
+      comparison: 'in' as WhereFilterOp,
+      value: priorityFilterList,
+    });
+  }
+
   const { data, error } = await getTasks({
-    query: [
-      {
-        field: QUERY_PARAMS.PROJECT_ID,
-        comparison: '==',
-        value: projectId,
-      },
-      { field: QUERY_PARAMS.STATUS, comparison: '==', value: value },
-    ],
+    query,
     orderItem: {
       field: ORDER_BY.CREATED_AT,
-      type: 'desc',
+      type: sortBy,
     },
   });
 

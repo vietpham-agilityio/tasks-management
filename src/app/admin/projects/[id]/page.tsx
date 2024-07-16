@@ -13,9 +13,18 @@ import {
 
 // Constants
 import { TASK_STATUS_OPTIONS } from '@/constants';
+import { SearchParams } from '@/types';
 
-const ProjectDetailPage = async ({ params }: { params: { id: string } }) => {
+const ProjectDetailPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: SearchParams;
+}) => {
   const projectId = params.id;
+  const { sortBy, priority } = searchParams;
+
   const { data: projectData, error: projectError } =
     await getProjectById(projectId);
 
@@ -49,6 +58,8 @@ const ProjectDetailPage = async ({ params }: { params: { id: string } }) => {
             <TaskSection
               key={`section-${name}`}
               projectId={projectData.id}
+              sortBy={sortBy}
+              priority={priority}
               title={name}
               value={value}
               isShowCreateTask={!projectData.isArchived}

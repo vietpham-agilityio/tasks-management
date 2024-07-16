@@ -15,8 +15,19 @@ import {
 // Constants
 import { TAGS, TASK_STATUS_OPTIONS } from '@/constants';
 
-const ProjectDetailPage = async ({ params }: { params: { slug: string } }) => {
+// Types
+import { SearchParams } from '@/types';
+
+const ProjectDetailPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string; slug: string };
+  searchParams: SearchParams;
+}) => {
+  const { sortBy, priority } = searchParams;
   const slug = params.slug;
+
   const { data: projectData, error: projectError } = await getProjectBySlug(
     slug,
     { options: { tags: [TAGS.PROJECT_DETAIL(slug)] } },
@@ -52,6 +63,8 @@ const ProjectDetailPage = async ({ params }: { params: { slug: string } }) => {
             <TaskSection
               key={`section-${name}`}
               projectId={projectData.id}
+              sortBy={sortBy}
+              priority={priority}
               title={name}
               value={value}
             />
