@@ -7,21 +7,17 @@ import {
   TASK_STATUS_VALUE,
 } from '@/constants';
 
-export type QueryParam = {
-  orderItem?: { field: string; type: OrderByDirection };
-  query?: {
-    field: string;
-    comparison: WhereFilterOp;
-    value: string | string[] | boolean;
-  }[];
-  limitItem?: number;
-  page?: number;
-};
-
-export type Queries = {
+export type QueryFilter = {
   field: string;
   comparison: WhereFilterOp;
-  value: string | string[];
+  value: string | string[] | boolean;
+};
+
+export type QueryParam = {
+  orderItem?: { field: string; type: OrderByDirection };
+  query?: QueryFilter[];
+  limitItem?: number;
+  page?: number;
 };
 
 export interface SearchParams {

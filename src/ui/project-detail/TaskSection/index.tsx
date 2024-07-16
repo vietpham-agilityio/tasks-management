@@ -29,7 +29,7 @@ import {
 
 // Types
 import { WhereFilterOp } from 'firebase/firestore';
-import { Queries } from '@/types';
+import { QueryFilter } from '@/types';
 
 // Icons
 import { ClockIcon } from '@/icons';
@@ -57,7 +57,7 @@ export const TaskSection = async ({
 }: TaskSectionProps) => {
   const session = await auth();
 
-  const query: Queries[] = [
+  const query: QueryFilter[] = [
     {
       field: QUERY_PARAMS.PROJECT_ID,
       comparison: '==' as WhereFilterOp,
