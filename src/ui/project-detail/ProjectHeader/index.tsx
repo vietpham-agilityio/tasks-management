@@ -6,9 +6,10 @@ import { getPartipationsByProjectId } from '@/api';
 import { queryUserList } from '@/db';
 
 // Components
-import { AvatarGroup, ErrorMessage } from '@/components';
+import { FilterWrapper } from '@/ui/task';
 import { EditParticipant } from '../EditParticipant';
 import { ProjectActionBar } from '../ProjectActionBar';
+import { AvatarGroup, ErrorMessage } from '@/components';
 
 // Constants
 import { DATE_FORMAT } from '@/constants';
@@ -81,7 +82,14 @@ export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
           </time>
         </div>
       </div>
-      {session && <ProjectActionBar projectId={id} isArchived={isArchived} />}
+      <div className="flex h-12 justify-between mt-5">
+        <FilterWrapper />
+        <div className="mt-0.5">
+          {session && (
+            <ProjectActionBar projectId={id} isArchived={isArchived} />
+          )}
+        </div>
+      </div>
     </>
   );
 };

@@ -120,7 +120,7 @@ export const MultipleSelect = ({
                 <div className="w-5 h-5 flex items-center justify-center">
                   <FilterIcon />
                 </div>
-                <p className="text-black">{title}</p>
+                <p className="text-black dark:text-white">{title}</p>
                 <div className="w-5 h-5 flex items-center justify-center">
                   <SelectIcon />
                 </div>
@@ -130,7 +130,7 @@ export const MultipleSelect = ({
             ))}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
-              className="absolute w-full px-2 pb-2 bg-zinc-50 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"
+              className="absolute w-full px-2 pb-2 bg-zinc-50 dark:bg-neutral-900 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"
               data-testid="options"
             >
               {filteredOptions.map(({ value, name }: OptionType) => (
