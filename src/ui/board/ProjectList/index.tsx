@@ -49,16 +49,19 @@ const ProjectList = async () => {
       </span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-3 gap-6 ">
         {data.map((project) => {
+          const { id, slug, title, description, image } = project;
+
           return (
             <OverviewCard
-              key={project.id}
+              key={id}
               href={
                 session
-                  ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
-                  : ROUTES.PROJECT_DETAIL(project.slug)
+                  ? ROUTES.ADMIN_PROJECT_DETAIL(id)
+                  : ROUTES.PROJECT_DETAIL(slug)
               }
-              title={project.title}
-              description={project.description}
+              title={title}
+              description={description}
+              imageSrc={image}
               isRowDisplay={true}
               customClass={{
                 wrapper: 'hover:bg-zinc-100',

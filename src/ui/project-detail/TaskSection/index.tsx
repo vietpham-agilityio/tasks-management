@@ -8,7 +8,6 @@ import { auth } from '@/auth';
 
 // Constants
 import {
-  DATE_FORMAT,
   ORDER_BY,
   ORDER_TYPES,
   QUERY_PARAMS,
@@ -19,24 +18,18 @@ import {
 } from '@/constants';
 
 // Components
-import {
-  NavLink,
-  OverviewCard,
-  Badge,
-  ErrorMessage,
-  ItemNotFound,
-} from '@/components';
+import { NavLink, ErrorMessage, ItemNotFound } from '@/components';
+import { DeleteTaskWrapper } from '@/ui';
 
 // Types
 import { WhereFilterOp } from 'firebase/firestore';
 import { Queries } from '@/types';
 
 // Icons
-import { ClockIcon } from '@/icons';
 import { FaPlus } from 'react-icons/fa';
 
 // Utils
-import { cn, formatDate } from '@/utils';
+import { cn } from '@/utils';
 
 type TaskSectionProps = {
   projectId: string;
@@ -121,27 +114,11 @@ export const TaskSection = async ({
               dayjs(new Date()).isAfter(dayjs(new Date(task.dueDate))) &&
               task.status !== TASK_STATUS_VALUE.DONE;
             return (
-              <OverviewCard
+              <DeleteTaskWrapper
                 key={`task-${task.id}`}
-                href={
-                  session
-                    ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                    : ROUTES.TASK_DETAIL(task.id)
-                }
-                title={task.title}
-                description={task.description}
-                imageSrc={task.image}
-                badge={
-                  <Badge
-                    label={formatDate(task.dueDate, DATE_FORMAT.Secondary)}
-                    icon={<ClockIcon />}
-                    customClass="rounded-md text-white text-sm"
-                    theme={isLate ? 'error' : 'success'}
-                  />
-                }
-                customClass={{
-                  wrapper: 'hover:bg-zinc-300 bg-white',
-                }}
+                isLate={isLate}
+                session={session}
+                task={task}
               />
             );
           })}
