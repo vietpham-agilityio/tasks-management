@@ -1,19 +1,24 @@
 // APIs
 import { queryUserList } from '@/db';
+import { getProjects } from '@/api';
 
 // Components
 import { CreateTaskFormWrapper } from '@/ui';
 import { ItemNotFound } from '@/components';
 
-// APIs
-import { getProjects } from '@/api';
-
 // Constants
-import { ERROR_MESSAGES, FIELDS, ORDER_TYPES } from '@/constants';
+import { ERROR_MESSAGES, FIELDS, ORDER_TYPES, QUERY_PARAMS } from '@/constants';
 
 const CreateTaskPage = async () => {
   const { data: userList, error: userError } = await queryUserList();
   const { data: projectList, error: projectError } = await getProjects({
+    query: [
+      {
+        field: QUERY_PARAMS.IS_ARCHIVED,
+        comparison: '!=',
+        value: true,
+      },
+    ],
     orderItem: {
       field: FIELDS.TITLE,
       type: ORDER_TYPES.DESC,

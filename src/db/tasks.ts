@@ -1,5 +1,6 @@
 import {
   QueryConstraint,
+  addDoc,
   collection,
   getCountFromServer,
   query,
@@ -7,13 +8,14 @@ import {
 } from 'firebase/firestore';
 
 // DB
+import { getDocument, updateDocument } from './query';
 import { db } from '@/config';
 
 // Constants
-import { COLLECTION, QUERY_PARAMS } from '@/constants';
+import { COLLECTION, ERROR_MESSAGES, QUERY_PARAMS } from '@/constants';
 
 // Models
-import { ResponseStateType } from '@/models';
+import { Project, ResponseStateType, Task } from '@/models';
 
 export const countTaskByType = async (
   field: string,
@@ -40,6 +42,70 @@ export const countTaskByType = async (
       success: false,
       data: value,
       total: 0,
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const createTask = async (
+  data: Omit<Task, 'id'>,
+): Promise<ResponseStateType<Task | null>> => {
+  try {
+    const project = await getDocument<Project>(
+      COLLECTION.PROJECTS,
+      data.projectId,
+    );
+    if (project.data) {
+      if (project.data.isArchived) {
+        throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
+      }
+      const taskResponse = await addDoc(collection(db, COLLECTION.TASKS), data);
+      return {
+        success: true,
+        data: {
+          ...data,
+          id: taskResponse.id,
+        },
+      };
+    }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
+};
+
+export const updateTask = async (
+  id: string,
+  data: Task,
+): Promise<ResponseStateType<Task | null>> => {
+  try {
+    const project = await getDocument<Project>(
+      COLLECTION.PROJECTS,
+      data.projectId,
+    );
+    if (project.data) {
+      if (project.data.isArchived) {
+        throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
+      }
+      const task = await getDocument<Task>(COLLECTION.PROJECTS, id);
+      if (task.data) {
+        await updateDocument(COLLECTION.TASKS, data);
+        return {
+          data,
+          success: true,
+        };
+      }
+      throw new Error(ERROR_MESSAGES.UPSERTING_DATA_ERROR(id));
+    }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
       error: (error as Error).message,
     };
   }

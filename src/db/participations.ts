@@ -9,32 +9,42 @@ import { db } from '@/config';
 import { COLLECTION, ERROR_MESSAGES, QUERY_PARAMS } from '@/constants';
 
 // Models
-import { Participation, ResponseStateType } from '@/models';
+import { Participation, Project, ResponseStateType } from '@/models';
 
 // Query
-import { getDocuments } from './query';
+import { getDocument, getDocuments } from './query';
 
-export async function assignUsersToProject(
+export const assignUsersToProject = async (
   participants: string[],
   projectId: string,
   rollbackFunction?: (id: string) => Promise<unknown>,
   isProjectRecentlyCreated = false,
-): Promise<ResponseStateType<string[]>> {
+): Promise<ResponseStateType<string[]>> => {
   try {
-    const batch = writeBatch(db);
-    participants.forEach((userId: string) => {
-      batch.set(doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`), {
-        userId: userId,
-        projectId: projectId,
-        createdAt: new Date().toISOString(),
-        isArchived: false,
+    const project = await getDocument<Project>(COLLECTION.PROJECTS, projectId);
+    if (project.data) {
+      if (project.data.isArchived) {
+        throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
+      }
+      const batch = writeBatch(db);
+      participants.forEach((userId: string) => {
+        batch.set(
+          doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`),
+          {
+            userId: userId,
+            projectId: projectId,
+            createdAt: new Date().toISOString(),
+            isArchived: false,
+          },
+        );
       });
-    });
-    await batch.commit();
-    return {
-      success: true,
-      data: participants,
-    };
+      await batch.commit();
+      return {
+        success: true,
+        data: participants,
+      };
+    }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
   } catch (error) {
     isProjectRecentlyCreated &&
       rollbackFunction &&
@@ -45,26 +55,33 @@ export async function assignUsersToProject(
       error: ERROR_MESSAGES.UPSERTING_DATA_ERROR('Participations'),
     };
   }
-}
+};
 
-export async function removeUsersFromProject(
+export const removeUsersFromProject = async (
   participants: string[],
   projectId: string,
   rollbackFunction?: (id: string) => Promise<unknown>,
   isProjectRecentlyCreated = false,
-): Promise<ResponseStateType<string[]>> {
+): Promise<ResponseStateType<string[]>> => {
   try {
-    const batch = writeBatch(db);
-    participants.forEach((userId: string) => {
-      batch.delete(
-        doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`),
-      );
-    });
-    await batch.commit();
-    return {
-      success: true,
-      data: participants,
-    };
+    const project = await getDocument<Project>(COLLECTION.PROJECTS, projectId);
+    if (project.data) {
+      if (project.data.isArchived) {
+        throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
+      }
+      const batch = writeBatch(db);
+      participants.forEach((userId: string) => {
+        batch.delete(
+          doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`),
+        );
+      });
+      await batch.commit();
+      return {
+        success: true,
+        data: participants,
+      };
+    }
+    throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
   } catch (error) {
     isProjectRecentlyCreated &&
       rollbackFunction &&
@@ -78,11 +95,11 @@ export async function removeUsersFromProject(
       ),
     };
   }
-}
+};
 
-export async function queryParticipationsByProjectId(
+export const queryParticipationsByProjectId = async (
   projectId: string,
-): Promise<ResponseStateType<Participation[]>> {
+): Promise<ResponseStateType<Participation[]>> => {
   try {
     const response = await getDocuments<Participation>(
       COLLECTION.PARTICIPATIONS,
@@ -111,4 +128,4 @@ export async function queryParticipationsByProjectId(
   } catch (error) {
     return { success: false, data: [], error: (error as Error).message };
   }
-}
+};

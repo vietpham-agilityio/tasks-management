@@ -40,6 +40,7 @@ const ProjectFormContent = ({
   responseMessage,
   isDisabled,
   isCreated,
+  isReadOnly = false,
 }: {
   memberOptions: User[];
   control: Control<ProjectFormType>;
@@ -47,6 +48,7 @@ const ProjectFormContent = ({
   responseMessage?: string;
   isDisabled: boolean;
   isCreated?: boolean;
+  isReadOnly?: boolean;
 }) => {
   const { pending } = useFormStatus();
 
@@ -69,6 +71,7 @@ const ProjectFormContent = ({
                 setValue('slug', generateSlug(value.target.value));
               }}
               customClass="py-5"
+              readOnly={isReadOnly}
               disabled={pending}
               {...rest}
             />
@@ -99,6 +102,8 @@ const ProjectFormContent = ({
               onChange={(value) => {
                 onChange(value);
               }}
+              readOnly={isReadOnly}
+              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -130,6 +135,7 @@ const ProjectFormContent = ({
                 onChange(value);
               }}
               customClass="py-5"
+              readOnly={isReadOnly}
               disabled={pending}
               {...rest}
             />
@@ -164,7 +170,7 @@ const ProjectFormContent = ({
                 value: member.id,
               }))}
               selectedOptions={value}
-              disabled={pending}
+              disabled={pending || isReadOnly}
               onBlur={onBlur}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -195,6 +201,7 @@ const ProjectFormContent = ({
                 onChange(value);
               }}
               customClass="py-5"
+              readOnly={isReadOnly}
               disabled={pending}
               {...rest}
             />
@@ -228,7 +235,7 @@ const ProjectFormContent = ({
               customClass={{
                 label: 'text-md',
               }}
-              disabled={pending}
+              disabled={pending || isReadOnly}
               {...rest}
             />
             <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
@@ -246,7 +253,7 @@ const ProjectFormContent = ({
       <Button
         type="submit"
         customClass="w-full justify-center py-[19px] font-bold mb-8"
-        disabled={isDisabled}
+        disabled={isDisabled || isReadOnly}
         isLoading={pending}
       >
         {isCreated ? 'Create' : 'Edit'} Project
@@ -271,7 +278,8 @@ export const ProjectForm = ({
   participations,
   onSubmit,
 }: ProjectFormProps) => {
-  const { title, description, slug, image, isPublic } = projectValue || {};
+  const { title, description, slug, image, isPublic, isArchived } =
+    projectValue || {};
 
   const projectFormInitValues: ProjectFormType = useMemo(
     () => ({
@@ -333,6 +341,7 @@ export const ProjectForm = ({
         isDisabled={isDisabled}
         responseMessage={state?.error}
         isCreated={isEmpty(projectValue)}
+        isReadOnly={isArchived}
       />
     </form>
   );

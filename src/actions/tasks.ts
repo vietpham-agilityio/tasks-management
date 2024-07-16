@@ -5,8 +5,6 @@ import { revalidateTag } from 'next/cache';
 
 // Constants
 import {
-  COLLECTION,
-  ERROR_MESSAGES,
   ROUTES,
   TAGS,
   TASK_PRIORITY_VALUE,
@@ -15,7 +13,7 @@ import {
 } from '@/constants';
 
 // DB
-import { addDocument, updateDocument } from '@/db';
+import { createTask, updateTask } from '@/db';
 
 // Models
 import { Task, TaskFormState, TaskFormType } from '@/models';
@@ -47,7 +45,7 @@ const taskPayload = (values: TaskFormType, session: Session) => {
   };
 };
 
-export const createTask = async (
+export const addTaskToProject = async (
   prevState: TaskFormState,
   values: TaskFormType,
 ) => {
@@ -68,25 +66,8 @@ export const createTask = async (
         let result: TaskFormState = {};
 
         if (validators.success && session?.user.id) {
-          result = { success: true };
-
           const data: Omit<Task, 'id'> = taskPayload(values, session);
-
-          const taskResponse = await addDocument<Omit<Task, 'id'>>(
-            COLLECTION.TASKS,
-            data,
-          );
-
-          if (!taskResponse?.success) {
-            throw new Error(ERROR_MESSAGES.UPSERTING_DATA_ERROR('Task'));
-          }
-
-          if (taskResponse.success) {
-            result = {
-              ...result,
-              data: taskResponse.data,
-            };
-          }
+          return await createTask(data);
         }
 
         if (validators.error) {
@@ -110,7 +91,8 @@ export const createTask = async (
   }
   if (response.success && response?.data) {
     revalidateTag(TAGS.TASK_LIST);
-    redirect(ROUTES.ADMIN_TASK_DETAIL(response?.data.id));
+    revalidateTag(TAGS.PROJECT_DETAIL(response.data.projectId));
+    redirect(ROUTES.ADMIN_PROJECT_DETAIL(response.data.projectId));
   }
   return response;
 };
@@ -141,11 +123,7 @@ export const editTask = async (
 
           const payload: Task = { ...taskPayload(values, session), id: taskId };
 
-          const taskResponse = await updateDocument(COLLECTION.TASKS, payload);
-
-          if (!taskResponse?.success) {
-            throw new Error(ERROR_MESSAGES.UPSERTING_DATA_ERROR('Task'));
-          }
+          return await updateTask(taskId, payload);
         }
 
         if (validators.error) {
@@ -167,9 +145,10 @@ export const editTask = async (
       error: (error as Error).message,
     };
   }
-  if (response.success) {
-    revalidateTag(TAGS.TASK_DETAIL(taskId));
+  if (response.success && response.data) {
     revalidateTag(TAGS.TASK_LIST);
+    revalidateTag(TAGS.TASK_DETAIL(taskId));
+    redirect(ROUTES.ADMIN_PROJECT_DETAIL(response.data.projectId));
   }
   return response;
 };

@@ -114,6 +114,7 @@ const TaskFormContent = ({
                 onChange(value);
                 setValue('slug', generateSlug(value.target.value));
               }}
+              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -145,6 +146,7 @@ const TaskFormContent = ({
               onChange={(value) => {
                 onChange(value);
               }}
+              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -176,6 +178,7 @@ const TaskFormContent = ({
               onChange={(value) => {
                 onChange(value);
               }}
+              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -207,6 +210,7 @@ const TaskFormContent = ({
               onChange={(value) => {
                 onChange(value);
               }}
+              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -233,7 +237,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2">
               <label className="font-bold text-md">Status</label>
               <Dropdown
-                disabled={isReadOnly}
+                disabled={pending || isReadOnly}
                 placeholder="Status"
                 options={TASK_STATUS_OPTIONS}
                 selectedItemValue={value}
@@ -266,7 +270,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2 z-10">
               <label className="font-bold text-md">Priority</label>
               <Dropdown
-                disabled={isReadOnly}
+                disabled={pending || isReadOnly}
                 placeholder="Priority"
                 options={TASK_PRIORITY_OPTIONS}
                 selectedItemValue={value}
@@ -301,7 +305,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Assigned To</label>
             <Dropdown
-              disabled={isReadOnly}
+              disabled={pending || isReadOnly}
               placeholder="Assigned To User"
               options={assginedToOptions.map((user) => ({
                 name: user.name,
@@ -336,7 +340,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Project</label>
             <Dropdown
-              disabled={isReadOnly}
+              disabled={pending || isReadOnly}
               placeholder="Select a Project"
               options={listProject.map((project) => ({
                 name: project.title,
@@ -370,7 +374,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Due Date</label>
             <Input
-              readOnly={isReadOnly}
+              readOnly={isReadOnly || pending}
               placeholder="Due Date"
               type="date"
               value={formatDate(value, DATE_FORMAT.Tertiary)}

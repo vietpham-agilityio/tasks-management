@@ -12,7 +12,7 @@ export type QueryParam = {
   query?: {
     field: string;
     comparison: WhereFilterOp;
-    value: string | string[];
+    value: string | string[] | boolean;
   }[];
   limitItem?: number;
   page?: number;

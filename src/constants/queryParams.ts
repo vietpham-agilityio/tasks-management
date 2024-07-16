@@ -6,6 +6,7 @@ export const QUERY_PARAMS = {
   ASSIGNED_TO: 'assignedTo',
   CREATED_BY: 'createdBy',
   SLUG: 'slug',
+  IS_ARCHIVED: 'isArchived',
 };
 
 export const ORDER_BY = {

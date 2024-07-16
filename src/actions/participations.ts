@@ -38,7 +38,7 @@ export const editParticipants = async (
           // Get array of old participations from db
           const previousPartipcipantsResponse =
             await queryParticipationsByProjectId(args.projectId);
-          if (!previousPartipcipantsResponse.data) {
+          if (previousPartipcipantsResponse.error) {
             throw new Error(previousPartipcipantsResponse.error);
           }
           // Get the removed participations
