@@ -9,19 +9,18 @@ import { editTask } from '@/actions';
 import { TaskForm } from '../TaskForm';
 
 // Models
-import { User } from '@/types';
-import { Project, Task } from '@/models';
+import { Participation, Project, Task } from '@/models';
 
 type CreateTaskFormWrapperProps = {
-  memberOptions: User[];
-  listProject: Project[];
+  memberOptions: Participation[];
+  project: Project;
   taskData: Task;
   isProjectArchived: boolean;
 };
 
 export const EditTaskFormWrapper = ({
   memberOptions,
-  listProject,
+  project,
   taskData,
   isProjectArchived,
 }: CreateTaskFormWrapperProps) => {
@@ -33,7 +32,7 @@ export const EditTaskFormWrapper = ({
     <TaskForm
       state={state}
       assginedToOptions={memberOptions}
-      fromProject={listProject}
+      fromProject={project}
       taskValue={taskData}
       onSubmit={dispatch}
       isReadOnly={isProjectArchived}

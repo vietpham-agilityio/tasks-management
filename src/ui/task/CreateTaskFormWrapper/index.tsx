@@ -9,17 +9,16 @@ import { addTaskToProject } from '@/actions';
 import { TaskForm } from '../TaskForm';
 
 // Models
-import { User } from '@/types';
-import { Project } from '@/models';
+import { Participation, Project } from '@/models';
 
 type CreateTaskFormWrapperProps = {
-  memberOptions: User[];
-  listProject: Project[];
+  memberOptions: Participation[];
+  project: Project;
 };
 
 export const CreateTaskFormWrapper = ({
   memberOptions,
-  listProject,
+  project,
 }: CreateTaskFormWrapperProps) => {
   const initialState = { message: null, formErrors: {} };
   const [state, dispatch] = useFormState(addTaskToProject, initialState);
@@ -27,7 +26,7 @@ export const CreateTaskFormWrapper = ({
   return (
     <TaskForm
       assginedToOptions={memberOptions}
-      fromProject={listProject}
+      fromProject={project}
       state={state}
       onSubmit={dispatch}
     />

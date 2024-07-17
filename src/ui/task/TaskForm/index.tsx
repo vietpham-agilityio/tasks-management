@@ -19,8 +19,13 @@ import {
 } from '@/constants';
 
 // Models
-import { User } from '@/types';
-import { Task, Project, TaskFormState, TaskFormType } from '@/models';
+import {
+  Task,
+  Project,
+  TaskFormState,
+  TaskFormType,
+  Participation,
+} from '@/models';
 
 // Utils
 import {
@@ -44,8 +49,8 @@ const STATUS_FIELD = 'status';
 const PROJECT_ID_FIELD = 'projectId';
 
 type TaskFormProps = {
-  assginedToOptions: User[];
-  fromProject: Project[];
+  assginedToOptions: Participation[];
+  fromProject: Project;
   taskValue?: Task;
   state: TaskFormState;
   isReadOnly?: boolean;
@@ -53,30 +58,10 @@ type TaskFormProps = {
 };
 
 type TaskFormContentType = {
-  assginedToOptions: User[];
-  listProject: Project[];
-  control: Control<{
-    title: string;
-    slug: string;
-    description: string;
-    image?: string;
-    status: string;
-    priority: string;
-    assignedTo: string;
-    projectId: string;
-    dueDate: Date;
-  }>;
-  setValue: UseFormSetValue<{
-    title: string;
-    status: string;
-    slug: string;
-    description: string;
-    dueDate: Date;
-    priority: string;
-    assignedTo: string;
-    projectId: string;
-    image?: string | undefined;
-  }>;
+  assginedToOptions: Participation[];
+  fromProject: Project;
+  control: Control<TaskFormType>;
+  setValue: UseFormSetValue<TaskFormType>;
   responseMessage?: string;
   isDisabled: boolean;
   isCreated?: boolean;
@@ -85,7 +70,7 @@ type TaskFormContentType = {
 
 const TaskFormContent = ({
   assginedToOptions,
-  listProject,
+  fromProject,
   control,
   setValue,
   responseMessage,
@@ -309,7 +294,7 @@ const TaskFormContent = ({
               placeholder="Assigned To User"
               options={assginedToOptions.map((user) => ({
                 name: user.name,
-                value: user.id,
+                value: user.userId,
               }))}
               selectedItemValue={value}
               onSelect={(value) => {
@@ -330,40 +315,16 @@ const TaskFormContent = ({
         )}
       />
 
-      <Controller
-        name="projectId"
-        control={control}
-        render={({
-          field: { onChange, value, onBlur },
-          fieldState: { error },
-        }) => (
-          <div className="flex flex-col gap-2">
-            <label className="font-bold text-md">Project</label>
-            <Dropdown
-              disabled={pending || isReadOnly}
-              placeholder="Select a Project"
-              options={listProject.map((project) => ({
-                name: project.title,
-                value: project.id,
-              }))}
-              selectedItemValue={value}
-              onSelect={(value) => {
-                onChange(value);
-              }}
-              onBlur={onBlur}
-            />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
-              {error?.message && (
-                <Text
-                  customClass="text-xs px-0 whitespace-pre"
-                  value={error?.message}
-                  variant="error"
-                />
-              )}
-            </span>
-          </div>
-        )}
-      />
+      <div className="flex flex-col gap-2 mb-8">
+        <label className="font-bold text-md ">Project</label>
+        <Input
+          readOnly={true}
+          value={fromProject.title}
+          onChange={() => {}}
+          customClass="py-5"
+        />
+        <div />
+      </div>
       <Controller
         name="dueDate"
         control={control}
@@ -520,7 +481,7 @@ export const TaskForm = ({
     <form className="dark:text-white" action={handleSubmit}>
       <TaskFormContent
         assginedToOptions={assginedToOptions}
-        listProject={fromProject}
+        fromProject={fromProject}
         control={control}
         setValue={setValue}
         responseMessage={state?.error}

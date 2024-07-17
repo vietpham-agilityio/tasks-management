@@ -22,7 +22,7 @@ import {
 } from '@/constants';
 
 // Models
-import { Project, ProjectFormType, ResponseStateType, Task } from '@/models';
+import { Project, ProjectFormType, ResponseStateType } from '@/models';
 
 export const createProject = async (
   values: Omit<Project, 'id'>,
@@ -145,20 +145,6 @@ export const getProjectDetailBySlug = async (
       success: true,
       data: response.data[0],
     };
-  }
-  return {
-    success: false,
-    data: null,
-    error: ERROR_MESSAGES.DATA_NOT_FOUND,
-  };
-};
-
-export const getProjectDetailByTagId = async (
-  id: string,
-): Promise<ResponseStateType<Project | null>> => {
-  const response = await getDocument<Task>(COLLECTION.TASKS, id);
-  if (response.data) {
-    return await getProjectDetail(response.data.projectId);
   }
   return {
     success: false,

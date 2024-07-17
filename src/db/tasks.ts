@@ -93,7 +93,7 @@ export const updateTask = async (
       if (project.data.isArchived) {
         throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
       }
-      const task = await getDocument<Task>(COLLECTION.PROJECTS, id);
+      const task = await getDocument<Task>(COLLECTION.TASKS, id);
       if (task.data) {
         await updateDocument(COLLECTION.TASKS, data);
         return {
