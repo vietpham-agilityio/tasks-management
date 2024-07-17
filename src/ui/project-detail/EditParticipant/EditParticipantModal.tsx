@@ -37,7 +37,7 @@ type EditParticipantModalBaseProps = {
   setModalState: (value: boolean) => void;
 };
 
-const DEFAULT_REQUIRED_FIELDS = ['members'];
+const DEFAULT_REQUIRED_FIELDS = ['memberIds'];
 
 const EditParticipantModalBase = ({
   projectId,
@@ -52,7 +52,7 @@ const EditParticipantModalBase = ({
 
   const participantsFormInitValues: ParticipationFormType = useMemo(
     () => ({
-      members: participations || [],
+      memberIds: participations || [],
     }),
     [participations],
   );
@@ -88,7 +88,12 @@ const EditParticipantModalBase = ({
   const handleSubmit: SubmitHandler<ParticipationFormType> = useCallback(
     async (values) => {
       setLoading(true);
-      const response = await editParticipants(projectId, values);
+      const response = await editParticipants(projectId, {
+        ...values,
+        members: memberOptions.filter((member) =>
+          values.memberIds.includes(member.id),
+        ),
+      });
       setLoading(false);
       if (response.formErrors) {
         setServerActionErrors(response.formErrors, setError);
@@ -114,6 +119,7 @@ const EditParticipantModalBase = ({
       openToast,
       participantsFormInitValues,
       projectId,
+      memberOptions,
       reset,
       router,
       setError,
@@ -135,7 +141,7 @@ const EditParticipantModalBase = ({
       }}
     >
       <Controller
-        name="members"
+        name="memberIds"
         control={control}
         render={({
           field: { onChange, value, onBlur },

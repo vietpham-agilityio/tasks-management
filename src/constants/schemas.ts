@@ -46,7 +46,7 @@ export const ProjectFormDataSchema = z.object({
   description: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   image: z.string().url().optional().or(z.literal('')),
   isPublic: z.boolean(),
-  members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
+  memberIds: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
 });
 
 export const TaskFormDataSchema = z.object({
@@ -62,5 +62,5 @@ export const TaskFormDataSchema = z.object({
 });
 
 export const ParticipationFormDataSchema = z.object({
-  members: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
+  memberIds: z.string().array().min(1, ERROR_MESSAGES.FIELD_REQUIRED),
 });

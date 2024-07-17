@@ -74,7 +74,9 @@ export const deleteProject = async (
 
 export const updateProject = async (
   id: string,
-  values: Omit<ProjectFormType, 'members'> & { updatedAt: string },
+  values: Omit<ProjectFormType, 'memberIds'> & {
+    updatedAt: string;
+  },
 ): Promise<ResponseStateType<Project | null>> => {
   try {
     // Get data from db

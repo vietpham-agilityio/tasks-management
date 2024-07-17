@@ -18,12 +18,12 @@ export const AvatarGroup = ({
 
   return (
     <div className="flex -space-x-4" data-testid="avatar-group">
-      {itemsToShow.map(({ userId, avatar }) => {
+      {itemsToShow.map(({ userId, name, avatar }) => {
         return (
           <div key={userId}>
             <Avatar
               src={avatar || ''}
-              name={userId}
+              name={name}
               customClass="border-white border-2"
               variant="circle"
             />

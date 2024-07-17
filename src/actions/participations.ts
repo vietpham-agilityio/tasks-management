@@ -12,21 +12,24 @@ import {
 } from '@/db';
 
 // Models
-import { ParticipationFormState, ParticipationFormType } from '@/models';
+import {
+  ParticipationFormState,
+  ParticipationFormTypeWithMembers,
+} from '@/models';
 
 // HOCs
 import { withAuth } from '@/hocs';
 
 export const editParticipants = async (
   projectId: string,
-  newData: ParticipationFormType,
+  newData: ParticipationFormTypeWithMembers,
 ) => {
   let response: ParticipationFormState = {};
   try {
     response = await withAuth<
       {
         projectId: string;
-        newData: ParticipationFormType;
+        newData: ParticipationFormTypeWithMembers;
       },
       ParticipationFormState
     >(
@@ -44,7 +47,7 @@ export const editParticipants = async (
           // Get the removed participations
           const removedParticipant = previousPartipcipantsResponse.data
             .map((usr) => usr.userId)
-            .filter((user) => !args.newData.members.includes(user));
+            .filter((user) => !args.newData.memberIds.includes(user));
           // Unassign members from project
           const removedParticipantRepsonse = await removeUsersFromProject(
             removedParticipant,
@@ -55,7 +58,7 @@ export const editParticipants = async (
           }
           // Include current user into the list of participants
           const assignedParticipantResponse = await assignUsersToProject(
-            [...args.newData.members, session.user.id],
+            [...args.newData.members, { ...session.user }],
             projectId,
           );
           if (assignedParticipantResponse.error) {

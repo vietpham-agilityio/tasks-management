@@ -28,7 +28,7 @@ import {
   EditProjetDataType,
   Project,
   ProjectFormState,
-  ProjectFormType,
+  ProjectFormTypeWithMembers,
   ResponseStateType,
 } from '@/models';
 
@@ -37,14 +37,14 @@ import { withAuth } from '@/hocs';
 
 export const createProjectWithParticipants = async (
   prevState: ProjectFormState,
-  values: ProjectFormType,
+  values: ProjectFormTypeWithMembers,
 ) => {
   let response: ProjectFormState = {};
   try {
     response = await withAuth<
       {
         prevState: ProjectFormState;
-        values: ProjectFormType;
+        values: ProjectFormTypeWithMembers;
       },
       ProjectFormState
     >(
@@ -75,7 +75,7 @@ export const createProjectWithParticipants = async (
           if (projectResponse.success && projectResponse.data) {
             // Include current user into the list of participants
             const participantResponse = await assignUsersToProject(
-              [...values.members, session.user.id],
+              [...args.values.members, { ...session.user }],
               projectResponse.data.id,
               deleteProject,
               true,
@@ -119,7 +119,7 @@ export const createProjectWithParticipants = async (
 export const updateProjectWithParticipants = async (
   id: string,
   prevState: ProjectFormState,
-  newData: ProjectFormType,
+  newData: ProjectFormTypeWithMembers,
 ) => {
   let response: ProjectFormState = {};
   try {
@@ -127,7 +127,7 @@ export const updateProjectWithParticipants = async (
       {
         id: string;
         prevState: ProjectFormState;
-        newData: ProjectFormType;
+        newData: ProjectFormTypeWithMembers;
       },
       ProjectFormState
     >(
@@ -150,6 +150,10 @@ export const updateProjectWithParticipants = async (
             throw new Error(projectResponse.error);
           }
           if (projectResponse.success && projectResponse.data) {
+            result = {
+              ...result,
+              data: projectResponse.data,
+            };
             // Get array of old participations from db
             const previousPartipcipantsResponse =
               await queryParticipationsByProjectId(id);
@@ -159,7 +163,7 @@ export const updateProjectWithParticipants = async (
             // Get the removed participations
             const removedParticipant = previousPartipcipantsResponse.data
               .map((usr) => usr.userId)
-              .filter((user) => !newData.members.includes(user));
+              .filter((user) => !newData.memberIds.includes(user));
             // Unassign members from project
             const removedParticipantRepsonse = await removeUsersFromProject(
               removedParticipant,
@@ -170,7 +174,7 @@ export const updateProjectWithParticipants = async (
             }
             // Include current user into the list of participants
             const assignedParticipantResponse = await assignUsersToProject(
-              [...newData.members, session.user.id],
+              [...args.newData.members, { ...session.user }],
               id,
             );
             if (assignedParticipantResponse.error) {
