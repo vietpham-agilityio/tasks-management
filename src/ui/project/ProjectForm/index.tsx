@@ -11,7 +11,12 @@ import { Button, Checkbox, Input, MultipleSelect, Text } from '@/components';
 import { ProjectFormDataSchema } from '@/constants';
 
 // Models
-import { Project, ProjectFormState, ProjectFormType } from '@/models';
+import {
+  Project,
+  ProjectFormState,
+  ProjectFormType,
+  ProjectFormTypeWithMembers,
+} from '@/models';
 import { User } from '@/types';
 
 // Utils
@@ -23,14 +28,14 @@ import {
   setServerActionErrors,
 } from '@/utils';
 
-const DEFAULT_REQUIRED_FIELDS = ['title', 'description', 'members'];
+const DEFAULT_REQUIRED_FIELDS = ['title', 'description', 'memberIds'];
 
 type ProjectFormProps = {
   memberOptions: User[];
   state: ProjectFormState;
   projectValue?: Project;
   participations?: string[];
-  onSubmit: (formValues: ProjectFormType) => void;
+  onSubmit: (formValues: ProjectFormTypeWithMembers) => void;
 };
 
 const ProjectFormContent = ({
@@ -152,7 +157,7 @@ const ProjectFormContent = ({
         )}
       />
       <Controller
-        name="members"
+        name="memberIds"
         control={control}
         render={({
           field: { onChange, value, onBlur },
@@ -288,7 +293,7 @@ export const ProjectForm = ({
       description: description || '',
       image: image || '',
       isPublic: isPublic !== undefined ? isPublic : true,
-      members: participations || [],
+      memberIds: participations || [],
     }),
     [title, slug, description, image, isPublic, participations],
   );
@@ -321,7 +326,12 @@ export const ProjectForm = ({
 
   const handleSubmit = () => {
     const formValues = getValues();
-    onSubmit(formValues);
+    onSubmit({
+      ...formValues,
+      members: memberOptions.filter((member) =>
+        getValues('memberIds').includes(member.id),
+      ),
+    });
   };
 
   useEffect(() => {

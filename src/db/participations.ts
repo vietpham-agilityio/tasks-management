@@ -1,6 +1,7 @@
 'use server';
 
 import { doc, writeBatch } from 'firebase/firestore';
+import { User } from 'next-auth';
 
 // Configs
 import { db } from '@/config';
@@ -15,11 +16,11 @@ import { Participation, Project, ResponseStateType } from '@/models';
 import { getDocument, getDocuments } from './query';
 
 export const assignUsersToProject = async (
-  participants: string[],
+  participants: User[],
   projectId: string,
   rollbackFunction?: (id: string) => Promise<unknown>,
   isProjectRecentlyCreated = false,
-): Promise<ResponseStateType<string[]>> => {
+): Promise<ResponseStateType<User[]>> => {
   try {
     const project = await getDocument<Project>(COLLECTION.PROJECTS, projectId);
     if (project.data) {
@@ -27,14 +28,14 @@ export const assignUsersToProject = async (
         throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
       }
       const batch = writeBatch(db);
-      participants.forEach((userId: string) => {
+      participants.forEach((user) => {
         batch.set(
-          doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`),
+          doc(db, COLLECTION.PARTICIPATIONS, `${user.id}-${projectId}`),
           {
-            userId: userId,
+            userId: user.id,
+            name: user.name,
             projectId: projectId,
             createdAt: new Date().toISOString(),
-            isArchived: false,
           },
         );
       });
