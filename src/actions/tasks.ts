@@ -5,6 +5,7 @@ import { revalidateTag } from 'next/cache';
 
 // Constants
 import {
+  ERROR_MESSAGES,
   ROUTES,
   TAGS,
   TASK_PRIORITY_VALUE,
@@ -13,10 +14,10 @@ import {
 } from '@/constants';
 
 // DB
-import { createTask, updateTask } from '@/db';
+import { deleteTask, updateTask, createTask, getTaskDetailById } from '@/db';
 
 // Models
-import { Task, TaskFormState, TaskFormType } from '@/models';
+import { ResponseStateType, Task, TaskFormState, TaskFormType } from '@/models';
 
 // Types
 import { Session } from 'next-auth';
@@ -151,4 +152,39 @@ export const editTask = async (
     redirect(ROUTES.ADMIN_PROJECT_DETAIL(response.data.projectId));
   }
   return response;
+};
+
+export const removeTask = async (taskId: string) => {
+  try {
+    return await withAuth<
+      {
+        taskId: string;
+      },
+      ResponseStateType<{ taskId: string } | null>
+    >(
+      async (args) => {
+        const { taskId } = args;
+        const task = await getTaskDetailById(taskId);
+
+        if (task.data) {
+          const result = await deleteTask(taskId);
+
+          if (result.success) {
+            revalidateTag(TAGS.TASK_LIST);
+            revalidateTag(TAGS.TASK_DETAIL(taskId));
+            revalidateTag(TAGS.TASK_DETAIL(task.data.slug));
+          }
+          return result;
+        }
+        throw new Error(ERROR_MESSAGES.REQUESTING_DATA);
+      },
+      { taskId },
+    );
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: (error as Error).message,
+    };
+  }
 };
