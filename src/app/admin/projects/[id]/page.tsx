@@ -28,6 +28,10 @@ const ProjectDetailPage = async ({
   const { data: projectData, error: projectError } =
     await getProjectById(projectId);
 
+  if (projectError) {
+    return <ErrorMessage message={projectError} />;
+  }
+
   if (!projectData) {
     return (
       <ItemNotFound
@@ -38,10 +42,6 @@ const ProjectDetailPage = async ({
         }}
       />
     );
-  }
-
-  if (projectError) {
-    return <ErrorMessage message={projectError} />;
   }
 
   return (

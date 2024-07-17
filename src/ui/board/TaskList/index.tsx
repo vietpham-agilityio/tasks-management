@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 import { getTaskStatistic } from '@/api';
 
 // Components
-import { ItemNotFound, StatCard } from '@/components';
+import { ErrorMessage, ItemNotFound, StatCard } from '@/components';
 
 // Constants
 import {
@@ -87,17 +87,7 @@ const TaskList = async () => {
     },
   };
 
-  if (error)
-    return (
-      <ItemNotFound
-        title="Error"
-        description={error}
-        customClass={{
-          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg',
-          description: 'text-red-500',
-        }}
-      />
-    );
+  if (error) return <ErrorMessage message={error} />;
 
   if (data.length == 0) {
     return (
