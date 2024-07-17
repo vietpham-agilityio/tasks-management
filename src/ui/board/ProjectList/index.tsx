@@ -5,7 +5,7 @@ import { getProjects } from '@/api';
 import { auth } from '@/auth';
 
 // Components
-import { ItemNotFound, OverviewCard } from '@/components';
+import { ErrorMessage, ItemNotFound, OverviewCard } from '@/components';
 
 // Constants
 import { LIMIT_ITEMS, ORDER_BY, ROUTES } from '@/constants';
@@ -18,17 +18,9 @@ const ProjectList = async () => {
     orderItem: { field: ORDER_BY.UPDATED_AT, type: 'desc' },
   });
 
-  if (error)
-    return (
-      <ItemNotFound
-        title="Error"
-        description={error}
-        customClass={{
-          wrapper: 'bg-white dark:bg-zinc-800 h-full rounded-lg',
-          description: 'text-red-500',
-        }}
-      />
-    );
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
 
   if (data.length == 0) {
     return (

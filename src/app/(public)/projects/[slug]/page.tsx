@@ -22,6 +22,10 @@ const ProjectDetailPage = async ({ params }: { params: { slug: string } }) => {
     { options: { tags: [TAGS.PROJECT_DETAIL(slug)] } },
   );
 
+  if (projectError) {
+    return <ErrorMessage message={projectError} />;
+  }
+
   if (!projectData) {
     return (
       <ItemNotFound
@@ -32,10 +36,6 @@ const ProjectDetailPage = async ({ params }: { params: { slug: string } }) => {
         }}
       />
     );
-  }
-
-  if (projectError) {
-    return <ErrorMessage message={projectError} />;
   }
 
   return (
