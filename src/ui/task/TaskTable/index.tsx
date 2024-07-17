@@ -27,7 +27,7 @@ import { VariantType } from '@/types';
 import { Task } from '@/models';
 
 interface TaskTableProps {
-  isAdmin?: boolean;
+  isAuthenticated?: boolean;
   data: Task[];
   total?: number;
 }
@@ -60,7 +60,7 @@ const labelMapping = {
 };
 
 export const TaskTable = async ({
-  isAdmin = false,
+  isAuthenticated = false,
   data,
   total,
 }: TaskTableProps) => {
@@ -102,7 +102,7 @@ export const TaskTable = async ({
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap w-full max-w-0 xl:w-auto">
                   <Link
                     href={
-                      isAdmin
+                      isAuthenticated
                         ? ROUTES.ADMIN_TASK_DETAIL(task.id)
                         : ROUTES.TASK_DETAIL(task.slug)
                     }
@@ -138,7 +138,7 @@ export const TaskTable = async ({
                 <td>
                   <Link
                     href={
-                      isAdmin
+                      isAuthenticated
                         ? ROUTES.ADMIN_TASK_DETAIL(task.id)
                         : ROUTES.TASK_DETAIL(task.slug)
                     }

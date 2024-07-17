@@ -1,9 +1,14 @@
+import { Suspense } from 'react';
+
+// Authentication
+import { auth } from '@/auth';
+
 // Icons
 import { FaPlus } from 'react-icons/fa';
 
 // Components
 import { ProjectTable } from '@/ui';
-import { ErrorMessage, NavLink } from '@/components';
+import { ErrorMessage, NavLink, TableSkeleton } from '@/components';
 
 // Constants
 import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, ROUTES } from '@/constants';
@@ -19,6 +24,8 @@ const ProjectListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
+  const session = await auth();
+
   const { page = '1' } = searchParams;
 
   const { data, error, total } = await getProjects({
@@ -45,7 +52,9 @@ const ProjectListPage = async ({
           className="bg-neutral-800 text-white font-bold py-3"
         />
       </div>
-      <ProjectTable isAdmin={true} data={data} total={total} />
+      <Suspense fallback={<TableSkeleton />}>
+        <ProjectTable isAuthenticated={!!session} data={data} total={total} />
+      </Suspense>
     </main>
   );
 };

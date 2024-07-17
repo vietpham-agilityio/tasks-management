@@ -1,3 +1,6 @@
+// Authentication
+import { auth } from '@/auth';
+
 // Components
 import { ProjectTable } from '@/ui';
 import { ErrorMessage } from '@/components';
@@ -16,6 +19,8 @@ const ProjectListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
+  const session = await auth();
+
   const { page = '1' } = searchParams;
 
   const { data, error, total } = await getProjects({
@@ -36,7 +41,7 @@ const ProjectListPage = async ({
           <h1 className="font-bold text-3xl">Projects</h1>
         </div>
       </div>
-      <ProjectTable isAdmin={true} data={data} total={total} />
+      <ProjectTable isAuthenticated={!!session} data={data} total={total} />
     </main>
   );
 };

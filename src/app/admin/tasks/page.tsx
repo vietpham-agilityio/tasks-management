@@ -1,6 +1,12 @@
 // Components
+import { Suspense } from 'react';
+
+// Authentication
+import { auth } from '@/auth';
+
+// Components
 import { TaskTable } from '@/ui';
-import { ErrorMessage } from '@/components';
+import { ErrorMessage, TableSkeleton } from '@/components';
 
 // Constants
 import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, QUERY_PARAMS } from '@/constants';
@@ -16,6 +22,7 @@ const TaskListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
+  const session = await auth();
   const { page = '1', sortBy, status, priority } = searchParams;
 
   const query: QueryFilter[] = [];
@@ -59,7 +66,9 @@ const TaskListPage = async ({
           <h1 className="font-bold text-3xl dark:text-white">Tasks</h1>
         </div>
       </div>
-      <TaskTable isAdmin={true} data={data} total={total} />
+      <Suspense fallback={<TableSkeleton />}>
+        <TaskTable isAuthenticated={!!session} data={data} total={total} />
+      </Suspense>
     </main>
   );
 };
