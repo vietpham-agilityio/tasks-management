@@ -38,7 +38,7 @@ const UpserProjectPage = async ({
             : 'Create a Project'}
         </h1>
       </div>
-      <div className="bg-white rounded-lg">
+      <div className="bg-white dark:bg-zinc-800 rounded-lg">
         <div className="w-full md:w-2/3 max-w-3xl p-10 mx-auto ">
           {error ? (
             <ItemNotFound

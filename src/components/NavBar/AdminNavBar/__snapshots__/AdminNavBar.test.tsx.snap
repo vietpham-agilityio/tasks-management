@@ -64,7 +64,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
       </svg>
     </div>
     <div
-      class="mt-2 rounded-lg bg-white dark:bg-zinc-800 px-3 py-4 w-full absolute lg:static lg:block z-50"
+      class="mt-2 rounded-lg bg-white dark:bg-zinc-800 px-3 py-4 w-full absolute lg:static lg:block z-50 hidden"
     >
       <span
         class="text-xs pb-2 font-bold text-zinc-500 dark:text-white "
@@ -206,8 +206,5 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
       </div>
     </div>
   </nav>
-  <div
-    class="opacity-50 fixed inset-0 z-40 bg-black lg:hidden"
-  />
 </div>
 `;

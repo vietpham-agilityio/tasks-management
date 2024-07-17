@@ -22,14 +22,18 @@ import { cn } from '@/utils';
 
 export const AdminNavBar = () => {
   const pathName = usePathname();
-  const [isShowNavBar, setShowNavBar] = useState(true);
+  const [isShowNavBar, setShowNavBar] = useState(false);
 
   const toggleShowNavBar = () => {
     setShowNavBar(!isShowNavBar);
   };
 
-  const navBarRef = useOutsideClick(() => {
+  const handleCloseNavBar = () => {
     setShowNavBar(false);
+  };
+
+  const navBarRef = useOutsideClick(() => {
+    handleCloseNavBar();
   });
 
   // TODO: Handle Sign Out
@@ -72,6 +76,7 @@ export const AdminNavBar = () => {
                   key={`nav-link-${label}`}
                   isActive={isActivePath}
                   {...route}
+                  onClick={handleCloseNavBar}
                 />
               );
             })}

@@ -6,7 +6,7 @@ exports[`Input component renders the default Input 1`] = `
   "baseElement": <body>
     <div>
       <input
-        class="p-4 border border-zinc-300 focus:outline focus:outline-zinc-300 rounded-lg w-full dark:border-gray-700 dark:focus:outline-gray-700 dark:focus:border-gray-700 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-50 text-zinc-700 dark:bg-zinc-800 dark:text-white"
+        class="p-4 border border-zinc-300 focus:outline focus:outline-zinc-300 rounded-lg w-full dark:border-gray-700 dark:focus:outline-gray-700 dark:focus:border-gray-700 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-white"
         placeholder="Type here"
         type="text"
         value=""
@@ -15,7 +15,7 @@ exports[`Input component renders the default Input 1`] = `
   </body>,
   "container": <div>
     <input
-      class="p-4 border border-zinc-300 focus:outline focus:outline-zinc-300 rounded-lg w-full dark:border-gray-700 dark:focus:outline-gray-700 dark:focus:border-gray-700 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-50 text-zinc-700 dark:bg-zinc-800 dark:text-white"
+      class="p-4 border border-zinc-300 focus:outline focus:outline-zinc-300 rounded-lg w-full dark:border-gray-700 dark:focus:outline-gray-700 dark:focus:border-gray-700 disabled:cursor-not-allowed disabled:opacity-50 bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-white"
       placeholder="Type here"
       type="text"
       value=""

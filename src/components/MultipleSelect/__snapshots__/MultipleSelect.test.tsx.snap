@@ -6,7 +6,7 @@ exports[`Dropdown Component Should match snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
+        class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800 dark:border-gray-700"
         data-testid="multiple-select"
         tabindex="1"
       >
@@ -24,7 +24,7 @@ exports[`Dropdown Component Should match snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800"
+      class="w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800 dark:border-gray-700"
       data-testid="multiple-select"
       tabindex="1"
     >

@@ -43,7 +43,7 @@ const Input = forwardRef(
         className={clsx(
           baseClass,
           {
-            'bg-zinc-50 text-zinc-700 dark:bg-zinc-800 dark:text-white':
+            'bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-white':
               variant === 'primary',
             'bg-transparent text-zinc-500 dark:text-white':
               variant === 'outline',
