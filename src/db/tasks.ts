@@ -2,6 +2,8 @@ import {
   QueryConstraint,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getCountFromServer,
   query,
   where,
@@ -108,5 +110,44 @@ export const updateTask = async (
       data: null,
       error: (error as Error).message,
     };
+  }
+};
+
+export const deleteTask = async (taskId: string) => {
+  try {
+    await deleteDoc(doc(db, COLLECTION.TASKS, taskId));
+    return {
+      success: true,
+      data: {
+        taskId,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: ERROR_MESSAGES.REMOVING_DATA_ERROR('Task', taskId),
+    };
+  }
+};
+
+export const getTaskDetailById = async (taskId: string) => {
+  try {
+    const response = await getDocument<Task>(COLLECTION.TASKS, taskId);
+
+    if (response?.data) {
+      return {
+        ...response,
+        success: true,
+      };
+    }
+    return {
+      ...response,
+      data: null,
+      success: false,
+      error: ERROR_MESSAGES.DATA_NOT_FOUND,
+    };
+  } catch (error) {
+    return { success: false, data: null, error: (error as Error).message };
   }
 };

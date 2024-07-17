@@ -33,7 +33,7 @@ export const Toast = ({
   customClass,
 }: ToastProps) => {
   const baseClass =
-    'fixed -translate-x-1/2 left-1/2 bottom-0 flex items-center justify-between w-full max-w-sm px-4 py-2 mb-4 rounded-lg z-2 text-white fill-white';
+    'fixed -translate-x-1/2 left-1/2 bottom-0 flex items-center justify-between w-full max-w-sm px-4 py-2 mb-4 rounded-lg z-10 text-white fill-white';
   return (
     <div
       className={cn(

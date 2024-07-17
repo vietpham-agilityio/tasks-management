@@ -4,19 +4,26 @@ import { useState } from 'react';
 import { Session } from 'next-auth';
 
 // Icons
+import { FaTrash } from 'react-icons/fa';
 import { ClockIcon } from '@/icons';
 
 // Components
 import { Badge, BaseModal, Button, OverviewCard } from '@/components';
 
 // Constants
-import { DATE_FORMAT, ROUTES } from '@/constants';
+import { DATE_FORMAT, ROUTES, SUCCESS_MESSAGES } from '@/constants';
 
 // Types
 import { Task } from '@/models';
 
 // Utils
 import { formatDate } from '@/utils';
+
+// Actions
+import { removeTask } from '@/actions';
+
+// HOCs
+import { TWithToast, withToast } from '@/hocs';
 
 type DeleteTaskWrapperProps = {
   session: Session | null;
@@ -68,20 +75,34 @@ export const DeleteTaskWrapper = ({
   );
 };
 
-type ConfirmDeleteTaskModalProps = {
+type ConfirmDeleteTaskProps = {
   taskId: string;
   isOpen: boolean;
   setModalState: (value: boolean) => void;
 };
 
-const ConfirmDeleteTaskModal = ({
+const ConfirmDeleteTask = ({
   taskId,
   isOpen,
   setModalState,
-}: ConfirmDeleteTaskModalProps) => {
-  const handleDeleteTask = () => {
-    //TODO: Handle delete task
-    return taskId;
+  openToast,
+}: TWithToast<ConfirmDeleteTaskProps>) => {
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  const handleDeleteTask = async () => {
+    setLoading(true);
+    const { success, error } = await removeTask(taskId);
+    setLoading(false);
+    setModalState(false);
+    if (success) {
+      openToast({
+        variant: 'success',
+        message: SUCCESS_MESSAGES.REMOVE_PROJECT,
+      });
+    }
+    if (error) {
+      openToast({ variant: 'error', message: error });
+    }
   };
 
   return (
@@ -93,8 +114,19 @@ const ConfirmDeleteTaskModal = ({
         modalWrappper: 'max-w-screen-sm top-40',
       }}
     >
-      <p className="my-6">Are you sure to delete this task?</p>
-      <Button onClick={handleDeleteTask}>Delete</Button>
+      <p className="my-6">Do you want to remove this task?</p>
+      <div className="w-full flex justify-end mb-2">
+        <Button
+          isLoading={isLoading}
+          startIcon={<FaTrash className="w-5 h-5 mr-2" />}
+          customClass="dark:bg-red-500"
+          onClick={handleDeleteTask}
+        >
+          Delete
+        </Button>
+      </div>
     </BaseModal>
   );
 };
+
+export const ConfirmDeleteTaskModal = withToast(ConfirmDeleteTask);
