@@ -95,7 +95,7 @@ export const Dropdown = ({
       <Button
         variant="outline"
         customClass={cn(
-          'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300',
+          'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:outline-gray-800',
           !selectedValue && 'text-zinc-400',
           customClass?.button,
         )}
@@ -103,7 +103,7 @@ export const Dropdown = ({
         endIcon={
           <GoChevronDown
             className={cn(
-              'h-6 w-6 text-slate-500 transform duration-300 ease-in-out',
+              'h-6 w-6 text-neutral-900 dark:text-white transform duration-300 ease-in-out',
               {
                 'rotate-180': isOpenDropdown,
               },
