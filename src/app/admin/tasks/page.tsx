@@ -1,25 +1,15 @@
-// Icons
-import { FaPlus } from 'react-icons/fa';
-
 // Components
 import { TaskTable } from '@/ui';
-import { ErrorMessage, NavLink } from '@/components';
+import { ErrorMessage } from '@/components';
 
 // Constants
-import {
-  FIELDS,
-  LIMIT_ITEMS,
-  ORDER_TYPES,
-  QUERY_PARAMS,
-  ROUTES,
-} from '@/constants';
+import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, QUERY_PARAMS } from '@/constants';
 
 // APIs
 import { getTasks } from '@/api';
 
 // Types
-import { SearchParams } from '@/types';
-import { WhereFilterOp } from 'firebase/firestore';
+import { QueryFilter, SearchParams } from '@/types';
 
 const TaskListPage = async ({
   searchParams,
@@ -28,14 +18,14 @@ const TaskListPage = async ({
 }) => {
   const { page = '1', sortBy, status, priority } = searchParams;
 
-  const query = [];
+  const query: QueryFilter[] = [];
 
   if (status) {
     const statusFilterList = decodeURIComponent(status)?.split(',');
 
     query.push({
       field: QUERY_PARAMS.STATUS,
-      comparison: 'in' as WhereFilterOp,
+      comparison: 'in',
       value: statusFilterList,
     });
   }
@@ -45,7 +35,7 @@ const TaskListPage = async ({
 
     query.push({
       field: QUERY_PARAMS.PRIORITY,
-      comparison: 'in' as WhereFilterOp,
+      comparison: 'in',
       value: priorityFilterList,
     });
   }
@@ -68,12 +58,6 @@ const TaskListPage = async ({
         <div className=" dark:text-white ">
           <h1 className="font-bold text-3xl dark:text-white">Tasks</h1>
         </div>
-        <NavLink
-          href={ROUTES.ADMIN_TASK_CREATE()}
-          label="Create New Task"
-          icon={<FaPlus />}
-          className="bg-neutral-800 text-white font-bold py-3"
-        />
       </div>
       <TaskTable isAdmin={true} data={data} total={total} />
     </main>

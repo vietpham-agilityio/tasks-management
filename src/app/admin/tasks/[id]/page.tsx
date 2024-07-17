@@ -1,36 +1,24 @@
 // APIs
-import { queryUserList } from '@/db';
-import { getProjectByTaskId, getTaskById } from '@/api';
+import { getTaskById } from '@/api';
 
 // Components
-import { EditTaskFormWrapper } from '@/ui';
+import { EditTaskContainer } from '@/ui';
 import { ErrorMessage, ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, FIELDS, ORDER_TYPES } from '@/constants';
-import { getProjects } from '@/api';
+import { ERROR_MESSAGES } from '@/constants';
 
 const EditTaskPage = async ({ params }: { params: { id: string } }) => {
-  const { data: userList, error: userListError } = await queryUserList();
-  const { data: projectList, error: projectListError } = await getProjects({
-    orderItem: {
-      field: FIELDS.TITLE,
-      type: ORDER_TYPES.DESC,
-    },
-  });
   const { data: taskData, error: taskError } = await getTaskById(params.id);
-  const { data: projectData, error: projectError } = await getProjectByTaskId(
-    params.id,
-  );
 
   // Determine if there is an error in fetching data
-  const error = userListError || projectListError || taskError || projectError;
+  const error = taskError;
 
   const renderTaskDetail = () => {
     if (error) {
       return <ErrorMessage message={error} />;
     }
-    if (!projectData || !taskData) {
+    if (!taskData) {
       return (
         <ItemNotFound
           title={ERROR_MESSAGES.DATA_NOT_FOUND}
@@ -41,14 +29,7 @@ const EditTaskPage = async ({ params }: { params: { id: string } }) => {
         />
       );
     }
-    return (
-      <EditTaskFormWrapper
-        memberOptions={userList}
-        listProject={projectList}
-        taskData={taskData}
-        isProjectArchived={projectData.isArchived}
-      />
-    );
+    return <EditTaskContainer taskData={taskData} />;
   };
 
   return (
