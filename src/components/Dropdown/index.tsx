@@ -95,7 +95,7 @@ export const Dropdown = ({
       <Button
         variant="outline"
         customClass={cn(
-          'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:outline-gray-800',
+          'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-zinc-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:border-gray-700',
           !selectedValue && 'text-zinc-400',
           customClass?.button,
         )}
@@ -116,16 +116,12 @@ export const Dropdown = ({
       </Button>
       {isOpenDropdown && (
         <div
-          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-neutral-900 overflow-y-auto max-h-40 rounded-xl"
+          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-zinc-900 overflow-y-auto max-h-40 rounded-lg border border-gray-200 dark:border-gray-700 mt-2"
           style={{
             width: dropdownRef?.current?.clientWidth,
           }}
         >
-          <ul
-            className="rounded-lg border border-gray-200 mt-2 "
-            data-testid="options"
-            ref={listRef}
-          >
+          <ul data-testid="options" ref={listRef}>
             {options.map((item) => {
               const { value, name } = item;
 

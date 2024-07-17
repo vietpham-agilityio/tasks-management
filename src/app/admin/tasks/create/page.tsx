@@ -52,7 +52,7 @@ const CreateTaskPage = async ({
       <div className="w-full text-center py-4">
         <h1 className="font-bold text-3xl">Create a Task</h1>
       </div>
-      <div className="bg-white rounded-lg">
+      <div className="bg-white dark:bg-zinc-800 rounded-lg">
         <div className="w-full md:w-2/3 max-w-3xl p-10 mx-auto ">
           {renderCreateTask()}
         </div>

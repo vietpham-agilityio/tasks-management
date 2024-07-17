@@ -82,6 +82,17 @@ const TaskFormContent = ({
 
   return (
     <div>
+      <div className="flex flex-col gap-2 mb-8">
+        <label className="font-bold text-md ">Project</label>
+        <Input
+          readOnly={true}
+          value={fromProject.title}
+          disabled
+          customClass="py-5"
+        />
+        <div />
+      </div>
+
       <Controller
         name="title"
         control={control}
@@ -103,7 +114,9 @@ const TaskFormContent = ({
               customClass="py-5"
               {...rest}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
@@ -135,7 +148,9 @@ const TaskFormContent = ({
               customClass="py-5"
               {...rest}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
@@ -167,7 +182,9 @@ const TaskFormContent = ({
               customClass="py-5"
               {...rest}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
@@ -199,7 +216,9 @@ const TaskFormContent = ({
               customClass="py-5"
               {...rest}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
@@ -232,7 +251,10 @@ const TaskFormContent = ({
                 onBlur={onBlur}
               />
               <span
-                className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}
+                className={cn(
+                  'bg-transparent',
+                  error?.message ? 'mb-2' : 'mb-8',
+                )}
               >
                 {error?.message && (
                   <Text
@@ -265,7 +287,10 @@ const TaskFormContent = ({
                 onBlur={onBlur}
               />
               <span
-                className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}
+                className={cn(
+                  'bg-transparent',
+                  error?.message ? 'mb-2' : 'mb-8',
+                )}
               >
                 {error?.message && (
                   <Text
@@ -302,7 +327,9 @@ const TaskFormContent = ({
               }}
               onBlur={onBlur}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
@@ -315,16 +342,6 @@ const TaskFormContent = ({
         )}
       />
 
-      <div className="flex flex-col gap-2 mb-8">
-        <label className="font-bold text-md ">Project</label>
-        <Input
-          readOnly={true}
-          value={fromProject.title}
-          onChange={() => {}}
-          customClass="py-5"
-        />
-        <div />
-      </div>
       <Controller
         name="dueDate"
         control={control}
@@ -346,7 +363,9 @@ const TaskFormContent = ({
               customClass="py-5"
               {...rest}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
