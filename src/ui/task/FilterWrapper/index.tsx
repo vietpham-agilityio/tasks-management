@@ -20,16 +20,16 @@ import { getQueryParams } from '@/utils';
 
 export const STATUS_OPTIONS: OptionType[] = [
   {
+    name: 'Done',
+    value: 'done',
+  },
+  {
     name: 'Not Started',
     value: 'not_started',
   },
   {
     name: 'In Progress',
     value: 'in_progress',
-  },
-  {
-    name: 'Done',
-    value: 'done',
   },
 ];
 
@@ -38,13 +38,14 @@ export const PRIORITY_OPTIONS: OptionType[] = [
     name: 'Low',
     value: 'low',
   },
-  {
-    name: 'Medium',
-    value: 'medium',
-  },
+
   {
     name: 'High',
     value: 'high',
+  },
+  {
+    name: 'Medium',
+    value: 'medium',
   },
 ];
 
@@ -148,7 +149,7 @@ export const FilterWrapper = ({ showStatusFilter }: FilterWrapperProps) => {
           placeholder="Sort"
           customClass={{
             placeholder: 'text-black dark:text-white',
-            button: 'pb-[11px] pt-3 px-5',
+            button: 'py-[11px] sm:pb-[11px] sm:pt-3 px-5',
           }}
           options={SORT_OPTIONS}
           onSelect={handleSelectSort}

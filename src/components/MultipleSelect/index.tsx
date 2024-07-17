@@ -95,11 +95,12 @@ export const MultipleSelect = ({
               {filteredSelectedOptions.map(({ value, name }: OptionType) => (
                 <span
                   key={value}
-                  className={`flex items-center border border-zinc-300 rounded-lg bg-gray-200 p-2 text-sm dark:text-white dark:bg-neutral-700`}
+                  className={`flex items-center border border-zinc-300 rounded-lg bg-gray-200 py-1 px-1 text-sm dark:text-white dark:bg-neutral-700 sm:p-2`}
                 >
                   {name}
                   <button
                     name="members"
+                    aria-label={`multiple-select-${value}`}
                     className="ml-2 pl-2 border-l border-zinc-300 cursor-pointer dark:border-white disabled:cursor-not-allowed"
                     onClick={() => handleRemove(value!)}
                     data-testid={`multiple-select-${value}`}
@@ -130,7 +131,7 @@ export const MultipleSelect = ({
             ))}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
-              className="absolute w-full px-2 pb-2 bg-zinc-50 dark:bg-neutral-900 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"
+              className="absolute z-10 w-full px-2 pb-2 bg-zinc-50 dark:bg-neutral-900 rounded-lg border border-zinc-300 outline outline-1 outline-zinc-300 overflow-y-auto max-h-48"
               data-testid="options"
             >
               {filteredOptions.map(({ value, name }: OptionType) => (
