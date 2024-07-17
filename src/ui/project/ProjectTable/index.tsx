@@ -17,13 +17,13 @@ import { formatDate } from '@/utils';
 import { Project } from '@/models';
 
 type ProjectTableProps = {
-  isAdmin?: boolean;
+  isAuthenticated?: boolean;
   data: Project[];
   total?: number;
 };
 
 export const ProjectTable = async ({
-  isAdmin = false,
+  isAuthenticated = false,
   data,
   total,
 }: ProjectTableProps) => {
@@ -57,7 +57,7 @@ export const ProjectTable = async ({
               <td className="px-2 sm:px-6 py-4 font-medium whitespace-nowrap w-full max-w-0 sm:w-auto">
                 <Link
                   href={
-                    isAdmin
+                    isAuthenticated
                       ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
                       : ROUTES.PROJECT_DETAIL(project.slug)
                   }
@@ -88,7 +88,7 @@ export const ProjectTable = async ({
                   />
                   <Link
                     href={
-                      isAdmin
+                      isAuthenticated
                         ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
                         : ROUTES.PROJECT_DETAIL(project.slug)
                     }

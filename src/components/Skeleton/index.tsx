@@ -5,3 +5,4 @@ export { StatCardSkeleton } from './StatCardSkeleton';
 export { TaskListSkeleton } from './TaskListSkeleton';
 export { ProjectHeaderSkeleton } from './ProjectHeaderSkeleton';
 export { TaskSectionSkeleton } from './TaskSectionSkeleton';
+export { TableSkeleton } from './TableSkeleton';
