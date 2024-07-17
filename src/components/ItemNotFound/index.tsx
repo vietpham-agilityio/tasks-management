@@ -19,7 +19,7 @@ export const ItemNotFound = ({
   return (
     <div
       className={cn(
-        'text-center py-10 flex flex-col gap-4 items-center justify-center',
+        'text-center py-10 flex flex-col gap-4 items-center justify-center dark:bg-zinc-800',
         customClass?.wrapper,
       )}
     >

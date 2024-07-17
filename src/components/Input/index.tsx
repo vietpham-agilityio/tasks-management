@@ -1,15 +1,9 @@
-import {
-  ChangeEventHandler,
-  ForwardedRef,
-  InputHTMLAttributes,
-  forwardRef,
-} from 'react';
+import { ForwardedRef, InputHTMLAttributes, forwardRef } from 'react';
 import clsx from 'clsx';
 
 type InputProps = {
   variant?: 'primary' | 'outline' | 'fill';
   value?: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
   customClass?: string;
   disabled?: boolean;
