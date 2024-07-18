@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 
 // Components
 import { ProjectList, RecentlyCreatedTasktList, TaskList } from '@/ui';
@@ -7,6 +8,12 @@ import {
   RecentlyCreatedTaskListSkeleton,
   TaskListSkeleton,
 } from '@/components';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description:
+    'A comprehensive web application for managing projects and tasks, providing tools for tracking progress, assigning priorities, and collaborating with team members.',
+};
 
 const BoardsPage = () => {
   return (

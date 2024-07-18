@@ -1,5 +1,8 @@
 import { Suspense } from 'react';
 
+// Metadata
+import { Metadata } from 'next';
+
 // APIs
 import { getProjectBySlug } from '@/api';
 
@@ -17,6 +20,21 @@ import { TAGS, TASK_STATUS_OPTIONS } from '@/constants';
 
 // Types
 import { SearchParams } from '@/types';
+
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = params.slug;
+
+  const { data: project } = await getProjectBySlug(slug);
+
+  return {
+    title: project?.title,
+    description: project?.description,
+  };
+}
 
 const ProjectDetailPage = async ({
   params,
