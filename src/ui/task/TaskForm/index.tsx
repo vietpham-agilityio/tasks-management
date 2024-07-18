@@ -377,14 +377,17 @@ const TaskFormContent = ({
           </div>
         )}
       />
-      <Button
-        type="submit"
-        customClass="w-full justify-center py-[19px] font-bold mb-8"
-        disabled={isDisabled || isReadOnly}
-        isLoading={pending}
-      >
-        {isCreated ? 'Create' : 'Edit'} Task
-      </Button>
+      {!isReadOnly && (
+        <Button
+          type="submit"
+          customClass="w-full justify-center py-[19px] font-bold mb-8"
+          disabled={isDisabled}
+          isLoading={pending}
+        >
+          {isCreated ? 'Create' : 'Edit'} Task
+        </Button>
+      )}
+
       <span className={cn('mt-3', responseMessage ? 'mb-2' : 'mb-8')}>
         {responseMessage && (
           <Text

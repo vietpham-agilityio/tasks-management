@@ -1,7 +1,12 @@
 import { unstable_cache as cache } from 'next/cache';
 
 // DB
-import { getDocument, getDocuments, countTaskByType } from '@/db';
+import {
+  getDocument,
+  getDocuments,
+  countTaskByType,
+  getTaskDetailBySlug,
+} from '@/db';
 
 // Constants
 import { COLLECTION, TAGS } from '@/constants';
@@ -139,4 +144,15 @@ export const getTaskById = async (id: string) => {
       error: (error as Error).message,
     };
   }
+};
+
+export const getTaskBySlug = async (
+  slug: string,
+  cacheOptions?: CacheOption,
+) => {
+  return await cache(
+    getTaskDetailBySlug,
+    [TAGS.TASK_DETAIL(slug), ...(cacheOptions?.keyParts || [])],
+    cacheOptions?.options,
+  )(slug);
 };

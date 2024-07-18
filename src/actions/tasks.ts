@@ -149,6 +149,7 @@ export const editTask = async (
   if (response.success && response.data) {
     revalidateTag(TAGS.TASK_LIST);
     revalidateTag(TAGS.TASK_DETAIL(taskId));
+    revalidateTag(TAGS.TASK_DETAIL(response.data.slug));
     redirect(ROUTES.ADMIN_PROJECT_DETAIL(response.data.projectId));
   }
   return response;
