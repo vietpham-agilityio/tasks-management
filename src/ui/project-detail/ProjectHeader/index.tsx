@@ -82,8 +82,8 @@ export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
           </time>
         </div>
       </div>
-      <div className="flex h-12 justify-between mt-5">
-        <FilterWrapper />
+      <div className="flex flex-col-reverse gap-5 lg:flex-row justify-between mt-5">
+        <FilterWrapper assignedToList={participationData} />
         <div className="mt-0.5">
           {session && (
             <ProjectActionBar projectId={id} isArchived={isArchived} />

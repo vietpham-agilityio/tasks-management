@@ -23,7 +23,7 @@ const ProjectDetailPage = async ({
   searchParams: SearchParams;
 }) => {
   const projectId = params.id;
-  const { sortBy, priority } = searchParams;
+  const { sortBy, priority, userId } = searchParams;
 
   const { data: projectData, error: projectError } =
     await getProjectById(projectId);
@@ -60,6 +60,7 @@ const ProjectDetailPage = async ({
               projectId={projectData.id}
               sortBy={sortBy}
               priority={priority}
+              userId={userId}
               title={name}
               value={value}
               isShowCreateTask={!projectData.isArchived}

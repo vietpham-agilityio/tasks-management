@@ -14,6 +14,7 @@ type OverviewCardProps = {
   href: string;
   title: string;
   description: string;
+  helperText?: string;
   imageSrc?: string;
   time?: string;
   isRowDisplay?: boolean;
@@ -26,6 +27,7 @@ type OverviewCardProps = {
     title?: string;
     time?: string;
     description?: string;
+    helperText?: string;
     avatar?: string;
   };
   onClickDelete?: () => void;
@@ -35,6 +37,7 @@ export const OverviewCard = ({
   href,
   title,
   description,
+  helperText,
   imageSrc,
   time,
   isRowDisplay = false,
@@ -114,6 +117,14 @@ export const OverviewCard = ({
             )}
           >
             {description}
+          </div>
+          <div
+            className={cn(
+              'text-xs text-zinc-500 truncate pt-3',
+              customClass?.helperText,
+            )}
+          >
+            {helperText}
           </div>
           {avatarSrc && (
             <div className="flex justify-end pt-3">

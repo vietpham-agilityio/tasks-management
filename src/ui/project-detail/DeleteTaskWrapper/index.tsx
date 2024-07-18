@@ -36,7 +36,7 @@ export const DeleteTaskWrapper = ({
   task,
   isLate,
 }: DeleteTaskWrapperProps) => {
-  const { id, title, description, image, dueDate } = task;
+  const { id, title, description, image, dueDate, priority } = task;
   const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -50,6 +50,7 @@ export const DeleteTaskWrapper = ({
         href={session ? ROUTES.ADMIN_TASK_DETAIL(id) : ROUTES.TASK_DETAIL(id)}
         title={title}
         description={description}
+        helperText={`Priority: ${priority.toUpperCase()}`}
         imageSrc={image}
         hasDeleteButton={session ? true : false}
         onClickDelete={handleOpenModal}

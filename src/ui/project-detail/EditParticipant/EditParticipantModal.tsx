@@ -161,7 +161,9 @@ const EditParticipantModalBase = ({
               onBlur={onBlur}
               disabled={isLoading}
             />
-            <span className={cn('bg-white', error?.message ? 'mb-2' : 'mb-8')}>
+            <span
+              className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
+            >
               {error?.message && (
                 <Text
                   customClass="text-xs px-0 whitespace-pre"
