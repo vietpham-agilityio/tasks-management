@@ -26,4 +26,5 @@ export interface SearchParams {
   sortBy?: ORDER_TYPES;
   status?: TASK_STATUS_VALUE;
   priority?: TASK_PRIORITY_VALUE;
+  projectId?: string;
 }

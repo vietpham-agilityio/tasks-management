@@ -1,4 +1,3 @@
-// Components
 import { Suspense } from 'react';
 
 // Authentication
@@ -6,16 +5,10 @@ import { auth } from '@/auth';
 
 // Components
 import { TaskTable } from '@/ui';
-import { ErrorMessage, TableSkeleton } from '@/components';
-
-// Constants
-import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, QUERY_PARAMS } from '@/constants';
-
-// APIs
-import { getTasks } from '@/api';
+import { TableSkeleton } from '@/components';
 
 // Types
-import { QueryFilter, SearchParams } from '@/types';
+import { SearchParams } from '@/types';
 
 const TaskListPage = async ({
   searchParams,
@@ -23,41 +16,6 @@ const TaskListPage = async ({
   searchParams: SearchParams;
 }) => {
   const session = await auth();
-  const { page = '1', sortBy, status, priority } = searchParams;
-
-  const query: QueryFilter[] = [];
-
-  if (status) {
-    const statusFilterList = decodeURIComponent(status)?.split(',');
-
-    query.push({
-      field: QUERY_PARAMS.STATUS,
-      comparison: 'in',
-      value: statusFilterList,
-    });
-  }
-
-  if (priority) {
-    const priorityFilterList = decodeURIComponent(priority)?.split(',');
-
-    query.push({
-      field: QUERY_PARAMS.PRIORITY,
-      comparison: 'in',
-      value: priorityFilterList,
-    });
-  }
-
-  const { data, error, total } = await getTasks({
-    page: parseInt(page),
-    limitItem: LIMIT_ITEMS.DEFAULT,
-    orderItem: {
-      field: FIELDS.UPDATED_AT,
-      type: sortBy || ORDER_TYPES.DESC,
-    },
-    query,
-  });
-
-  if (error) return <ErrorMessage message={error} />;
 
   return (
     <main className="bg-white dark:bg-neutral-900 p-4 h-full">
@@ -67,7 +25,7 @@ const TaskListPage = async ({
         </div>
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <TaskTable isAuthenticated={!!session} data={data} total={total} />
+        <TaskTable isAuthenticated={!!session} searchParams={searchParams} />
       </Suspense>
     </main>
   );

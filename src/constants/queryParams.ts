@@ -29,5 +29,6 @@ export const SEARCH_PARAMS = {
   PAGE: 'page',
   SORT_BY: 'sortBy',
   STATUS: 'status',
+  PROJECT_ID: 'projectId',
   PRIORITY: 'priority',
 };

@@ -6,7 +6,7 @@ export const COLLECTION = {
 };
 
 export const LIMIT_ITEMS = {
-  DEFAULT: 5,
+  DEFAULT: 10,
   BOARD_PAGE: 6,
   SINGLE_RECORD: 1,
 };

@@ -12,7 +12,7 @@ import { cn } from '@/utils';
 import { useOutsideClick } from '@/hooks';
 
 // Types
-import { CustomClassType, OptionType } from '@/types';
+import { OptionType } from '@/types';
 
 // icons
 import { FilterIcon, SelectIcon } from '@/icons';
@@ -24,7 +24,11 @@ type MultipleSelectProps = {
   disabled?: boolean;
   onChange: (ids: string[]) => void;
   onBlur?: () => void;
-} & CustomClassType;
+  customClass?: {
+    wrapper?: string;
+    dropdown?: string;
+  };
+};
 
 export const MultipleSelect = ({
   title,
@@ -62,8 +66,8 @@ export const MultipleSelect = ({
 
   const dropdownRef = useOutsideClick(() => {
     setIsOpenOptions(false);
-    onChange(selectedData);
-    onBlur?.();
+    isOpenOptions && onChange(selectedData);
+    isOpenOptions && onBlur?.();
   });
 
   return (
@@ -76,7 +80,7 @@ export const MultipleSelect = ({
             'cursor-not-allowed': disabled,
             'w-auto': title,
           },
-          customClass,
+          customClass?.wrapper,
         )}
         tabIndex={1}
         onClick={showOptions}
@@ -131,7 +135,10 @@ export const MultipleSelect = ({
             ))}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
-              className="absolute z-10 w-full mt-2 px-2 pb-2 bg-zinc-50 dark:bg-neutral-900 rounded-lg border border-zinc-300 dark:border-gray-700 outline outline-1 outline-zinc-300 dark:outline-gray-700 overflow-y-auto max-h-48"
+              className={cn(
+                'absolute z-10 w-full mt-2 px-2 pb-2 bg-zinc-50 dark:bg-neutral-900 rounded-lg border border-zinc-300 dark:border-gray-700 outline outline-1 outline-zinc-300 dark:outline-gray-700 overflow-y-auto max-h-48',
+                customClass?.dropdown,
+              )}
               data-testid="options"
             >
               {filteredOptions.map(({ value, name }: OptionType) => (
