@@ -22,4 +22,6 @@ export const SUCCESS_MESSAGES = {
   ARCHIVE_PROJECT: 'Archive Project Successfully.',
   UNARCHIVE_PROJECT: 'Unarchive Project Successfully.',
   EDIT_PARTICIPANTS: 'Edit Participants Successfully.',
+  SIGNED_IN: 'Signed In Successfully. Redirecting to HomePage.',
+  SIGNED_OUT: 'Signed Out. Redirecting ... ',
 };

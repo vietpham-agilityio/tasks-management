@@ -3,11 +3,17 @@ import { RefObject, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
+// APIs
+import { logout } from '@/actions';
+
 // Components
 import { Button, NavLink, ToggleTheme } from '@/components';
 
 // Constants
-import { ADMIN_NAVIGATION_LIST, ROUTES } from '@/constants';
+import { ADMIN_NAVIGATION_LIST, ROUTES, SUCCESS_MESSAGES } from '@/constants';
+
+// HOCs
+import { TWithToast, withToast } from '@/hocs';
 
 // Hooks
 import { useOutsideClick } from '@/hooks';
@@ -20,7 +26,7 @@ import { FaSignOutAlt } from 'react-icons/fa';
 // Utils
 import { cn } from '@/utils';
 
-export const AdminNavBar = () => {
+const AdminNavBarBase = ({ openToast }: TWithToast<object>) => {
   const pathName = usePathname();
   const [isShowNavBar, setShowNavBar] = useState(false);
 
@@ -36,8 +42,13 @@ export const AdminNavBar = () => {
     handleCloseNavBar();
   });
 
-  // TODO: Handle Sign Out
-  const handleSignOut = () => {};
+  const handleSignOut = async () => {
+    await logout();
+    openToast({
+      variant: 'primary',
+      message: SUCCESS_MESSAGES.SIGNED_OUT,
+    });
+  };
 
   return (
     <>
@@ -103,3 +114,5 @@ export const AdminNavBar = () => {
     </>
   );
 };
+
+export const AdminNavBar = withToast(AdminNavBarBase);

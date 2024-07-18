@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import { signOut } from '@/auth';
 
 // Configs
 import { firebaseAuth, db } from '@/config';
@@ -72,4 +73,11 @@ export async function userSignUp(
   }
 
   return result;
+}
+
+export async function logout() {
+  await signOut({
+    redirect: true,
+    redirectTo: ROUTES.SIGN_IN,
+  });
 }

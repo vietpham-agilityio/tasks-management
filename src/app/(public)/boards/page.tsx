@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 const BoardsPage = () => {
   return (
     <main className="pt-4">
-      <div className="grid grid-cols-1 lg:grid-cols-5 md:gap-7">
-        <div className="col-span-3 flex flex-col gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-8 md:gap-7">
+        <div className="lg:col-span-6 flex flex-col gap-8">
           <Suspense fallback={<TaskListSkeleton />}>
             <TaskList />
           </Suspense>
@@ -27,7 +27,7 @@ const BoardsPage = () => {
             <ProjectList />
           </Suspense>
         </div>
-        <div className="col-span-2 pt-8 md:pt-0">
+        <div className="lg:col-span-2 pt-8 md:pt-0">
           <Suspense fallback={<RecentlyCreatedTaskListSkeleton />}>
             <RecentlyCreatedTasktList />
           </Suspense>

@@ -14,8 +14,12 @@ import {
   ERROR_MESSAGES,
   QUERY_PARAMS,
   ROUTES,
+  SUCCESS_MESSAGES,
   UserSigninFormDataSchema,
 } from '@/constants';
+
+// HOCs
+import { TWithToast, withToast } from '@/hocs';
 
 // Models
 import { UserSignin } from '@/models';
@@ -25,7 +29,7 @@ import { cn, isEnableSubmitButton } from '@/utils';
 
 const REQUIRED_FIELDS = ['email', 'password'];
 
-export const SignInForm = () => {
+export const SignInFormBase = ({ openToast }: TWithToast<object>) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get(QUERY_PARAMS.CALLBACK_URL);
 
@@ -68,6 +72,10 @@ export const SignInForm = () => {
         setError(ERROR_MESSAGES.USER_NOT_FOUND);
         return;
       }
+      openToast({
+        variant: 'success',
+        message: SUCCESS_MESSAGES.SIGNED_IN,
+      });
       router.push(callbackUrl || ROUTES.ADMIN_BOARDS);
     } catch (error) {
       setError((error as Error).message);
@@ -186,3 +194,5 @@ export const SignInForm = () => {
     </form>
   );
 };
+
+export const SignInForm = withToast(SignInFormBase);

@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { doc, getDoc } from 'firebase/firestore';
 
 // Constants
-import { COLLECTION, UserSigninFormDataSchema } from '@/constants';
+import { COLLECTION, ROUTES, UserSigninFormDataSchema } from '@/constants';
 
 // Configs
 import { db, firebaseAuth } from '@/config';
@@ -68,6 +68,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/sign-in',
+    signIn: ROUTES.SIGN_IN,
   },
 });
