@@ -21,14 +21,18 @@ import { cn } from '@/utils';
 
 export const PublicNavBar = () => {
   const pathName = usePathname();
-  const [isShowNavBar, setShowNavBar] = useState(true);
+  const [isShowNavBar, setShowNavBar] = useState(false);
+
+  const handleCloseNavBar = () => {
+    setShowNavBar(false);
+  };
 
   const toggleShowNavBar = () => {
     setShowNavBar(!isShowNavBar);
   };
 
   const navBarRef = useOutsideClick(() => {
-    setShowNavBar(false);
+    handleCloseNavBar();
   });
 
   return (
@@ -64,6 +68,7 @@ export const PublicNavBar = () => {
                 <NavLink
                   key={`nav-link-${label}`}
                   isActive={isActivePath}
+                  onClick={handleCloseNavBar}
                   {...route}
                 />
               );
