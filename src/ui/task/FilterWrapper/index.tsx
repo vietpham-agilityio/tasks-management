@@ -1,22 +1,22 @@
 'use client';
 
-import { useCallback, useMemo, useTransition } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-
-// Hooks
-import { useCombinedSearchParams } from '@/hooks';
+import { useCallback, useTransition } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 // Components
 import { Dropdown, MultipleSelect } from '@/components';
 
-// Types
-import { OptionType } from '@/types';
-
 // Constants
 import { SEARCH_PARAMS } from '@/constants';
 
+// Models
+import { Project } from '@/models';
+
+// Types
+import { OptionType, SearchParams } from '@/types';
+
 // Utils
-import { getQueryParams } from '@/utils';
+import { getQueryParams, getSearchParams } from '@/utils';
 
 export const STATUS_OPTIONS: OptionType[] = [
   {
@@ -62,85 +62,112 @@ export const SORT_OPTIONS: OptionType[] = [
 
 interface FilterWrapperProps {
   showStatusFilter?: boolean;
+  projectList?: Project[];
 }
 
-export const FilterWrapper = ({ showStatusFilter }: FilterWrapperProps) => {
+export const FilterWrapper = ({
+  showStatusFilter = false,
+  projectList = [],
+}: FilterWrapperProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { setQueryParams } = useCombinedSearchParams();
 
   const [_, startTransition] = useTransition();
 
-  const params = useMemo(
-    () => new URLSearchParams(searchParams),
-    [searchParams],
-  );
+  const searchParamsObject: SearchParams = getSearchParams(searchParams);
+  const priority =
+    (searchParamsObject.priority &&
+      decodeURIComponent(searchParamsObject.priority).split(',')) ||
+    [];
+  const status =
+    (searchParamsObject.status &&
+      decodeURIComponent(searchParamsObject.status).split(',')) ||
+    [];
+  const sortBy = searchParamsObject.sortBy || '';
+  const projectId =
+    (searchParamsObject.projectId &&
+      decodeURIComponent(searchParamsObject.projectId).split(',')) ||
+    [];
 
-  // store the current query parameters
-  const page = useMemo(() => searchParams.get('page') || '', [searchParams]);
-  const sortBy = useMemo(
-    () => searchParams.get('sortBy') || '',
-    [searchParams],
-  );
-  const status = useMemo(
-    () => searchParams.get('status') || '',
-    [searchParams],
-  );
-  const priority = useMemo(
-    () => searchParams.get('priority') || '',
-    [searchParams],
+  const updateSearchParams = useCallback(
+    (searchParamKey: string, value: string) => {
+      const search = getQueryParams({
+        ...searchParamsObject,
+        [searchParamKey]: value,
+      });
+      startTransition(() => {
+        search ? router.push(search) : router.push(pathname);
+      });
+    },
+    [searchParamsObject],
   );
 
   const handleStatusOnChange = useCallback(
     (listStatus: string[]) => {
-      const status = encodeURIComponent(listStatus.join(','));
-
-      params.set(SEARCH_PARAMS.STATUS, status);
-      startTransition(() => {
-        router.push(getQueryParams({ page, sortBy, status, priority }));
-      });
+      updateSearchParams(
+        SEARCH_PARAMS.STATUS,
+        encodeURIComponent(listStatus.join(',')),
+      );
     },
-    [page, params, priority, router, sortBy],
+    [updateSearchParams],
   );
 
   const handlePriorityOnChange = useCallback(
     (listPriority: string[]) => {
-      const priority = encodeURIComponent(listPriority.join(','));
-
-      params.set(SEARCH_PARAMS.PRIORITY, priority);
-      startTransition(() => {
-        router.push(getQueryParams({ page, sortBy, priority, status }));
-      });
+      updateSearchParams(
+        SEARCH_PARAMS.PRIORITY,
+        encodeURIComponent(listPriority.join(',')),
+      );
     },
-    [page, params, router, sortBy, status],
+    [updateSearchParams],
   );
 
+  const handleProjectOnChange = useCallback(
+    (listProject: string[]) => {
+      updateSearchParams(
+        SEARCH_PARAMS.PROJECT_ID,
+        encodeURIComponent(listProject.join(',')),
+      );
+    },
+    [updateSearchParams],
+  );
   const handleSelectSort = useCallback(
     (sortBy: string) => {
-      params.set(SEARCH_PARAMS.SORT_BY, sortBy);
-
-      const combinedQueryParams = setQueryParams({ sortBy });
-
-      startTransition(() => {
-        router.push(combinedQueryParams);
-      });
+      updateSearchParams(SEARCH_PARAMS.PROJECT_ID, sortBy);
     },
-    [params, router, setQueryParams],
+    [updateSearchParams],
   );
 
   return (
     <div className="mb-6">
       <div className="flex gap-2.5">
         <div className="flex flex-col gap-2.5 md:flex-row">
+          {projectList.length !== 0 && (
+            <MultipleSelect
+              title="Project"
+              onChange={handleProjectOnChange}
+              selectedOptions={projectId}
+              options={projectList.map((project) => ({
+                name: project.title,
+                value: project.id,
+              }))}
+              customClass={{
+                dropdown: 'w-fit',
+              }}
+            />
+          )}
           {showStatusFilter && (
             <MultipleSelect
               title="Status"
+              selectedOptions={status}
               onChange={handleStatusOnChange}
               options={STATUS_OPTIONS}
             />
           )}
           <MultipleSelect
             title="Priority"
+            selectedOptions={priority}
             onChange={handlePriorityOnChange}
             options={PRIORITY_OPTIONS}
           />
@@ -152,6 +179,7 @@ export const FilterWrapper = ({ showStatusFilter }: FilterWrapperProps) => {
             button: 'py-[11px] sm:pb-[11px] sm:pt-3 px-5',
           }}
           options={SORT_OPTIONS}
+          selectedItemValue={sortBy}
           onSelect={handleSelectSort}
         />
       </div>
