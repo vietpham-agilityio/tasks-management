@@ -22,7 +22,6 @@ import { NavLink, ErrorMessage, ItemNotFound } from '@/components';
 import { DeleteTaskWrapper } from '@/ui';
 
 // Types
-import { WhereFilterOp } from 'firebase/firestore';
 import { QueryFilter } from '@/types';
 
 // Icons
@@ -36,6 +35,7 @@ type TaskSectionProps = {
   title: string;
   sortBy?: ORDER_TYPES;
   priority?: TASK_PRIORITY_VALUE;
+  userId?: string;
   value: TASK_STATUS_VALUE;
   isShowCreateTask?: boolean;
 };
@@ -45,6 +45,7 @@ export const TaskSection = async ({
   title,
   value,
   priority,
+  userId,
   sortBy = ORDER_TYPES.DESC,
   isShowCreateTask = true,
 }: TaskSectionProps) => {
@@ -53,12 +54,12 @@ export const TaskSection = async ({
   const query: QueryFilter[] = [
     {
       field: QUERY_PARAMS.PROJECT_ID,
-      comparison: '==' as WhereFilterOp,
+      comparison: '==',
       value: projectId,
     },
     {
       field: QUERY_PARAMS.STATUS,
-      comparison: '==' as WhereFilterOp,
+      comparison: '==',
       value: value,
     },
   ];
@@ -68,8 +69,18 @@ export const TaskSection = async ({
 
     query.push({
       field: QUERY_PARAMS.PRIORITY,
-      comparison: 'in' as WhereFilterOp,
+      comparison: 'in',
       value: priorityFilterList,
+    });
+  }
+
+  if (userId) {
+    const userIdFilterList = decodeURIComponent(userId)?.split(',');
+
+    query.push({
+      field: QUERY_PARAMS.ASSIGNED_TO,
+      comparison: 'in',
+      value: userIdFilterList,
     });
   }
 

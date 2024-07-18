@@ -30,5 +30,6 @@ export const SEARCH_PARAMS = {
   SORT_BY: 'sortBy',
   STATUS: 'status',
   PROJECT_ID: 'projectId',
+  USER_ID: 'userId',
   PRIORITY: 'priority',
 };

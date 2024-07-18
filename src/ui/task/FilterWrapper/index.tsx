@@ -10,7 +10,7 @@ import { Dropdown, MultipleSelect } from '@/components';
 import { SEARCH_PARAMS } from '@/constants';
 
 // Models
-import { Project } from '@/models';
+import { Participation, Project } from '@/models';
 
 // Types
 import { OptionType, SearchParams } from '@/types';
@@ -63,11 +63,13 @@ export const SORT_OPTIONS: OptionType[] = [
 interface FilterWrapperProps {
   showStatusFilter?: boolean;
   projectList?: Project[];
+  assignedToList?: Participation[];
 }
 
 export const FilterWrapper = ({
   showStatusFilter = false,
   projectList = [],
+  assignedToList = [],
 }: FilterWrapperProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -89,6 +91,10 @@ export const FilterWrapper = ({
     (searchParamsObject.projectId &&
       decodeURIComponent(searchParamsObject.projectId).split(',')) ||
     [];
+  const userId =
+    (searchParamsObject.userId &&
+      decodeURIComponent(searchParamsObject.userId).split(',')) ||
+    [];
 
   const updateSearchParams = useCallback(
     (searchParamKey: string, value: string) => {
@@ -100,7 +106,7 @@ export const FilterWrapper = ({
         search ? router.push(search) : router.push(pathname);
       });
     },
-    [searchParamsObject],
+    [searchParamsObject, pathname, router],
   );
 
   const handleStatusOnChange = useCallback(
@@ -132,6 +138,17 @@ export const FilterWrapper = ({
     },
     [updateSearchParams],
   );
+
+  const handleUserOnChange = useCallback(
+    (listUser: string[]) => {
+      updateSearchParams(
+        SEARCH_PARAMS.USER_ID,
+        encodeURIComponent(listUser.join(',')),
+      );
+    },
+    [updateSearchParams],
+  );
+
   const handleSelectSort = useCallback(
     (sortBy: string) => {
       updateSearchParams(SEARCH_PARAMS.PROJECT_ID, sortBy);
@@ -151,6 +168,20 @@ export const FilterWrapper = ({
               options={projectList.map((project) => ({
                 name: project.title,
                 value: project.id,
+              }))}
+              customClass={{
+                dropdown: 'w-fit',
+              }}
+            />
+          )}
+          {assignedToList.length !== 0 && (
+            <MultipleSelect
+              title="Assigned To"
+              onChange={handleUserOnChange}
+              selectedOptions={userId}
+              options={assignedToList.map((user) => ({
+                name: user.name,
+                value: user.userId,
               }))}
               customClass={{
                 dropdown: 'w-fit',

@@ -27,4 +27,5 @@ export interface SearchParams {
   status?: TASK_STATUS_VALUE;
   priority?: TASK_PRIORITY_VALUE;
   projectId?: string;
+  userId?: string;
 }
