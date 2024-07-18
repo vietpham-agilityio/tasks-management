@@ -15,14 +15,14 @@ type CreateTaskFormWrapperProps = {
   memberOptions: Participation[];
   project: Project;
   taskData: Task;
-  isProjectArchived: boolean;
+  isReadOnly: boolean;
 };
 
 export const EditTaskFormWrapper = ({
   memberOptions,
   project,
   taskData,
-  isProjectArchived,
+  isReadOnly,
 }: CreateTaskFormWrapperProps) => {
   const initialState = { message: null, formErrors: {} };
   const editTaskWithId = editTask.bind(null, taskData.id);
@@ -35,7 +35,7 @@ export const EditTaskFormWrapper = ({
       fromProject={project}
       taskValue={taskData}
       onSubmit={dispatch}
-      isReadOnly={isProjectArchived}
+      isReadOnly={isReadOnly}
     />
   );
 };

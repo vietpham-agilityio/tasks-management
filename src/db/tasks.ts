@@ -10,11 +10,16 @@ import {
 } from 'firebase/firestore';
 
 // DB
-import { getDocument, updateDocument } from './query';
+import { getDocument, getDocuments, updateDocument } from './query';
 import { db } from '@/config';
 
 // Constants
-import { COLLECTION, ERROR_MESSAGES, QUERY_PARAMS } from '@/constants';
+import {
+  COLLECTION,
+  ERROR_MESSAGES,
+  LIMIT_ITEMS,
+  QUERY_PARAMS,
+} from '@/constants';
 
 // Models
 import { Project, ResponseStateType, Task } from '@/models';
@@ -150,4 +155,30 @@ export const getTaskDetailById = async (taskId: string) => {
   } catch (error) {
     return { success: false, data: null, error: (error as Error).message };
   }
+};
+
+export const getTaskDetailBySlug = async (
+  slug: string,
+): Promise<ResponseStateType<Task | null>> => {
+  const response = await getDocuments<Task>(COLLECTION.TASKS, {
+    query: [
+      {
+        field: QUERY_PARAMS.SLUG,
+        comparison: '==',
+        value: slug,
+      },
+    ],
+    limitItem: LIMIT_ITEMS.SINGLE_RECORD,
+  });
+  if (response.data.length !== 0) {
+    return {
+      success: true,
+      data: response.data[0],
+    };
+  }
+  return {
+    success: false,
+    data: null,
+    error: ERROR_MESSAGES.DATA_NOT_FOUND,
+  };
 };

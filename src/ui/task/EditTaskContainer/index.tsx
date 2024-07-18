@@ -13,10 +13,12 @@ import { Task } from '@/models';
 
 type EditTaskContainerProps = {
   taskData: Task;
+  isReadOnly?: boolean;
 };
 
 export const EditTaskContainer = async ({
   taskData,
+  isReadOnly = false,
 }: EditTaskContainerProps) => {
   const projectId = taskData.projectId;
   const { data: participantList, error: participantListError } =
@@ -45,7 +47,7 @@ export const EditTaskContainer = async ({
       memberOptions={participantList}
       project={projectData}
       taskData={taskData}
-      isProjectArchived={projectData.isArchived}
+      isReadOnly={projectData.isArchived || isReadOnly}
     />
   );
 };
