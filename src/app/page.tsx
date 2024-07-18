@@ -1,9 +1,19 @@
-const Homepage = () => {
-  return (
-    <main className="container mx-auto">
-      <h1 className="text-lg font-semibold">This is homepage</h1>
-    </main>
-  );
+import { redirect } from 'next/navigation';
+
+// Auth
+import { auth } from '@/auth';
+
+// Constants
+import { ROUTES } from '@/constants';
+
+const Homepage = async () => {
+  const session = await auth();
+
+  if (session) {
+    redirect(ROUTES.ADMIN_BOARDS);
+  } else {
+    redirect(ROUTES.BOARDS);
+  }
 };
 
 export default Homepage;
