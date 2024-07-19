@@ -16,26 +16,33 @@ exports[`OverviewCard component renders the OverviewCard match snapshot 1`] = `
         class="flex flex-1 flex-col gap-1 dark:text-white min-w-0 md:basis-3/5"
       >
         <div
-          class="w-fit flex items-center gap-2 px-2 py-1 bg-blue-950 rounded-md text-white text-sm"
+          class="flex items-center gap-2"
         >
-          <svg
-            class="w-2.5 h-2.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 12 12"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="w-fit flex items-center gap-2 px-2 py-1 bg-blue-950 rounded-md text-white text-sm"
           >
-            <path
-              d="M5.59998 4V6L6.84998 7.25"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M3.09998 1.66901C3.85974 1.22946 4.72223 0.998653 5.59998 1.00001C8.36148 1.00001 10.6 3.23851 10.6 6.00001C10.6 8.76151 8.36148 11 5.59998 11C2.83848 11 0.599976 8.76151 0.599976 6.00001C0.599976 5.08951 0.843476 4.23501 1.26898 3.50001"
-              stroke-linecap="round"
-            />
-          </svg>
-          Design Project
+            <svg
+              class="w-2.5 h-2.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 12 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.59998 4V6L6.84998 7.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3.09998 1.66901C3.85974 1.22946 4.72223 0.998653 5.59998 1.00001C8.36148 1.00001 10.6 3.23851 10.6 6.00001C10.6 8.76151 8.36148 11 5.59998 11C2.83848 11 0.599976 8.76151 0.599976 6.00001C0.599976 5.08951 0.843476 4.23501 1.26898 3.50001"
+                stroke-linecap="round"
+              />
+            </svg>
+            Design Project
+          </div>
+          <div
+            class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-semibold rounded-sm w-fit px-1 text-[10px] text-white truncate"
+          />
         </div>
         <div
           class="flex justify-between items-center "
@@ -52,13 +59,10 @@ exports[`OverviewCard component renders the OverviewCard match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="text-xs text-zinc-500 dark:text-zinc-400 truncate"
+          class="text-xs text-zinc-500 dark:text-white truncate"
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pulvinar, nisl sed commodo viverra, urna enim interdum ligula, vitae tempor lorem nibh tincidunt nisi. Aliquam pellentesque metus non sollicitudin mattis. Cras quis auctor massa, at facilisis massa. Vivamus efficitur eros eget ante aliquet semper. Nunc tempus risus turpis, et sagittis felis consectetur eu. Integer luctus felis sed neque rutrum mattis. Quisque molestie tincidunt ligula, id fermentum dui dignissim quis. Nulla facilisi. Integer eget nulla a velit aliquet commodo vitae et leo. Aliquam erat volutpat. Cras nec arcu at dui blandit maximus. Curabitur rhoncus convallis arcu, et condimentum diam facilisis sollicitudin. Quisque in gravida nunc, sit amet semper tortor. Fusce dignissim pretium odio sit amet sagittis.
         </div>
-        <div
-          class="text-xs text-zinc-500 truncate pt-3"
-        />
       </div>
     </a>
   </div>

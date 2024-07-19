@@ -36,7 +36,7 @@ export const DeleteTaskWrapper = ({
   task,
   isLate,
 }: DeleteTaskWrapperProps) => {
-  const { id, title, description, image, dueDate, priority } = task;
+  const { id, slug, title, description, image, dueDate, priority } = task;
   const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -47,10 +47,10 @@ export const DeleteTaskWrapper = ({
     <>
       <OverviewCard
         key={`task-${id}`}
-        href={session ? ROUTES.ADMIN_TASK_DETAIL(id) : ROUTES.TASK_DETAIL(id)}
+        href={session ? ROUTES.ADMIN_TASK_DETAIL(id) : ROUTES.TASK_DETAIL(slug)}
         title={title}
         description={description}
-        helperText={`Priority: ${priority.toUpperCase()}`}
+        helperText={priority.toUpperCase()}
         imageSrc={image}
         hasDeleteButton={session ? true : false}
         onClickDelete={handleOpenModal}
@@ -58,12 +58,14 @@ export const DeleteTaskWrapper = ({
           <Badge
             label={formatDate(dueDate, DATE_FORMAT.Secondary)}
             icon={<ClockIcon />}
-            customClass="rounded-md text-white text-sm"
+            customClass="rounded-md text-neutral-800 dark:text-white text-sm"
             theme={isLate ? 'error' : 'success'}
           />
         }
         customClass={{
+          title: 'mt-3',
           wrapper: 'hover:bg-zinc-300 bg-white',
+          description: 'pt-0',
         }}
       />
 

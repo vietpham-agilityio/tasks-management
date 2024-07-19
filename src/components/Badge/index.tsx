@@ -31,8 +31,8 @@ export const Badge = ({
           'bg-indigo-500': theme === 'secondary',
           'bg-purple-500': theme === 'tertiary',
           'bg-amber-400': theme === 'warning',
-          'bg-red-500': theme === 'error',
-          'bg-emerald-500': theme === 'success',
+          'bg-red-400 dark:bg-red-600': theme === 'error',
+          'bg-emerald-400 dark:bg-emerald-700': theme === 'success',
         },
         customClass,
       )}

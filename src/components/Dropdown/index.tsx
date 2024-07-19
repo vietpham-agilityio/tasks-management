@@ -89,7 +89,7 @@ export const Dropdown = ({
   return (
     <div
       ref={dropdownRef as RefObject<HTMLDivElement>}
-      tabIndex={1}
+      tabIndex={0}
       onBlur={onBlur}
     >
       <Button
