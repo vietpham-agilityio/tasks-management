@@ -131,7 +131,7 @@ export const MultipleSelect = ({
                 </div>
               </div>
             ) : (
-              <p className="p-5 opacity-50">Select options</p>
+              <p className="p-5 opacity-70">Select options</p>
             ))}
           {isOpenOptions && filteredOptions.length > 0 && (
             <div
