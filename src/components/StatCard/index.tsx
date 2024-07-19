@@ -63,7 +63,7 @@ export const StatCard = ({
           {icon}
         </div>
         <h1
-          className={cn('text-sm text-zinc-500 truncate', customClass?.title)}
+          className={cn('text-sm text-zinc-600 truncate', customClass?.title)}
         >
           {label}
         </h1>
