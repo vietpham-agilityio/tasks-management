@@ -5,28 +5,53 @@ import { Suspense } from 'react';
 import { MdArrowRightAlt } from 'react-icons/md';
 
 // Components
-import { ItemNotFound, PaginationWrapper, Text } from '@/components';
+import {
+  ErrorMessage,
+  ItemNotFound,
+  PaginationWrapper,
+  Text,
+} from '@/components';
 
 // Constants
-import { DATE_FORMAT, LIMIT_ITEMS, ROUTES } from '@/constants';
+import {
+  DATE_FORMAT,
+  LIMIT_ITEMS,
+  ROUTES,
+  ORDER_TYPES,
+  FIELDS,
+} from '@/constants';
+
+// APIs
+import { getProjects } from '@/api';
 
 // Utils
 import { formatDate } from '@/utils';
 
 // Types
-import { Project } from '@/models';
+import { SearchParams } from '@/types';
 
 type ProjectTableProps = {
   isAuthenticated?: boolean;
-  data: Project[];
-  total?: number;
+  searchParams: SearchParams;
 };
 
 export const ProjectTable = async ({
   isAuthenticated = false,
-  data,
-  total,
+  searchParams,
 }: ProjectTableProps) => {
+  const { page = '1' } = searchParams;
+
+  const { data, error, total } = await getProjects({
+    page: parseInt(page),
+    limitItem: LIMIT_ITEMS.DEFAULT,
+    orderItem: {
+      field: FIELDS.UPDATED_AT,
+      type: ORDER_TYPES.DESC,
+    },
+  });
+
+  if (error) return <ErrorMessage message={error} />;
+
   if (data.length === 0) {
     return (
       <ItemNotFound
@@ -54,7 +79,7 @@ export const ProjectTable = async ({
               key={project.id}
               className="border-b-2 px-8 py-5 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-white"
             >
-              <td className="px-2 sm:px-6 py-4 font-medium whitespace-nowrap w-full max-w-0 sm:w-auto">
+              <td className="px-2 sm:px-6 py-5 font-medium whitespace-nowrap w-full max-w-0 sm:w-auto">
                 <Link
                   href={
                     isAuthenticated
@@ -65,7 +90,7 @@ export const ProjectTable = async ({
                   <p className="truncate">{project.title}</p>
                 </Link>
               </td>
-              <td className="px-6 py-4 font-medium whitespace-nowrap w-full max-w-0 min-w-[200px] hidden sm:block md:min-w-full">
+              <td className="px-6 py-5 font-medium whitespace-nowrap w-full max-w-0 min-w-[200px] hidden sm:block md:min-w-full">
                 <p className="truncate">{project.description}</p>
               </td>
               <td>

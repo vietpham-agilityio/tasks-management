@@ -7,7 +7,7 @@ import { ReactNode, useCallback, useMemo, useTransition } from 'react';
 import { useCombinedSearchParams } from '@/hooks';
 
 // Icons
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 // Components
 import { Button } from '@/components';
@@ -41,8 +41,8 @@ export const Pagination = ({
   currentPage,
   pageSize,
   siblingCount = 2,
-  startIcon = <FaArrowLeft />,
-  endIcon = <FaArrowRight />,
+  startIcon = <FaChevronLeft />,
+  endIcon = <FaChevronRight />,
   variant = 'outline',
   customClass,
   onChangePageNumber,
@@ -116,6 +116,7 @@ export const Pagination = ({
         onClick={handleClickPrevious}
         disabled={!hasPrevious}
         startIcon={startIcon}
+        customIconClass="mr-1"
       >
         Previous
       </Button>
@@ -188,6 +189,7 @@ export const Pagination = ({
         onClick={handleClickNext}
         disabled={!hasNext}
         endIcon={endIcon}
+        customIconClass="ml-1"
       >
         Next
       </Button>

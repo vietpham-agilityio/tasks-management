@@ -1,17 +1,12 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 // Authentication
 import { auth } from '@/auth';
 
 // Components
 import { ProjectTable } from '@/ui';
-import { ErrorMessage } from '@/components';
-
-// Constants
-import { FIELDS, LIMIT_ITEMS, ORDER_TYPES } from '@/constants';
-
-// APIs
-import { getProjects } from '@/api';
+import { TableSkeleton } from '@/components';
 
 // Types
 import { SearchParams } from '@/types';
@@ -29,19 +24,6 @@ const ProjectListPage = async ({
 }) => {
   const session = await auth();
 
-  const { page = '1' } = searchParams;
-
-  const { data, error, total } = await getProjects({
-    page: parseInt(page),
-    limitItem: LIMIT_ITEMS.DEFAULT,
-    orderItem: {
-      field: FIELDS.UPDATED_AT,
-      type: ORDER_TYPES.DESC,
-    },
-  });
-
-  if (error) return <ErrorMessage message={error} />;
-
   return (
     <main className="p-4 h-full">
       <div className="flex flex-row justify-between items-center py-8 ">
@@ -49,7 +31,9 @@ const ProjectListPage = async ({
           <h1 className="font-bold text-3xl">Projects</h1>
         </div>
       </div>
-      <ProjectTable isAuthenticated={!!session} data={data} total={total} />
+      <Suspense fallback={<TableSkeleton />}>
+        <ProjectTable isAuthenticated={!!session} searchParams={searchParams} />
+      </Suspense>
     </main>
   );
 };
