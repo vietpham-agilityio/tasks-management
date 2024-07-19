@@ -81,6 +81,10 @@ export const OverviewCard = ({
               alt={title}
               fill
               className="rounded-lg object-cover"
+              sizes="(max-width: 766px) 80vw,
+              (min-width: 768px) and (max-width: 1023px) 33vw,
+              (min-width: 1024px) 25vw"
+              style={{ borderRadius: '8px' }}
             />
           )}
         </div>
@@ -90,7 +94,17 @@ export const OverviewCard = ({
             isRowDisplay && 'md:basis-3/5',
           )}
         >
-          {badge}
+          <div className="flex items-center gap-2">
+            {badge}
+            <div
+              className={cn(
+                'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-semibold rounded-sm w-fit px-1 text-[10px] text-white truncate',
+                customClass?.helperText,
+              )}
+            >
+              {helperText}
+            </div>
+          </div>
           <div className="flex justify-between items-center ">
             <div
               className={cn('text-md font-bold truncate', customClass?.title)}
@@ -110,20 +124,12 @@ export const OverviewCard = ({
           </div>
           <div
             className={cn(
-              'text-xs text-zinc-500 dark:text-zinc-400 truncate',
+              'text-xs text-zinc-500 dark:text-white truncate',
               !isRowDisplay && 'pt-3',
               customClass?.description,
             )}
           >
             {description}
-          </div>
-          <div
-            className={cn(
-              'text-xs text-zinc-500 truncate pt-3',
-              customClass?.helperText,
-            )}
-          >
-            {helperText}
           </div>
           {avatarSrc && (
             <div className="flex justify-end pt-3">

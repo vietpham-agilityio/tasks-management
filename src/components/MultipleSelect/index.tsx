@@ -82,7 +82,7 @@ export const MultipleSelect = ({
           },
           customClass?.wrapper,
         )}
-        tabIndex={1}
+        tabIndex={0}
         onClick={showOptions}
         onBlur={onBlur}
         ref={dropdownRef as RefObject<HTMLDivElement>}

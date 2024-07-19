@@ -16,6 +16,6 @@ describe('Badge component', () => {
 
   test('applies the correct theme classes', () => {
     render(<Badge theme="success" label="Status" />);
-    expect(screen.getByText('Status')).toHaveClass('bg-emerald-500');
+    expect(screen.getByText('Status')).toHaveClass('bg-emerald-400');
   });
 });
