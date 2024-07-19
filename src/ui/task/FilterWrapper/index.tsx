@@ -151,7 +151,7 @@ export const FilterWrapper = ({
 
   const handleSelectSort = useCallback(
     (sortBy: string) => {
-      updateSearchParams(SEARCH_PARAMS.PROJECT_ID, sortBy);
+      updateSearchParams(SEARCH_PARAMS.SORT_BY, sortBy);
     },
     [updateSearchParams],
   );

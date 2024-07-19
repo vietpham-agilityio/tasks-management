@@ -8,13 +8,10 @@ import { FaPlus } from 'react-icons/fa';
 
 // Components
 import { ProjectTable } from '@/ui';
-import { ErrorMessage, NavLink, TableSkeleton } from '@/components';
+import { NavLink, TableSkeleton } from '@/components';
 
 // Constants
-import { FIELDS, LIMIT_ITEMS, ORDER_TYPES, ROUTES } from '@/constants';
-
-// APIs
-import { getProjects } from '@/api';
+import { ROUTES } from '@/constants';
 
 // Types
 import { SearchParams } from '@/types';
@@ -25,19 +22,6 @@ const ProjectListPage = async ({
   searchParams: SearchParams;
 }) => {
   const session = await auth();
-
-  const { page = '1' } = searchParams;
-
-  const { data, error, total } = await getProjects({
-    page: parseInt(page),
-    limitItem: LIMIT_ITEMS.DEFAULT,
-    orderItem: {
-      field: FIELDS.UPDATED_AT,
-      type: ORDER_TYPES.DESC,
-    },
-  });
-
-  if (error) return <ErrorMessage message={error} />;
 
   return (
     <main className="p-4 h-full">
@@ -53,7 +37,7 @@ const ProjectListPage = async ({
         />
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <ProjectTable isAuthenticated={!!session} data={data} total={total} />
+        <ProjectTable isAuthenticated={!!session} searchParams={searchParams} />
       </Suspense>
     </main>
   );
