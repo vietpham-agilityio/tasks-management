@@ -31,12 +31,12 @@ const UpserProjectPage = async ({
       <div className=" dark:text-white ">
         <h1 className="font-bold text-3xl">Projects</h1>
       </div>
-      <div className="w-full text-center py-4">
-        <h1 className="font-bold text-3xl">
+      <div className="w-full text-center lg:py-4">
+        <h2 className="text-2xl lg:text-3xl">
           {isEdited
             ? `Edit Project id: ${searchParams.id}`
             : 'Create a Project'}
-        </h1>
+        </h2>
       </div>
       <div className="bg-white dark:bg-zinc-800 rounded-lg">
         <div className="w-full md:w-2/3 max-w-3xl p-10 mx-auto ">
