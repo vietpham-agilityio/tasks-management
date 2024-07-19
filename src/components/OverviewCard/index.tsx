@@ -79,9 +79,8 @@ export const OverviewCard = ({
             <ImageWithFallback
               src={imageSrc}
               alt={title}
-              priority
               fill
-              style={{ borderRadius: '8px' }}
+              className="rounded-lg object-cover"
             />
           )}
         </div>
@@ -101,7 +100,7 @@ export const OverviewCard = ({
             {time && (
               <div
                 className={cn(
-                  'font-normal text-xs text-zinc-500',
+                  'font-normal text-xs text-zinc-500 dark:text-zinc-400',
                   customClass?.time,
                 )}
               >
@@ -111,7 +110,7 @@ export const OverviewCard = ({
           </div>
           <div
             className={cn(
-              'text-xs text-zinc-500 truncate',
+              'text-xs text-zinc-500 dark:text-zinc-400 truncate',
               !isRowDisplay && 'pt-3',
               customClass?.description,
             )}
