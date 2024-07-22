@@ -119,7 +119,7 @@ export const ProjectTable = async ({
                             encodeURIComponent(project.slug),
                           )
                     }
-                    className="w-full px-4 flex justify-end"
+                    className="w-full px-4 flex justify-end items-center"
                     aria-label={project.title}
                   >
                     <MdArrowRightAlt className="w-6 h-6" />
