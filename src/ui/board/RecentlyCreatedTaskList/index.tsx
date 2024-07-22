@@ -49,7 +49,7 @@ const RecentlyCreatedTasktList = async () => {
               href={
                 session
                   ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                  : ROUTES.TASK_DETAIL(task.slug)
+                  : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
               }
               time={formatDate(task.createdAt, DATE_FORMAT.Hour)}
               title={task.title}

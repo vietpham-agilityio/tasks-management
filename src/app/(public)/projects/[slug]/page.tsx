@@ -32,7 +32,7 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   const slug = params.slug;
 
-  const { data: project } = await getProjectBySlug(slug);
+  const { data: project } = await getProjectBySlug(decodeURIComponent(slug));
 
   return {
     title: project?.title,
@@ -57,7 +57,7 @@ const ProjectDetailPage = async ({
   const slug = params.slug;
 
   const { data: projectData, error: projectError } = await getProjectBySlug(
-    slug,
+    decodeURIComponent(slug),
     { options: { tags: [TAGS.PROJECT_DETAIL(slug)] } },
   );
 

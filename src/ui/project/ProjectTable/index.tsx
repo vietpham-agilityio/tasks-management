@@ -84,7 +84,7 @@ export const ProjectTable = async ({
                   href={
                     isAuthenticated
                       ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
-                      : ROUTES.PROJECT_DETAIL(project.slug)
+                      : ROUTES.PROJECT_DETAIL(encodeURIComponent(project.slug))
                   }
                 >
                   <p className="truncate">{project.title}</p>
@@ -115,7 +115,9 @@ export const ProjectTable = async ({
                     href={
                       isAuthenticated
                         ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
-                        : ROUTES.PROJECT_DETAIL(project.slug)
+                        : ROUTES.PROJECT_DETAIL(
+                            encodeURIComponent(project.slug),
+                          )
                     }
                     className="w-full px-4 flex justify-end"
                     aria-label={project.title}

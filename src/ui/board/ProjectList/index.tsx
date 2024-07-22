@@ -49,7 +49,7 @@ const ProjectList = async () => {
               href={
                 session
                   ? ROUTES.ADMIN_PROJECT_DETAIL(id)
-                  : ROUTES.PROJECT_DETAIL(slug)
+                  : ROUTES.PROJECT_DETAIL(encodeURIComponent(slug))
               }
               title={title}
               description={description}
