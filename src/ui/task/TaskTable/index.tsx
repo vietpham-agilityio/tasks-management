@@ -166,7 +166,7 @@ export const TaskTable = async ({
                       href={
                         isAuthenticated
                           ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                          : ROUTES.TASK_DETAIL(task.slug)
+                          : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
                       }
                     >
                       <p className="truncate">{task.title}</p>
@@ -202,7 +202,7 @@ export const TaskTable = async ({
                       href={
                         isAuthenticated
                           ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                          : ROUTES.TASK_DETAIL(task.slug)
+                          : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
                       }
                       aria-label="task-detail"
                       className="px-2 md:px-4 flex justify-end"

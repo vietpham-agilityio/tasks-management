@@ -22,7 +22,7 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   const slug = params.slug;
 
-  const { data: task } = await getTaskBySlug(slug);
+  const { data: task } = await getTaskBySlug(decodeURIComponent(slug));
 
   return {
     title: task?.title,
@@ -37,7 +37,9 @@ export const generateMetadata = async ({
 };
 
 const TaskDetailPage = async ({ params }: { params: { slug: string } }) => {
-  const { data: taskData, error: taskError } = await getTaskBySlug(params.slug);
+  const { data: taskData, error: taskError } = await getTaskBySlug(
+    decodeURIComponent(params.slug),
+  );
 
   // Determine if there is an error in fetching data
   const error = taskError;

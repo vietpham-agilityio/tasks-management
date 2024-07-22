@@ -47,7 +47,11 @@ export const DeleteTaskWrapper = ({
     <>
       <OverviewCard
         key={`task-${id}`}
-        href={session ? ROUTES.ADMIN_TASK_DETAIL(id) : ROUTES.TASK_DETAIL(slug)}
+        href={
+          session
+            ? ROUTES.ADMIN_TASK_DETAIL(id)
+            : ROUTES.TASK_DETAIL(encodeURIComponent(slug))
+        }
         title={title}
         description={description}
         helperText={priority.toUpperCase()}
