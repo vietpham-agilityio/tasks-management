@@ -1,5 +1,25 @@
-import { SignInForm } from '@/ui';
 import { Suspense } from 'react';
+import { Metadata } from 'next';
+
+// Constants
+import { METADATA_CONTENT, ROUTES } from '@/constants';
+
+// Components
+import { SignInForm } from '@/ui';
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+const { TITLE, DESC } = METADATA_CONTENT.SIGN_IN;
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    title: TITLE,
+    description: DESC,
+    url: `${BASE_URL}${ROUTES.SIGN_IN}`,
+  },
+};
 
 const SignInPage = () => (
   <main>

@@ -10,3 +10,4 @@ export * from './tasks';
 export * from './queryParams';
 export * from './tags';
 export * from './theme';
+export * from './metadata';
