@@ -6,7 +6,35 @@ import { EditTaskContainer } from '@/ui';
 import { ErrorMessage, ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES } from '@/constants';
+import { ERROR_MESSAGES, ROUTES } from '@/constants';
+
+// Types
+import { Metadata } from 'next';
+
+type Props = {
+  params: { slug: string };
+};
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const slug = params.slug;
+
+  const { data: task } = await getTaskBySlug(slug);
+
+  return {
+    title: task?.title,
+    description: task?.description,
+    openGraph: {
+      title: task?.title,
+      description: task?.description,
+      url: `${BASE_URL}${ROUTES.TASK_DETAIL(task?.slug)}`,
+      images: task?.image,
+    },
+  };
+};
 
 const TaskDetailPage = async ({ params }: { params: { slug: string } }) => {
   const { data: taskData, error: taskError } = await getTaskBySlug(params.slug);

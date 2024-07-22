@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
+// Constants
+import { METADATA_CONTENT, ROUTES } from '@/constants';
+
 // Components
 import { ProjectList, RecentlyCreatedTasktList, TaskList } from '@/ui';
 import {
@@ -9,10 +12,18 @@ import {
   TaskListSkeleton,
 } from '@/components';
 
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+const { TITLE, DESC } = METADATA_CONTENT.BOARDS;
+
 export const metadata: Metadata = {
-  title: 'Dashboard',
-  description:
-    'A comprehensive web application for managing projects and tasks, providing tools for tracking progress, assigning priorities, and collaborating with team members.',
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    title: TITLE,
+    description: DESC,
+    url: `${BASE_URL}${ROUTES.BOARDS}`,
+  },
 };
 
 const BoardsPage = () => {

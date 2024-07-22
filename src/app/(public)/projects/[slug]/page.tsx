@@ -16,7 +16,7 @@ import {
 } from '@/components';
 
 // Constants
-import { TAGS, TASK_STATUS_OPTIONS } from '@/constants';
+import { ROUTES, TAGS, TASK_STATUS_OPTIONS } from '@/constants';
 
 // Types
 import { SearchParams } from '@/types';
@@ -25,7 +25,11 @@ type Props = {
   params: { slug: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
   const slug = params.slug;
 
   const { data: project } = await getProjectBySlug(slug);
@@ -33,8 +37,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: project?.title,
     description: project?.description,
+    openGraph: {
+      title: project?.title,
+      description: project?.description,
+      url: `${BASE_URL}${ROUTES.PROJECT_DETAIL(project?.slug)}`,
+      images: project?.image,
+    },
   };
-}
+};
 
 const ProjectDetailPage = async ({
   params,

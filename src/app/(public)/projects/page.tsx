@@ -4,6 +4,9 @@ import { Suspense } from 'react';
 // Authentication
 import { auth } from '@/auth';
 
+// Constants
+import { METADATA_CONTENT, ROUTES } from '@/constants';
+
 // Components
 import { ProjectTable } from '@/ui';
 import { TableSkeleton } from '@/components';
@@ -11,10 +14,18 @@ import { TableSkeleton } from '@/components';
 // Types
 import { SearchParams } from '@/types';
 
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+const { TITLE, DESC } = METADATA_CONTENT.PROJECT_LIST;
+
 export const metadata: Metadata = {
-  title: 'Project List',
-  description:
-    'A detailed overview of all ongoing and completed projects, including project description, timelines, and team assignments.',
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    title: TITLE,
+    description: DESC,
+    url: `${BASE_URL}${ROUTES.PROJECT_LIST}`,
+  },
 };
 
 const ProjectListPage = async ({

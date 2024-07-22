@@ -1,4 +1,24 @@
+import { Metadata } from 'next';
+
+// Constants
+import { METADATA_CONTENT, ROUTES } from '@/constants';
+
+// Components
 import { SignUpForm } from '@/ui';
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+const { TITLE, DESC } = METADATA_CONTENT.SIGN_UP;
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    title: TITLE,
+    description: DESC,
+    url: `${BASE_URL}${ROUTES.SIGN_UP}`,
+  },
+};
 
 const SignUpPage = () => (
   <main>

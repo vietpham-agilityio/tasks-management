@@ -3,12 +3,30 @@ import { Suspense } from 'react';
 // Auth
 import { auth } from '@/auth';
 
+// Constants
+import { METADATA_CONTENT, ROUTES } from '@/constants';
+
 // Components
 import { TableSkeleton } from '@/components';
 import { TaskTable } from '@/ui';
 
 // Types
+import { Metadata } from 'next';
 import { SearchParams } from '@/types';
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
+const { TITLE, DESC } = METADATA_CONTENT.TASK_LIST;
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESC,
+  openGraph: {
+    title: TITLE,
+    description: DESC,
+    url: `${BASE_URL}${ROUTES.TASK_LIST}`,
+  },
+};
 
 const TaskListPage = async ({
   searchParams,
