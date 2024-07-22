@@ -1,23 +1,17 @@
-# Next.js 14+ Boilerplate
+# Task Management Practice
 
-This is a [Next.js](https://nextjs.org/) boilerplate built with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+- Task Management Application
 
 ### Features
 
-This boilerplate includes:
-- ⚡ [Next.js](https://nextjs.org/) with App Router support
-- 🔥 Type checking [TypeScript](https://www.typescriptlang.org/)
-- 💎 Integrate with [Tailwind CSS](https://tailwindcss.com/)
-- [tailwind-merge](https://github.com/dcastil/tailwind-merge) for efficiently merge Tailwind CSS classes without style conflicts
-- ✅ Strict Mode for TypeScript and React 18
-- 📏 Linter with [ESLint](https://eslint.org/)
-- 💖 Code Formatter with [Prettier](https://prettier.io/)
-- 🦊 [Husky](https://github.com/typicode/husky) for Git Hooks
-- 🚫 [Lint-staged](https://github.com/lint-staged/lint-staged) for running linters on Git staged files
-- 🦺 Unit Testing with Jest and React Testing Library
-- ☂️ Code coverage with [V8](https://v8.dev/blog/javascript-code-coverage)
-- 🎉 Storybook for UI development
-
+- User can sign up and sign in
+- User can create a project
+- User can add members into the project
+- Each project contains multiple tasks
+- User can assgin a member for each task
+- User in the project can create, view, edit, remove, archive project
+- User in the project can create, view, edit, remove, archive task
+- Unauthorized user can view project and task through public routes
 
 ## How to run
 
@@ -29,7 +23,6 @@ Make sure you install packages with correct version below:
 
 - **Note:**:
     - Please add `.env` into root of project source code, refer `.env.sample`.
-    - Refer: Here's the [sample mockAPI project](https://mockapi.io/clone/665e8a3f1e9017dc16f05e15), feel free to **clone** then use in your project
 
 Check and update config image hosting on `next.config.mjs` file follow [Next.js document](https://nextjs.org/docs/messages/next-image-unconfigured-host)
 
@@ -37,8 +30,8 @@ Check and update config image hosting on `next.config.mjs` file follow [Next.js 
 
 | Command                                                                                              | Action                    |
 | :----------------------------------------------------------------------------------------------------| :------------------------ |
-| `git clone --depth=1 git@gitlab.asoft-python.com:huy.nguyenvan/nextjs-boilerplate.git nextjs-project`| Clone Repository with SSH |
-| `$ cd nextjs-project`                                                                                | Redirect to folder        |
+| `git clone --depth=1 git@gitlab.asoft-python.com:ngoc.nguyenquang/pair-practice.git pair-practice`   | Clone Repository with SSH |
+| `$ cd pair-practice`                                                                                 | Redirect to folder        |
 
 ### Build and Run app
 
@@ -61,16 +54,21 @@ Check and update config image hosting on `next.config.mjs` file follow [Next.js 
 ├── .vscode                         # VSCode configuration
 ├── public                          # Public assets folder
 ├── src
+|   ├── action                      # Handle server actions (forms)
 │   ├── api                         # Handle data with API: GET, POST, PUT, DELETE
 │   ├── app                         # Next.js App (App Router)
 │   ├── components                  # React components
+│   ├── configs                     # Configs folder
 │   ├── constants                   # App constants
+│   ├── db                          # db folder (handle firestore)
+│   ├── hocs                        # HOCs folder
+│   ├── hooks                       # Hooks folder
 │   ├── icons                       # Icons folder
-│   ├── layouts                     # React components for app layout
 │   ├── models                      # Model type definitions
 │   ├── types                       # Type definitions
 │   ├── ui                          # React components by feature
 │   ├── utils                       # Utilities folder
+├── middleware                      # middleware
 ├── .eslintrc.json                  # ESLint configuration
 ├── .lintstagedrc                   # Lint-stage
 ├── .prettierrc                     # Prettier configuration
