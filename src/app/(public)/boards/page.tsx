@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESC,
     url: `${BASE_URL}${ROUTES.BOARDS}`,
+    images: '/open-graph-image.webp',
   },
 };
 
