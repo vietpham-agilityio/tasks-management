@@ -23,8 +23,8 @@ export const metadata: Metadata = {
 const SignUpPage = () => (
   <main>
     <div className="pb-8 dark:text-white">
-      <h1 className="font-bold text-[42px]">Register Here!</h1>
-      <h2 className="font-normal text-xs text-zinc-500">
+      <h1 className="font-bold text-4xl">Register Here!</h1>
+      <h2 className="mt-2 font-normal text-xs md:text-lg text-zinc-500 dark:text-gray-300">
         We can assign tasks, set deadlines, and track progress effortlessly.
       </h2>
     </div>
