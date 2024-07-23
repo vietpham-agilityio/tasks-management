@@ -31,7 +31,7 @@ export const generateMetadata = async ({
       title: task?.title,
       description: task?.description,
       url: `${BASE_URL}${ROUTES.TASK_DETAIL(task?.slug)}`,
-      images: task?.image,
+      images: task?.image || '/open-graph-image.webp',
     },
   };
 };
