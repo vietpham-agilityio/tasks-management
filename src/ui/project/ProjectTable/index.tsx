@@ -1,5 +1,8 @@
-import Link from 'next/link';
 import { Suspense } from 'react';
+import Link from 'next/link';
+
+// Auths
+import { auth } from '@/auth';
 
 // Icons
 import { MdArrowRightAlt } from 'react-icons/md';
@@ -19,6 +22,7 @@ import {
   ROUTES,
   ORDER_TYPES,
   FIELDS,
+  QUERY_PARAMS,
 } from '@/constants';
 
 // APIs
@@ -28,7 +32,7 @@ import { getProjects } from '@/api';
 import { formatDate } from '@/utils';
 
 // Types
-import { SearchParams } from '@/types';
+import { QueryFilter, SearchParams } from '@/types';
 
 type ProjectTableProps = {
   isAuthenticated?: boolean;
@@ -39,7 +43,19 @@ export const ProjectTable = async ({
   isAuthenticated = false,
   searchParams,
 }: ProjectTableProps) => {
+  const session = await auth();
+
   const { page = '1' } = searchParams;
+
+  const query: QueryFilter[] = [];
+
+  if (!session) {
+    query.push({
+      field: QUERY_PARAMS.IS_PUBLIC,
+      comparison: '==',
+      value: true,
+    });
+  }
 
   const { data, error, total } = await getProjects({
     page: parseInt(page),
@@ -48,6 +64,7 @@ export const ProjectTable = async ({
       field: FIELDS.UPDATED_AT,
       type: ORDER_TYPES.DESC,
     },
+    query,
   });
 
   if (error) return <ErrorMessage message={error} />;

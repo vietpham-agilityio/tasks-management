@@ -7,6 +7,7 @@ export const QUERY_PARAMS = {
   CREATED_BY: 'createdBy',
   SLUG: 'slug',
   IS_ARCHIVED: 'isArchived',
+  IS_PUBLIC: 'isPublic',
 };
 
 export const ORDER_BY = {

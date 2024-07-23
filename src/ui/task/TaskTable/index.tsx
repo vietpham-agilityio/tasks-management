@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 
+// Auths
+import { auth } from '@/auth';
+
 // APIs
 import { getProjects, getTasks } from '@/api';
 
@@ -70,6 +73,8 @@ export const TaskTable = async ({
   isAuthenticated = false,
   searchParams,
 }: TaskTableProps) => {
+  const session = await auth();
+
   const { page, sortBy, status, priority, projectId } = searchParams;
 
   const query: QueryFilter[] = [];
@@ -123,6 +128,15 @@ export const TaskTable = async ({
       field: FIELDS.UPDATED_AT,
       type: ORDER_TYPES.DESC,
     },
+    query: session
+      ? []
+      : [
+          {
+            field: QUERY_PARAMS.IS_PUBLIC,
+            comparison: '==',
+            value: true,
+          },
+        ],
   });
 
   const error = projectListError || taskError;
