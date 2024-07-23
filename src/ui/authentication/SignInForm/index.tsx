@@ -158,7 +158,7 @@ export const SignInFormBase = ({ openToast }: TWithToast<object>) => {
 
         <Link
           className="text-base font-normal hover:text-blue-700 cursor-pointer"
-          href={ROUTES.FORGET_PASSWORD}
+          href="#"
         >
           Forgot password?
         </Link>
