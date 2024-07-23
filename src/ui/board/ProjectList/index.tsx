@@ -53,11 +53,11 @@ const ProjectList = async () => {
               }
               title={title}
               description={description}
-              imageSrc={image}
+              imageSrc={image || '/image-not-available.webp'}
               isRowDisplay={true}
               customClass={{
                 wrapper: 'hover:bg-zinc-100',
-                image: 'md:aspect-square md:max-w-16',
+                image: 'md:aspect-square w-full h-full',
               }}
             />
           );

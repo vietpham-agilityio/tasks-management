@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { InView } from 'react-intersection-observer';
 
+// Icons
 import { RxCross2 } from 'react-icons/rx';
 
 // Components
@@ -9,6 +11,9 @@ import ImageWithFallback from '../ImageWithFallback';
 
 // Utils
 import { cn } from '@/utils';
+
+// Constants
+import { BLUR_DATA_WITH_GRAY_BACKGROUND_BASE64 } from '@/constants/images';
 
 type OverviewCardProps = {
   href: string;
@@ -76,16 +81,17 @@ export const OverviewCard = ({
           )}
         >
           {imageSrc && (
-            <ImageWithFallback
-              src={imageSrc}
-              alt={title}
-              fill
-              className="rounded-lg object-cover"
-              sizes="(max-width: 766px) 80vw,
-              (min-width: 768px) and (max-width: 1023px) 33vw,
-              (min-width: 1024px) 25vw"
-              style={{ borderRadius: '8px' }}
-            />
+            <InView as="div" className="w-full">
+              <ImageWithFallback
+                src={imageSrc}
+                alt={title}
+                fill
+                blurDataURL={BLUR_DATA_WITH_GRAY_BACKGROUND_BASE64}
+                placeholder="blur"
+                className="rounded-lg object-cover"
+                unoptimized
+              />
+            </InView>
           )}
         </div>
         <div
