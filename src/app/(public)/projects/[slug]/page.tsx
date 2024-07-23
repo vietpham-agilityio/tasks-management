@@ -16,7 +16,7 @@ import {
 } from '@/components';
 
 // Constants
-import { ROUTES, TAGS, TASK_STATUS_OPTIONS } from '@/constants';
+import { ERROR_MESSAGES, ROUTES, TAGS, TASK_STATUS_OPTIONS } from '@/constants';
 
 // Types
 import { SearchParams } from '@/types';
@@ -75,6 +75,10 @@ const ProjectDetailPage = async ({
         }}
       />
     );
+  }
+
+  if (!projectData.isPublic) {
+    return <ErrorMessage message={ERROR_MESSAGES.UNAUTHORIZED_ACCESS} />;
   }
 
   return (

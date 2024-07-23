@@ -1,6 +1,9 @@
 // APIs
 import { getPartipationsByProjectId, getProjectById } from '@/api';
 
+// Auth
+import { auth } from '@/auth';
+
 // Components
 import { ErrorMessage, ItemNotFound } from '@/components';
 import { EditTaskFormWrapper } from '../EditTaskFormWrapper';
@@ -20,6 +23,7 @@ export const EditTaskContainer = async ({
   taskData,
   isReadOnly = false,
 }: EditTaskContainerProps) => {
+  const session = await auth();
   const projectId = taskData.projectId;
   const { data: participantList, error: participantListError } =
     await getPartipationsByProjectId(projectId);
@@ -42,6 +46,11 @@ export const EditTaskContainer = async ({
       />
     );
   }
+
+  if (!projectData.isPublic && !session) {
+    return <ErrorMessage message={ERROR_MESSAGES.UNAUTHORIZED_ACCESS} />;
+  }
+
   return (
     <EditTaskFormWrapper
       memberOptions={participantList}

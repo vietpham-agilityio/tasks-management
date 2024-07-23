@@ -9,7 +9,7 @@ import { ItemNotFound } from '@/components';
 // Constants
 import { ERROR_MESSAGES } from '@/constants';
 
-const UpserProjectPage = async ({
+const UpsertProjectPage = async ({
   searchParams,
 }: {
   searchParams: { id: string };
@@ -64,4 +64,4 @@ const UpserProjectPage = async ({
   );
 };
 
-export default UpserProjectPage;
+export default UpsertProjectPage;
