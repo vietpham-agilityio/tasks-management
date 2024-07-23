@@ -9,6 +9,7 @@ export const QUERY_PARAMS = {
   IS_ARCHIVED: 'isArchived',
   IS_PUBLIC: 'isPublic',
   FILTER_BY_USER: 'filterByUser',
+  USER_ID: 'userId',
 };
 
 export const ORDER_BY = {

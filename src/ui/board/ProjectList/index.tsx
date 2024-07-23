@@ -1,5 +1,5 @@
 // APIs
-import { getProjects } from '@/api';
+import { getProjectList } from '@/api';
 
 // Auth
 import { auth } from '@/auth';
@@ -8,14 +8,34 @@ import { auth } from '@/auth';
 import { ErrorMessage, ItemNotFound, OverviewCard } from '@/components';
 
 // Constants
-import { LIMIT_ITEMS, ORDER_BY, ROUTES } from '@/constants';
+import {
+  LIMIT_ITEMS,
+  ORDER_BY,
+  ORDER_TYPES,
+  QUERY_PARAMS,
+  ROUTES,
+} from '@/constants';
+
+// Types
+import { QueryFilter } from '@/types';
 
 const ProjectList = async () => {
   const session = await auth();
 
-  const { data, error } = await getProjects({
+  const query: QueryFilter[] = session
+    ? [
+        {
+          field: QUERY_PARAMS.FILTER_BY_USER,
+          comparison: '==',
+          value: 'true',
+        },
+      ]
+    : [];
+
+  const { data, error, total } = await getProjectList({
     limitItem: LIMIT_ITEMS.BOARD_PAGE,
-    orderItem: { field: ORDER_BY.UPDATED_AT, type: 'desc' },
+    orderItem: { field: ORDER_BY.UPDATED_AT, type: ORDER_TYPES.DESC },
+    query,
   });
 
   if (error) {
@@ -37,7 +57,7 @@ const ProjectList = async () => {
   return (
     <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg h-full">
       <span className="text-xl font-bold dark:text-white">
-        {session ? 'My' : 'All'} Projects
+        {session ? 'My' : 'All'} Projects ({total})
       </span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-3 gap-6 ">
         {data.map((project) => {
