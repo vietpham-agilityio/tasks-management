@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 
 // APIs
-import { getProjects, getTasks } from '@/api';
+import { getProjectList, getTasks } from '@/api';
 
 // Components
 import {
@@ -128,7 +128,7 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
     query,
   });
 
-  const { data: projectListData, error: projectListError } = await getProjects({
+  const { data: projectListData, error: projectListError } = await getProjectList({
     orderItem: {
       field: FIELDS.UPDATED_AT,
       type: ORDER_TYPES.DESC,

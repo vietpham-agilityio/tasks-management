@@ -1,8 +1,5 @@
 import { Suspense } from 'react';
 
-// Authentication
-import { auth } from '@/auth';
-
 // Icons
 import { FaPlus } from 'react-icons/fa';
 
@@ -21,8 +18,6 @@ const ProjectListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
-  const session = await auth();
-
   return (
     <main className="p-4 h-full">
       <div className="flex flex-row justify-between items-center py-8 ">
@@ -37,7 +32,7 @@ const ProjectListPage = async ({
         />
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <ProjectTable isAuthenticated={!!session} searchParams={searchParams} />
+        <ProjectTable searchParams={searchParams} />
       </Suspense>
     </main>
   );

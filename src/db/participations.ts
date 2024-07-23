@@ -130,3 +130,36 @@ export const queryParticipationsByProjectId = async (
     return { success: false, data: [], error: (error as Error).message };
   }
 };
+
+export const queryAssignedProjectsByUserId = async (
+  userId: string,
+): Promise<ResponseStateType<Participation[]>> => {
+  try {
+    const response = await getDocuments<Participation>(
+      COLLECTION.PARTICIPATIONS,
+      {
+        query: [
+          {
+            field: QUERY_PARAMS.USER_ID,
+            comparison: '==',
+            value: userId,
+          },
+        ],
+      },
+    );
+
+    if (response?.data) {
+      return {
+        ...response,
+        success: true,
+      };
+    }
+    return {
+      success: false,
+      data: [],
+      error: ERROR_MESSAGES.DATA_NOT_FOUND,
+    };
+  } catch (error) {
+    return { success: false, data: [], error: (error as Error).message };
+  }
+};

@@ -1,13 +1,13 @@
 import { MetadataRoute } from 'next';
 
 // APIs
-import { getProjects, getTasks } from '@/api';
+import { getProjectList, getTasks } from '@/api';
 import { ROUTES } from '@/constants';
 
 const URL = process.env.NEXT_PUBLIC_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { data: projects } = await getProjects();
+  const { data: projects } = await getProjectList();
   const { data: tasks } = await getTasks();
 
   const staticRoutes: MetadataRoute.Sitemap = [

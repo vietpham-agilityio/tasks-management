@@ -1,4 +1,4 @@
-import { OrderByDirection, WhereFilterOp } from 'firebase/firestore';
+import { FieldPath, OrderByDirection, WhereFilterOp } from 'firebase/firestore';
 
 // constants
 import {
@@ -8,7 +8,7 @@ import {
 } from '@/constants';
 
 export type QueryFilter = {
-  field: string;
+  field: string | FieldPath;
   comparison: WhereFilterOp;
   value: string | string[] | boolean;
 };

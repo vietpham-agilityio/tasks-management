@@ -1,23 +1,28 @@
 import { unstable_cache as cache } from 'next/cache';
+import { documentId } from 'firebase/firestore';
 
 // DB
-import { getDocuments, getProjectDetail, getProjectDetailBySlug } from '@/db';
+import {
+  getDocuments,
+  getProjectDetail,
+  getProjectDetailBySlug,
+  queryAssignedProjectsByUserId,
+} from '@/db';
 
 // Constants
-import { COLLECTION, TAGS } from '@/constants';
+import { COLLECTION, QUERY_PARAMS, TAGS } from '@/constants';
 
 // Models
 import { CacheOption, Project, ResponseStateType } from '@/models';
-import { QueryParam } from '@/types';
+import { QueryFilter, QueryParam } from '@/types';
 
 // HOCs
 import { withAuth } from '@/hocs';
 
-export const getProjects = async (
+export const getProjectList = async (
   queryParam?: QueryParam,
 ): Promise<ResponseStateType<Project[]>> => {
   try {
-    // TODO: Get project by userId in admin pages
     return await withAuth<
       {
         queryParam?: QueryParam;
@@ -25,13 +30,45 @@ export const getProjects = async (
       ResponseStateType<Project[]>
     >(
       async (args, session) => {
-        const tasks = session
-          ? await getDocuments<Project>(COLLECTION.PROJECTS, args.queryParam)
-          : await cache(getDocuments, [TAGS.PROJECT_LIST], {
-              tags: [TAGS.PROJECT_LIST],
-            })<Project>(COLLECTION.PROJECTS, args.queryParam);
-
-        return tasks;
+        if (session) {
+          const updateQueryParam = { ...args.queryParam };
+          if (updateQueryParam && updateQueryParam.query) {
+            let filterByUserIndex = -1;
+            filterByUserIndex = updateQueryParam.query.findIndex(
+              (filter: QueryFilter) =>
+                filter.field === QUERY_PARAMS.FILTER_BY_USER,
+            );
+            // If filter by user exists -> Query all projects user is a part of
+            if (filterByUserIndex != -1) {
+              const response = await queryAssignedProjectsByUserId(
+                session.user.id,
+              );
+              if (response.data.length !== 0) {
+                updateQueryParam.query[filterByUserIndex] = {
+                  field: documentId(),
+                  comparison: 'in',
+                  value: response.data.map(
+                    (participation) => participation.projectId,
+                  ),
+                };
+              }
+              // Remove filter param (filter by user)
+              // Query as usual
+              else {
+                updateQueryParam.query = updateQueryParam.query.filter(
+                  (_, index) => index !== filterByUserIndex,
+                );
+              }
+            }
+          }
+          return await getDocuments<Project>(
+            COLLECTION.PROJECTS,
+            updateQueryParam,
+          );
+        }
+        return await cache(getDocuments, [TAGS.PROJECT_LIST], {
+          tags: [TAGS.PROJECT_LIST],
+        })<Project>(COLLECTION.PROJECTS, args.queryParam);
       },
       { queryParam },
       false,
