@@ -4,10 +4,10 @@ import { useCallback, useTransition } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 // Components
-import { Dropdown, MultipleSelect } from '@/components';
+import { Checkbox, Dropdown, MultipleSelect } from '@/components';
 
 // Constants
-import { SEARCH_PARAMS } from '@/constants';
+import { ORDER_TYPES, SEARCH_PARAMS } from '@/constants';
 
 // Models
 import { Participation, Project } from '@/models';
@@ -61,13 +61,19 @@ export const SORT_OPTIONS: OptionType[] = [
 ];
 
 interface FilterWrapperProps {
+  showPriorityFilter?: boolean;
   showStatusFilter?: boolean;
+  showFilterCheckbox?: boolean;
+  checkboxLabel?: string;
   projectList?: Project[];
   assignedToList?: Participation[];
 }
 
 export const FilterWrapper = ({
+  showPriorityFilter = false,
   showStatusFilter = false,
+  showFilterCheckbox = false,
+  checkboxLabel = 'View All',
   projectList = [],
   assignedToList = [],
 }: FilterWrapperProps) => {
@@ -86,7 +92,7 @@ export const FilterWrapper = ({
     (searchParamsObject.status &&
       decodeURIComponent(searchParamsObject.status).split(',')) ||
     [];
-  const sortBy = searchParamsObject.sortBy || '';
+  const sortBy = searchParamsObject.sortBy || ORDER_TYPES.DESC;
   const projectId =
     (searchParamsObject.projectId &&
       decodeURIComponent(searchParamsObject.projectId).split(',')) ||
@@ -95,12 +101,15 @@ export const FilterWrapper = ({
     (searchParamsObject.userId &&
       decodeURIComponent(searchParamsObject.userId).split(',')) ||
     [];
+  const filterByUser = searchParamsObject.filterByUser || '';
 
   const updateSearchParams = useCallback(
     (searchParamKey: string, value: string) => {
       const search = getQueryParams({
         ...searchParamsObject,
         [searchParamKey]: value,
+        // set page to 1 when update params
+        page: 1,
       });
       startTransition(() => {
         search ? router.push(search) : router.push(pathname);
@@ -156,6 +165,13 @@ export const FilterWrapper = ({
     [updateSearchParams],
   );
 
+  const handleCheckboxOnChange = useCallback(
+    (value: boolean) => {
+      updateSearchParams(SEARCH_PARAMS.FILTER_BY_USER, value ? 'true' : '');
+    },
+    [updateSearchParams],
+  );
+
   return (
     <div className="mb-6">
       <div className="flex gap-2.5">
@@ -196,12 +212,14 @@ export const FilterWrapper = ({
               options={STATUS_OPTIONS}
             />
           )}
-          <MultipleSelect
-            title="Priority"
-            selectedOptions={priority}
-            onChange={handlePriorityOnChange}
-            options={PRIORITY_OPTIONS}
-          />
+          {showPriorityFilter && (
+            <MultipleSelect
+              title="Priority"
+              selectedOptions={priority}
+              onChange={handlePriorityOnChange}
+              options={PRIORITY_OPTIONS}
+            />
+          )}
         </div>
         <Dropdown
           placeholder="Sort"
@@ -213,6 +231,19 @@ export const FilterWrapper = ({
           selectedItemValue={sortBy}
           onSelect={handleSelectSort}
         />
+        {showFilterCheckbox && (
+          <Checkbox
+            className="w-7 h-7 ml-10"
+            label={checkboxLabel}
+            checked={!!filterByUser}
+            onChange={(e) => {
+              handleCheckboxOnChange(e.target.checked);
+            }}
+            customClass={{
+              label: 'text-md font-normal',
+            }}
+          />
+        )}
       </div>
     </div>
   );

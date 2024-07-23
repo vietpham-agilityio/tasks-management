@@ -38,7 +38,6 @@ import { QueryFilter, SearchParams, VariantType } from '@/types';
 import { formatDate } from '@/utils';
 
 interface TaskTableProps {
-  isAuthenticated?: boolean;
   searchParams: SearchParams;
 }
 
@@ -69,13 +68,11 @@ const labelMapping = {
   },
 };
 
-export const TaskTable = async ({
-  isAuthenticated = false,
-  searchParams,
-}: TaskTableProps) => {
+export const TaskTable = async ({ searchParams }: TaskTableProps) => {
   const session = await auth();
 
-  const { page, sortBy, status, priority, projectId } = searchParams;
+  const { page, sortBy, status, priority, projectId, filterByUser } =
+    searchParams;
 
   const query: QueryFilter[] = [];
 
@@ -106,6 +103,14 @@ export const TaskTable = async ({
       field: QUERY_PARAMS.PROJECT_ID,
       comparison: 'in',
       value: projectIdFilterList,
+    });
+  }
+
+  if (filterByUser && session) {
+    query.push({
+      field: QUERY_PARAMS.ASSIGNED_TO,
+      comparison: '==',
+      value: session.user.id,
     });
   }
 
@@ -145,7 +150,13 @@ export const TaskTable = async ({
 
   return (
     <div className="relative overflow-x-auto">
-      <FilterWrapper showStatusFilter={true} projectList={projectListData} />
+      <FilterWrapper
+        showFilterCheckbox={!!session}
+        showPriorityFilter={true}
+        showStatusFilter={true}
+        projectList={projectListData}
+        checkboxLabel="My Task(s)"
+      />
       {taskListData.length === 0 ? (
         <ItemNotFound
           title="Empty Tasks"
@@ -178,7 +189,7 @@ export const TaskTable = async ({
                   <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap w-full max-w-0 xl:w-auto">
                     <Link
                       href={
-                        isAuthenticated
+                        session
                           ? ROUTES.ADMIN_TASK_DETAIL(task.id)
                           : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
                       }
@@ -214,7 +225,7 @@ export const TaskTable = async ({
                   <td>
                     <Link
                       href={
-                        isAuthenticated
+                        session
                           ? ROUTES.ADMIN_TASK_DETAIL(task.id)
                           : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
                       }

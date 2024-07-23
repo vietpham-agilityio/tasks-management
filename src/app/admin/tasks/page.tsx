@@ -1,8 +1,5 @@
 import { Suspense } from 'react';
 
-// Authentication
-import { auth } from '@/auth';
-
 // Components
 import { TaskTable } from '@/ui';
 import { TableSkeleton } from '@/components';
@@ -15,8 +12,6 @@ const TaskListPage = async ({
 }: {
   searchParams: SearchParams;
 }) => {
-  const session = await auth();
-
   return (
     <main className="bg-white dark:bg-neutral-900 p-4 h-full">
       <div className="flex flex-row justify-between items-center py-8 ">
@@ -25,7 +20,7 @@ const TaskListPage = async ({
         </div>
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <TaskTable isAuthenticated={!!session} searchParams={searchParams} />
+        <TaskTable searchParams={searchParams} />
       </Suspense>
     </main>
   );

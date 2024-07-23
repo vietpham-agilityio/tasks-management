@@ -28,4 +28,5 @@ export interface SearchParams {
   priority?: TASK_PRIORITY_VALUE;
   projectId?: string;
   userId?: string;
+  filterByUser?: string;
 }

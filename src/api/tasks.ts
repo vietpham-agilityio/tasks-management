@@ -27,7 +27,6 @@ import { withAuth } from '@/hocs';
 export const getTasks = async (
   queryParam?: QueryParam,
 ): Promise<ResponseStateType<Task[]>> => {
-  // TODO: Get project by userId in admin pages
   try {
     return await withAuth<
       {

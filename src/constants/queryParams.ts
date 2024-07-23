@@ -8,6 +8,7 @@ export const QUERY_PARAMS = {
   SLUG: 'slug',
   IS_ARCHIVED: 'isArchived',
   IS_PUBLIC: 'isPublic',
+  FILTER_BY_USER: 'filterByUser',
 };
 
 export const ORDER_BY = {
@@ -33,4 +34,5 @@ export const SEARCH_PARAMS = {
   PROJECT_ID: 'projectId',
   USER_ID: 'userId',
   PRIORITY: 'priority',
+  FILTER_BY_USER: 'filterByUser',
 };
