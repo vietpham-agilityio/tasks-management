@@ -108,7 +108,9 @@ const TaskFormContent = ({
               value={value}
               onChange={(value) => {
                 onChange(value);
-                setValue('slug', generateSlug(value.target.value));
+                setValue('slug', generateSlug(value.target.value), {
+                  shouldValidate: true,
+                });
               }}
               disabled={pending}
               customClass="py-5"
