@@ -6,7 +6,7 @@ import { EditTaskContainer } from '@/ui';
 import { ErrorMessage, ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, ROUTES } from '@/constants';
+import { ERROR_MESSAGES, ROUTES, TAGS } from '@/constants';
 
 // Types
 import { Metadata } from 'next';
@@ -22,7 +22,9 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   const slug = params.slug;
 
-  const { data: task } = await getTaskBySlug(decodeURIComponent(slug));
+  const { data: task } = await getTaskBySlug(decodeURIComponent(slug), {
+    options: { tags: [TAGS.TASK_DETAIL(decodeURIComponent(params.slug))] },
+  });
 
   return {
     title: task?.title,
@@ -39,6 +41,7 @@ export const generateMetadata = async ({
 const TaskDetailPage = async ({ params }: { params: { slug: string } }) => {
   const { data: taskData, error: taskError } = await getTaskBySlug(
     decodeURIComponent(params.slug),
+    { options: { tags: [TAGS.TASK_DETAIL(decodeURIComponent(params.slug))] } },
   );
 
   // Determine if there is an error in fetching data
