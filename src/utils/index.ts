@@ -1,4 +1,4 @@
-export * from './slug';
+export * from './slugs';
 export * from './dates';
 export * from './numbers';
 export * from './styles';
