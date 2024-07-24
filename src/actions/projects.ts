@@ -21,6 +21,7 @@ import {
   queryParticipationsByProjectId,
   updateDocument,
   getProjectDetail,
+  deleteTasksByProjectId,
 } from '@/db';
 
 // Models
@@ -166,8 +167,8 @@ export const updateProjectWithParticipants = async (
               .filter((user) => !newData.memberIds.includes(user));
             // Unassign members from project
             const removedParticipantRepsonse = await removeUsersFromProject(
-              removedParticipant,
               id,
+              removedParticipant,
             );
             if (removedParticipantRepsonse.error) {
               throw new Error(removedParticipantRepsonse.error);
@@ -221,13 +222,19 @@ export const removeProjectById = async (projectId: string) => {
       async (args) => {
         const project = await getProjectDetail(args.projectId);
         if (project.data) {
-          const result = await deleteProject(args.projectId);
-          if (result.success) {
-            revalidateTag(TAGS.PROJECT_LIST);
-            revalidateTag(TAGS.PROJECT_DETAIL(project.data.slug));
-            revalidateTag(TAGS.PROJECT_DETAIL(args.projectId));
+          const userResponse = await removeUsersFromProject(args.projectId);
+          const taskResponse = await deleteTasksByProjectId(args.projectId);
+          if (userResponse.success && taskResponse.success) {
+            const projectResult = await deleteProject(args.projectId);
+            if (projectResult.success) {
+              revalidateTag(TAGS.TASK_LIST);
+              revalidateTag(TAGS.PROJECT_LIST);
+              revalidateTag(TAGS.PROJECT_DETAIL(project.data.slug));
+              revalidateTag(TAGS.PROJECT_DETAIL(args.projectId));
+            }
+            return projectResult;
           }
-          return result;
+          throw new Error(ERROR_MESSAGES.GENERAL_ERROR);
         }
         throw new Error(ERROR_MESSAGES.REQUESTING_DATA);
       },

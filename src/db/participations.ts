@@ -59,8 +59,8 @@ export const assignUsersToProject = async (
 };
 
 export const removeUsersFromProject = async (
-  participants: string[],
   projectId: string,
+  participants?: string[],
   rollbackFunction?: (id: string) => Promise<unknown>,
   isProjectRecentlyCreated = false,
 ): Promise<ResponseStateType<string[]>> => {
@@ -71,7 +71,20 @@ export const removeUsersFromProject = async (
         throw new Error(ERROR_MESSAGES.PROJECT_IS_ARCHIVED);
       }
       const batch = writeBatch(db);
-      participants.forEach((userId: string) => {
+      let removedList: string[] = [];
+      // Use the provided removed participant list
+      if (participants) {
+        removedList = participants;
+      }
+      // Else query all participants in the project and remove everyone
+      else {
+        const participantListResponse =
+          await queryParticipationsByProjectId(projectId);
+        if (participantListResponse.data.length !== 0) {
+          removedList = participantListResponse.data.map((user) => user.userId);
+        }
+      }
+      removedList.forEach((userId: string) => {
         batch.delete(
           doc(db, COLLECTION.PARTICIPATIONS, `${userId}-${projectId}`),
         );
@@ -79,7 +92,7 @@ export const removeUsersFromProject = async (
       await batch.commit();
       return {
         success: true,
-        data: participants,
+        data: removedList,
       };
     }
     throw new Error(ERROR_MESSAGES.DATA_NOT_FOUND);
@@ -92,7 +105,7 @@ export const removeUsersFromProject = async (
       data: [],
       error: ERROR_MESSAGES.REMOVING_DATA_ERROR(
         'Participations',
-        participants.join(','),
+        `${projectId} - project`,
       ),
     };
   }

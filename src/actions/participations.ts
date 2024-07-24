@@ -50,8 +50,8 @@ export const editParticipants = async (
             .filter((user) => !args.newData.memberIds.includes(user));
           // Unassign members from project
           const removedParticipantRepsonse = await removeUsersFromProject(
-            removedParticipant,
             projectId,
+            removedParticipant,
           );
           if (removedParticipantRepsonse.error) {
             throw new Error(removedParticipantRepsonse.error);

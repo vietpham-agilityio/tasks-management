@@ -15,6 +15,7 @@ export const ERROR_MESSAGES = {
     `An error occurred when removing data with id ${id} from ${label} collection`,
   DATA_NOT_FOUND: 'Not found',
   PROJECT_IS_ARCHIVED: 'The project is archived. Cannot update contents.',
+  GENERAL_ERROR: 'An error occurred. Please try again later.',
 };
 
 export const SUCCESS_MESSAGES = {
