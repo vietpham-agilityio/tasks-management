@@ -73,7 +73,9 @@ const ProjectFormContent = ({
               value={value}
               onChange={(value) => {
                 onChange(value);
-                setValue('slug', generateSlug(value.target.value));
+                setValue('slug', generateSlug(value.target.value), {
+                  shouldValidate: true,
+                });
               }}
               customClass="py-5"
               readOnly={isReadOnly}
