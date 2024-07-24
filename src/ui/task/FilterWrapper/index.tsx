@@ -174,7 +174,7 @@ export const FilterWrapper = ({
 
   return (
     <div className="mb-6">
-      <div className="flex gap-2.5">
+      <div className="flex flex-row sm:flex-col lg:flex-row gap-2.5">
         <div className="flex flex-col gap-2.5 md:flex-row">
           {projectList.length !== 0 && (
             <MultipleSelect
@@ -221,29 +221,31 @@ export const FilterWrapper = ({
             />
           )}
         </div>
-        <Dropdown
-          placeholder="Sort"
-          customClass={{
-            placeholder: 'text-black dark:text-white',
-            button: 'py-[11px] sm:pb-[11px] sm:pt-3 px-5',
-          }}
-          options={SORT_OPTIONS}
-          selectedItemValue={sortBy}
-          onSelect={handleSelectSort}
-        />
-        {showFilterCheckbox && (
-          <Checkbox
-            className="w-7 h-7 ml-10"
-            label={checkboxLabel}
-            checked={!!filterByUser}
-            onChange={(e) => {
-              handleCheckboxOnChange(e.target.checked);
-            }}
+        <div className="flex flex-col gap-[15px] md:gap-2.5 md:flex-row">
+          <Dropdown
+            placeholder="Sort"
             customClass={{
-              label: 'text-md font-normal',
+              placeholder: 'text-black dark:text-white',
+              button: 'py-[11px] sm:pb-[11px] sm:pt-3 px-5',
             }}
+            options={SORT_OPTIONS}
+            selectedItemValue={sortBy}
+            onSelect={handleSelectSort}
           />
-        )}
+          {showFilterCheckbox && (
+            <Checkbox
+              className="w-7 h-7"
+              label={checkboxLabel}
+              checked={!!filterByUser}
+              onChange={(e) => {
+                handleCheckboxOnChange(e.target.checked);
+              }}
+              customClass={{
+                label: 'text-md font-normal',
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
