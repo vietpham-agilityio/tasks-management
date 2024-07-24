@@ -11,6 +11,7 @@ import { ErrorMessage, ItemNotFound, StatCard } from '@/components';
 import {
   QUERY_PARAMS,
   ROUTES,
+  TAGS,
   TASK_PRIORITY_VALUE,
   TASK_STATUS_VALUE,
 } from '@/constants';
@@ -52,7 +53,9 @@ const TASK_STAT_QUERY_PARAMS: TaskStatQueryParam[] = [
 const TaskList = async () => {
   const session = await auth();
 
-  const { data, error } = await getTaskStatistic(TASK_STAT_QUERY_PARAMS);
+  const { data, error } = await getTaskStatistic(TASK_STAT_QUERY_PARAMS, {
+    options: { tags: [TAGS.TASK_LIST] },
+  });
 
   const statCardMapping = {
     [TASK_STATUS_VALUE.NOT_STARTED]: {

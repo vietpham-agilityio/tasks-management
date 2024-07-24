@@ -7,6 +7,7 @@ import {
   getCountFromServer,
   query,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 
 // DB
@@ -181,4 +182,45 @@ export const getTaskDetailBySlug = async (
     data: null,
     error: ERROR_MESSAGES.DATA_NOT_FOUND,
   };
+};
+
+export const deleteTasksByProjectId = async (
+  projectId: string,
+): Promise<ResponseStateType<Task[]>> => {
+  try {
+    const response = await getDocuments<Task>(COLLECTION.TASKS, {
+      query: [
+        {
+          field: QUERY_PARAMS.PROJECT_ID,
+          comparison: '==',
+          value: projectId,
+        },
+      ],
+    });
+    if (response.data.length !== 0) {
+      response.data.map((task) => task.id);
+      const batch = writeBatch(db);
+      response.data.forEach((task) => {
+        batch.delete(doc(db, COLLECTION.TASKS, task.id));
+      });
+      await batch.commit();
+      return {
+        success: true,
+        data: response.data,
+      };
+    }
+    return {
+      success: true,
+      data: [],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      data: [],
+      error: ERROR_MESSAGES.REMOVING_DATA_ERROR(
+        'Tasks',
+        `${projectId} - project`,
+      ),
+    };
+  }
 };
