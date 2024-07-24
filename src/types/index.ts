@@ -1,4 +1,4 @@
 export * from './components';
-export * from './user';
-export * from './variant';
+export * from './users';
+export * from './variants';
 export * from './query-params';
