@@ -9,7 +9,7 @@ import { ErrorMessage, ItemNotFound } from '@/components';
 import { EditTaskFormWrapper } from '../EditTaskFormWrapper';
 
 // Constants
-import { ERROR_MESSAGES } from '@/constants';
+import { ERROR_MESSAGES, TAGS } from '@/constants';
 
 // Models
 import { Task } from '@/models';
@@ -27,8 +27,10 @@ export const EditTaskContainer = async ({
   const projectId = taskData.projectId;
   const { data: participantList, error: participantListError } =
     await getPartipationsByProjectId(projectId);
-  const { data: projectData, error: projectError } =
-    await getProjectById(projectId);
+  const { data: projectData, error: projectError } = await getProjectById(
+    projectId,
+    { options: { tags: [TAGS.PROJECT_DETAIL(projectId)] } },
+  );
 
   const error = participantListError || projectError;
 

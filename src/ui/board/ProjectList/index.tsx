@@ -30,7 +30,13 @@ const ProjectList = async () => {
           value: 'true',
         },
       ]
-    : [];
+    : [
+        {
+          field: QUERY_PARAMS.IS_PUBLIC,
+          comparison: '==',
+          value: true,
+        },
+      ];
 
   const { data, error, total } = await getProjectList({
     limitItem: LIMIT_ITEMS.BOARD_PAGE,
