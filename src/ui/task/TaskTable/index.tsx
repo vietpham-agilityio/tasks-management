@@ -128,21 +128,22 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
     query,
   });
 
-  const { data: projectListData, error: projectListError } = await getProjectList({
-    orderItem: {
-      field: FIELDS.UPDATED_AT,
-      type: ORDER_TYPES.DESC,
-    },
-    query: session
-      ? []
-      : [
-          {
-            field: QUERY_PARAMS.IS_PUBLIC,
-            comparison: '==',
-            value: true,
-          },
-        ],
-  });
+  const { data: projectListData, error: projectListError } =
+    await getProjectList({
+      orderItem: {
+        field: FIELDS.UPDATED_AT,
+        type: ORDER_TYPES.DESC,
+      },
+      query: session
+        ? []
+        : [
+            {
+              field: QUERY_PARAMS.IS_PUBLIC,
+              comparison: '==',
+              value: true,
+            },
+          ],
+    });
 
   const error = projectListError || taskError;
 
@@ -152,8 +153,8 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
     <div className="relative overflow-x-auto">
       <FilterWrapper
         showFilterCheckbox={!!session}
-        showPriorityFilter={true}
-        showStatusFilter={true}
+        showPriorityFilter
+        showStatusFilter
         projectList={projectListData}
         checkboxLabel="My Task(s)"
       />
@@ -167,10 +168,10 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
           <thead className="text-xs uppercase text-gray-700 bg-gray-50 dark:bg-zinc-700 dark:text-gray-300">
             <tr className="font-bold">
               <th className="px-6 py-4">Task Name</th>
-              <th className="px-2">Status</th>
+              <th className="px-6 hidden sm:block mt-3.5">Description</th>
+              <th className="px-2 sm:px-6">Status</th>
               <th className="px-2">Date</th>
               <th className="px-2">Priority</th>
-              <th className="px-2 hidden sm:block mt-3.5">Estimation</th>
               <th className="w-6" />
             </tr>
           </thead>
@@ -180,7 +181,6 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
                 labelMapping[task.status];
               const { value: priorityValue, variant: priorityVariant } =
                 labelMapping[task.priority];
-
               return (
                 <tr
                   key={task.id}
@@ -197,7 +197,10 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
                       <p className="truncate">{task.title}</p>
                     </Link>
                   </td>
-                  <td className="min-w-20 sm:min-w-28 px-2 py-4">
+                  <td className="px-6 py-4 text-gray-900 dark:text-white font-medium whitespace-nowrap w-full max-w-0 min-w-[200px] hidden sm:block md:min-w-full">
+                    <p className="truncate">{task.description}</p>
+                  </td>
+                  <td className="min-w-20 sm:min-w-28 px-2 sm:pr-2 sm:pl-6 py-4">
                     <Text
                       value={statusValue}
                       variant={statusVariant as VariantType}
@@ -214,12 +217,6 @@ export const TaskTable = async ({ searchParams }: TaskTableProps) => {
                       value={priorityValue}
                       variant={priorityVariant as VariantType}
                       customClass="font-medium px-0"
-                    />
-                  </td>
-                  <td className="hidden sm:block mt-3.5">
-                    <Text
-                      customClass="w-full text-gray-900 dark:text-white"
-                      value="1 hour"
                     />
                   </td>
                   <td>
