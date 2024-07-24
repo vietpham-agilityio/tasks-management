@@ -12,11 +12,7 @@ const AuthLayout = ({
     <div className="row-auto lg:col-span-2">
       <PublicNavBar />
     </div>
-    <div className="row-auto lg:col-span-10 bg-white dark:bg-zinc-800 rounded-lg">
-      <div className="w-full lg:w-2/3 py-10 lg:py-20 px-10 mx-auto">
-        {children}
-      </div>
-    </div>
+    <div className="row-auto lg:col-span-10">{children}</div>
   </div>
 );
 
