@@ -18,7 +18,7 @@ import {
 
 // Types
 import { VariantType } from '@/types';
-import { TaskStatQueryParam } from '@/models';
+import { TaskStatisticQueryParam } from '@/models';
 
 // Icons
 import {
@@ -30,7 +30,7 @@ import {
   UserIcon,
 } from '@/icons';
 
-const TASK_STATISTIC_QUERY_PARAMS: TaskStatQueryParam[] = [
+const TASK_STATISTIC_QUERY_PARAMS: TaskStatisticQueryParam[] = [
   {
     field: QUERY_PARAMS.STATUS,
     value: TASK_STATUS_VALUE.NOT_STARTED,
@@ -141,7 +141,7 @@ const TaskList = async () => {
           const statisticCard = taskStatistic.statisticCard;
           return (
             <StatisticCard
-              key={statisticCard.order}
+              key={statisticCard.label}
               to={session ? ROUTES.ADMIN_TASK_LIST : ROUTES.TASK_LIST}
               icon={statisticCard.icon}
               label={statisticCard.label}
