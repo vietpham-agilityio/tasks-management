@@ -5,6 +5,9 @@ import { ERROR_MESSAGES } from './messages';
 import { isRequired, isValidFormat } from '../utils/validators';
 import { MIN_LENGTH, REGEX_EMAIL } from './validators';
 
+// Utils
+import { generatePasswordRegex } from '@/utils/password';
+
 export const UserSigninFormDataSchema = z.object({
   email: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
   password: z.string().refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
@@ -30,7 +33,8 @@ export const UserSignupFormDataSchema = z
       .min(
         MIN_LENGTH.PASSWORD,
         ERROR_MESSAGES.MIN_LENGTH('Password', MIN_LENGTH.PASSWORD),
-      ),
+      )
+      .regex(generatePasswordRegex(8), ERROR_MESSAGES.PASSWORD_NOT_MATCH_REGEX),
     passwordConfirmation: z
       .string()
       .refine(isRequired, ERROR_MESSAGES.FIELD_REQUIRED),
