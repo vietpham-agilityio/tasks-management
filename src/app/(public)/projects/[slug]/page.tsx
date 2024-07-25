@@ -43,7 +43,14 @@ export const generateMetadata = async ({
       title: project?.title,
       description: project?.description,
       url: `${BASE_URL}${ROUTES.PROJECT_DETAIL(project?.slug)}`,
-      images: project?.image || '/open-graph-image.webp',
+      images: [
+        {
+          url: project?.image || '/Opengraph/open-graph-boards.png',
+          width: 1200,
+          height: 630,
+          alt: project?.description,
+        },
+      ],
     },
   };
 };

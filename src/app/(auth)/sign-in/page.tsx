@@ -17,7 +17,15 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESC,
     url: `${BASE_URL}${ROUTES.SIGN_IN}`,
-    images: '/open-graph-image.webp',
+    images: [
+      {
+        url: '/Opengraph/open-graph-sign-in.png',
+        width: 1200,
+        height: 630,
+        alt: DESC,
+      },
+    ],
+    type: 'website',
   },
 };
 
