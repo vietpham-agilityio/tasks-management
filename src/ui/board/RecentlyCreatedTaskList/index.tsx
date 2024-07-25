@@ -10,13 +10,16 @@ import { ErrorMessage, ItemNotFound, OverviewCard } from '@/components';
 // Constants
 import { DATE_FORMAT, LIMIT_ITEMS, ORDER_BY, ROUTES } from '@/constants';
 
+// Types
+import { Task } from '@/models';
+
 // Utils
 import { formatDate } from '@/utils';
 
-const RecentlyCreatedTasktList = async () => {
+const RecentlyCreatedTaskList = async () => {
   const session = await auth();
   const { data, error } = await getTasks({
-    limitItem: LIMIT_ITEMS.BOARD_PAGE,
+    limitItem: LIMIT_ITEMS.RECENTLY_TASK,
     orderItem: { field: ORDER_BY.CREATED_AT, type: 'desc' },
   });
 
@@ -41,23 +44,26 @@ const RecentlyCreatedTasktList = async () => {
       <span className="text-xl font-bold dark:text-white">
         Recently Created Tasks
       </span>
-      <div className="flex flex-col gap-4 pt-3 ">
-        {data.map((task) => {
+      <div className="flex flex-col gap-4 pt-3">
+        {data.map((task: Task) => {
+          const { id, slug, createdAt, title, description, image } = task;
+
           return (
             <OverviewCard
-              key={task.id}
+              key={id}
               href={
                 session
-                  ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                  : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
+                  ? ROUTES.ADMIN_TASK_DETAIL(id)
+                  : ROUTES.TASK_DETAIL(encodeURIComponent(slug))
               }
-              time={formatDate(task.createdAt, DATE_FORMAT.Hour)}
-              title={task.title}
-              description={task.description}
+              time={formatDate(createdAt, DATE_FORMAT.Hour)}
+              title={title}
+              description={description}
               isRowDisplay={true}
+              imageSrc={image || '/image-not-available.webp'}
               customClass={{
-                wrapper: 'hover:bg-zinc-100',
-                image: 'max-w-24',
+                wrapper: 'hover:bg-zinc-100 dark:hover:bg-zinc-700',
+                image: 'md:max-w-20 md:aspect-square',
               }}
             />
           );
@@ -67,4 +73,4 @@ const RecentlyCreatedTasktList = async () => {
   );
 };
 
-export { RecentlyCreatedTasktList };
+export { RecentlyCreatedTaskList };

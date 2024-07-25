@@ -8,5 +8,6 @@ export const COLLECTION = {
 export const LIMIT_ITEMS = {
   DEFAULT: 10,
   BOARD_PAGE: 6,
+  RECENTLY_TASK: 5,
   SINGLE_RECORD: 1,
 };
