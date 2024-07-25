@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Components
-import { StatCard } from './index';
+import { StatisticCard } from './index';
 
 // Icons
 import { HomeIcon } from '@/icons';
 
 const meta = {
-  title: 'Components/StatCard',
-  component: StatCard,
+  title: 'Components/StatisticCard',
+  component: StatisticCard,
   parameters: {
     layout: 'centered',
   },
@@ -26,7 +26,7 @@ const meta = {
       ],
     },
   },
-} satisfies Meta<typeof StatCard>;
+} satisfies Meta<typeof StatisticCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

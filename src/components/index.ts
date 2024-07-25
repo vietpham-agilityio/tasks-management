@@ -16,7 +16,7 @@ export { AvatarGroup } from './AvatarGroup';
 export { Checkbox } from './Checkbox';
 export { ItemNotFound } from './ItemNotFound';
 export { Pagination, PaginationWrapper } from './Pagination';
-export { StatCard } from './StatCard';
+export { StatisticCard } from './StatisticCard';
 export { ErrorMessage } from './ErrorMessage';
 export { Badge } from './Badge';
 export { BaseModal } from './BaseModal';

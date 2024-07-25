@@ -7,7 +7,7 @@ import { VariantType } from '@/types';
 // Utils
 import { cn } from '@/utils';
 
-type StatCardProps = {
+type StatisticCardProps = {
   to: string;
   icon: ReactNode;
   label: string;
@@ -21,22 +21,25 @@ type StatCardProps = {
   };
 };
 
-export const StatCard = ({
+export const StatisticCard = ({
   to,
   icon,
   label,
   description,
   variant = 'primary',
   customClass,
-}: StatCardProps) => {
+}: StatisticCardProps) => {
   return (
-    <Link href={to}>
+    <Link
+      href={to}
+      className="rounded-lg hover:outline outline-blue-400 dark:outline-white hover:outline-offset-2 hover:outline-2"
+    >
       <div
-        data-testid="statCard"
+        data-testid="statisticCard"
         className={cn(
           'flex flex-col rounded-lg pl-[12.5px] pr-[21.5px] py-[11px]',
           {
-            'bg-sky-100': variant === 'primary',
+            'bg-orange-200': variant === 'primary',
             'bg-indigo-100': variant === 'secondary',
             'bg-violet-200': variant === 'tertiary',
             'bg-yellow-100': variant === 'warning',
@@ -50,7 +53,7 @@ export const StatCard = ({
           className={cn(
             'rounded-full w-fit p-2 mb-[15px] text-white',
             {
-              'bg-neutral-300': variant === 'primary',
+              'bg-orange-400': variant === 'primary',
               'bg-indigo-500': variant === 'secondary',
               'bg-fuchsia-700': variant === 'tertiary',
               'bg-amber-300': variant === 'warning',
