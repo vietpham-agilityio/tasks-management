@@ -22,7 +22,14 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESC,
     url: `${BASE_URL}${ROUTES.PROJECT_LIST}`,
-    images: '/open-graph-image.webp',
+    images: [
+      {
+        url: '/Opengraph/open-graph-boards.png',
+        width: 1200,
+        height: 630,
+        alt: DESC,
+      },
+    ],
   },
 };
 
