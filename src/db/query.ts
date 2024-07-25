@@ -58,7 +58,7 @@ export const getDocuments = async <T>(
         const lastDocs = await getDocs(
           query(
             collection(db, collectionKey),
-            orderBy(queryParam?.orderItem!.field, queryParam?.orderItem!.type),
+            ...queryConstraints,
             limit(queryParam.limitItem * (queryParam.page - 1)),
           ),
         );
