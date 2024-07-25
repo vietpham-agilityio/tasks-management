@@ -36,7 +36,6 @@ export const getDocuments = async <T>(
     let queryConstraints: QueryConstraint[] = [];
     let countQueryConstraints: QueryConstraint[] = [];
 
-    // TODO: Create a helper function to generate queryConstraint
     if (queryParam?.orderItem) {
       queryConstraints.push(
         orderBy(queryParam.orderItem.field, queryParam.orderItem.type),
@@ -48,10 +47,10 @@ export const getDocuments = async <T>(
     }
 
     if (queryParam?.query) {
-      (countQueryConstraints = queryParam.query.map((element) =>
+      countQueryConstraints = queryParam.query.map((element) =>
         where(element.field, element.comparison, element.value),
-      )),
-        (queryConstraints = queryConstraints.concat(countQueryConstraints));
+      );
+      queryConstraints = queryConstraints.concat(countQueryConstraints);
     }
 
     if (queryParam?.page && queryParam?.limitItem && queryParam.orderItem) {
