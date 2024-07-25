@@ -124,7 +124,7 @@ const TaskList = async () => {
               description={stat.total.toString()}
               variant={statCard.variant as VariantType}
               customClass={{
-                wrapper: 'hover:opacity-1.1',
+                wrapper: 'hover:opacity-70 dark:hover:opacity-90',
               }}
             />
           );

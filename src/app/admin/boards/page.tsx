@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 // Components
-import { ProjectList, RecentlyCreatedTasktList, TaskList } from '@/ui';
+import { ProjectList, RecentlyCreatedTaskList, TaskList } from '@/ui';
 import {
   ProjectListSkeleton,
   RecentlyCreatedTaskListSkeleton,
@@ -22,7 +22,7 @@ const BoardsPage = () => {
         </div>
         <div className="lg:col-span-2 pt-8 md:pt-0">
           <Suspense fallback={<RecentlyCreatedTaskListSkeleton />}>
-            <RecentlyCreatedTasktList />
+            <RecentlyCreatedTaskList />
           </Suspense>
         </div>
       </div>
