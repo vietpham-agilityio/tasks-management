@@ -3,6 +3,6 @@ export const REGEX_EMAIL = new RegExp(
 );
 
 export const MIN_LENGTH = {
-  USERNAME: 5,
-  PASSWORD: 5,
+  USERNAME: 6,
+  PASSWORD: 8,
 };
