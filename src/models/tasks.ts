@@ -36,12 +36,12 @@ export type Task = BaseEntity & {
   projectId: string;
 };
 
-export type TaskStatResponse = {
+export type TaskStatisticResponse = {
   label: string;
   total: number;
 };
 
-export type TaskStatQueryParam = {
+export type TaskStatisticQueryParam = {
   field: string;
   value: string;
 };

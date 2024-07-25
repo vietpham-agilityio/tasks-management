@@ -16,8 +16,8 @@ import {
   CacheOption,
   ResponseStateType,
   Task,
-  TaskStatQueryParam,
-  TaskStatResponse,
+  TaskStatisticQueryParam,
+  TaskStatisticResponse,
 } from '@/models';
 import { QueryParam } from '@/types';
 
@@ -56,20 +56,20 @@ export const getTasks = async (
 };
 
 export const getTaskStatistic = async (
-  stats: TaskStatQueryParam[],
+  stats: TaskStatisticQueryParam[],
   cacheOptions?: CacheOption,
-): Promise<ResponseStateType<TaskStatResponse[]>> => {
+): Promise<ResponseStateType<TaskStatisticResponse[]>> => {
   try {
     return await withAuth<
       {
         stats: { field: string; value: string }[];
         cacheOptions?: CacheOption;
       },
-      ResponseStateType<TaskStatResponse[]>
+      ResponseStateType<TaskStatisticResponse[]>
     >(
       async (args, session) => {
         try {
-          const taskStat: TaskStatResponse[] = [];
+          const taskStat: TaskStatisticResponse[] = [];
           await Promise.all(
             args.stats.map(async (type) => {
               const response = session?.user?.id
