@@ -79,17 +79,13 @@ const TaskFormContent = ({
   isReadOnly,
 }: TaskFormContentType) => {
   const { pending } = useFormStatus();
+  const isDisable = pending || isReadOnly;
 
   return (
     <div>
       <div className="flex flex-col gap-2 mb-8">
         <label className="font-bold text-md ">Project</label>
-        <Input
-          readOnly={true}
-          value={fromProject.title}
-          disabled
-          customClass="py-5"
-        />
+        <Input readOnly value={fromProject.title} disabled customClass="py-5" />
         <div />
       </div>
 
@@ -103,7 +99,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Title</label>
             <Input
-              readOnly={isReadOnly}
+              disabled={isDisable}
               placeholder="Title"
               value={value}
               onChange={(value) => {
@@ -112,7 +108,6 @@ const TaskFormContent = ({
                   shouldValidate: true,
                 });
               }}
-              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -140,13 +135,12 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Slug</label>
             <Input
-              readOnly={isReadOnly}
+              disabled={isDisable}
               placeholder="Slug"
               value={value}
               onChange={(value) => {
                 onChange(value);
               }}
-              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -174,13 +168,12 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Description</label>
             <Input
-              readOnly={isReadOnly}
+              disabled={isDisable}
               placeholder="Description"
               value={value}
               onChange={(value) => {
                 onChange(value);
               }}
-              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -208,13 +201,12 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Image</label>
             <Input
-              readOnly={isReadOnly}
+              disabled={isDisable}
               placeholder="Image"
               value={value}
               onChange={(value) => {
                 onChange(value);
               }}
-              disabled={pending}
               customClass="py-5"
               {...rest}
             />
@@ -243,7 +235,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2">
               <label className="font-bold text-md">Status</label>
               <Dropdown
-                disabled={pending || isReadOnly}
+                disabled={isDisable}
                 placeholder="Status"
                 options={TASK_STATUS_OPTIONS}
                 selectedItemValue={value}
@@ -279,7 +271,7 @@ const TaskFormContent = ({
             <div className="flex flex-col gap-2 basis-1/2 z-10">
               <label className="font-bold text-md">Priority</label>
               <Dropdown
-                disabled={pending || isReadOnly}
+                disabled={isDisable}
                 placeholder="Priority"
                 options={TASK_PRIORITY_OPTIONS}
                 selectedItemValue={value}
@@ -317,7 +309,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Assigned To</label>
             <Dropdown
-              disabled={pending || isReadOnly}
+              disabled={isDisable}
               placeholder="Assigned To User"
               options={assginedToOptions.map((user) => ({
                 name: user.name,
@@ -354,7 +346,7 @@ const TaskFormContent = ({
           <div className="flex flex-col gap-2">
             <label className="font-bold text-md">Due Date</label>
             <Input
-              readOnly={isReadOnly || pending}
+              disabled={isDisable}
               placeholder="Due Date"
               type="date"
               value={formatDate(value, DATE_FORMAT.Tertiary)}
