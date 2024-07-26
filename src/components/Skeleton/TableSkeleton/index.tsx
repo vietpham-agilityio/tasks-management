@@ -11,7 +11,7 @@ type TableSkeletonProps = {
 const TableRowSkeleton = () => (
   <div
     className={cn(
-      'animate-pulse flex flex-col border p-4 dark:bg-zinc-800 dark:border-gray-700',
+      'animate-pulse flex flex-col border p-3.5 dark:bg-zinc-800 dark:border-gray-700',
     )}
   >
     <div className="animate-pulse flex flex-1 flex-col gap-1 dark:text-white min-w-0">
@@ -23,7 +23,7 @@ const TableRowSkeleton = () => (
 export const TableSkeleton = ({
   totalItems = LIMIT_ITEMS.DEFAULT,
 }: TableSkeletonProps) => (
-  <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg">
+  <div className="bg-white dark:bg-zinc-800 p-4 pb-2 rounded-lg">
     <div className="flex w-full gap-2">
       {[...Array(4)].map((_, index) => (
         <div
@@ -32,7 +32,7 @@ export const TableSkeleton = ({
         />
       ))}
     </div>
-    <div className="flex flex-col w-full pt-3">
+    <div className="flex flex-col w-full pt-4">
       {[...Array(totalItems)].map((_, index) => (
         <TableRowSkeleton key={`overview-card-${index}`} />
       ))}
