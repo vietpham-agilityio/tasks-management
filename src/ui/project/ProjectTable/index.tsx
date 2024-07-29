@@ -122,8 +122,8 @@ const TableContent = async ({
               <Link
                 href={
                   session
-                    ? ROUTES.ADMIN_TASK_DETAIL(project.id)
-                    : ROUTES.TASK_DETAIL(encodeURIComponent(project.slug))
+                    ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
+                    : ROUTES.PROJECT_DETAIL(encodeURIComponent(project.slug))
                 }
                 aria-label="task-detail"
                 className="px-2 md:px-4 flex justify-end"
