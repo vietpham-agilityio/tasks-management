@@ -11,7 +11,7 @@ type TableSkeletonProps = {
 const TableRowSkeleton = () => (
   <div
     className={cn(
-      'animate-pulse flex flex-col border p-3.5 dark:bg-zinc-800 dark:border-gray-700',
+      'animate-pulse flex flex-col border-b-2 p-4 bg-white dark:bg-zinc-800',
     )}
   >
     <div className="animate-pulse flex flex-1 flex-col gap-1 dark:text-white min-w-0">
@@ -23,19 +23,16 @@ const TableRowSkeleton = () => (
 export const TableSkeleton = ({
   totalItems = LIMIT_ITEMS.DEFAULT,
 }: TableSkeletonProps) => (
-  <div className="bg-white dark:bg-zinc-800 p-4 pb-2 rounded-lg">
-    <div className="flex w-full gap-2">
-      {[...Array(4)].map((_, index) => (
-        <div
-          key={`skeleton-div-${index}`}
-          className="h-12 flex-1 bg-gray-200 rounded-lg dark:bg-gray-700"
-        />
-      ))}
-    </div>
-    <div className="flex flex-col w-full pt-4">
-      {[...Array(totalItems)].map((_, index) => (
-        <TableRowSkeleton key={`overview-card-${index}`} />
-      ))}
+  <div>
+    <div className="w-full text-sm text-left text-gray-500">
+      <div className="text-xs uppercase text-gray-700 bg-gray-50 dark:bg-zinc-700 dark:text-gray-300">
+        <div>
+          <div className="animate-pulse h-12" />
+          {[...Array(totalItems)].map((_, index) => (
+            <TableRowSkeleton key={`overview-card-${index}`} />
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 );
