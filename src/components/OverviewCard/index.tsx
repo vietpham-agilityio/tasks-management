@@ -89,7 +89,9 @@ export const OverviewCard = ({
                 blurDataURL={BLUR_DATA_WITH_GRAY_BACKGROUND_BASE64}
                 placeholder="blur"
                 className="rounded-lg object-cover"
-                unoptimized
+                sizes="(max-width: 767px) 90vw,
+                (min-width: 768px) and (max-width: 1023px) 33vw,
+                (min-width: 1024px) 25vw"
               />
             </InView>
           )}
