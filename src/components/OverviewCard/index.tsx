@@ -53,13 +53,13 @@ export const OverviewCard = ({
   onClickDelete,
 }: OverviewCardProps) => {
   return (
-    <div className="relative group ">
+    <div className="relative group">
       {hasDeleteButton && (
         <div
-          className="absolute w-4 h-4 text-gray-400 -top-1.5 -right-1 rounded-full cursor-pointer z-10 hidden group-hover:block hover:bg-red-500 hover:text-white"
+          className="hidden absolute w-6 h-6 text-gray-400 bg-neutral-700 -top-2.5 -right-[9px] rounded-full cursor-pointer z-10 group-hover:flex group-hover:items-center group-hover:justify-center hover:bg-red-500 hover:text-white"
           onClick={onClickDelete}
         >
-          <RxCross2 />
+          <RxCross2 className="w-5 h-5" />
         </div>
       )}
 
