@@ -22,7 +22,7 @@ const Checkbox = forwardRef(
     const componentId = `checkbox-${id}-${label}`;
 
     return (
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 h-12 min-w-40 items-center">
         <input
           {...props}
           ref={ref}

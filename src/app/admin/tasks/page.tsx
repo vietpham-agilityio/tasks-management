@@ -20,7 +20,10 @@ const TaskListPage = async ({
         </div>
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <TaskTable searchParams={searchParams} />
+        <TaskTable
+          key={JSON.stringify(searchParams)}
+          searchParams={searchParams}
+        />
       </Suspense>
     </main>
   );

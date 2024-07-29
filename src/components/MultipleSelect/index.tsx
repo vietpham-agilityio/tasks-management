@@ -74,7 +74,7 @@ export const MultipleSelect = ({
     <>
       <div
         className={cn(
-          'w-full rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800 dark:border-gray-700',
+          'h-fit rounded-lg border border-zinc-300 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-neutral-900 dark:outline-gray-800 dark:border-gray-700',
           {
             'outline outline-1 outline-zinc-300': isOpenOptions,
             'cursor-not-allowed': disabled,
