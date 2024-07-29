@@ -4,8 +4,8 @@ import { Suspense } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 // Components
+import { NavLink, ProjectPageSkeleton } from '@/components';
 import { ProjectTable } from '@/ui';
-import { NavLink, TableSkeleton } from '@/components';
 
 // Constants
 import { ROUTES } from '@/constants';
@@ -31,7 +31,7 @@ const ProjectListPage = async ({
           className="bg-neutral-800 text-white font-bold py-3"
         />
       </div>
-      <Suspense fallback={<TableSkeleton />}>
+      <Suspense fallback={<ProjectPageSkeleton />}>
         <ProjectTable searchParams={searchParams} />
       </Suspense>
     </main>

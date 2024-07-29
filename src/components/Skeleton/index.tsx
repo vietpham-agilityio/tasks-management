@@ -7,3 +7,4 @@ export { ProjectHeaderSkeleton } from './ProjectHeaderSkeleton';
 export { TaskSectionSkeleton } from './TaskSectionSkeleton';
 export { TableSkeleton } from './TableSkeleton';
 export { TaskPageSkeleton } from './TaskPageSkeleton';
+export { ProjectPageSkeleton } from './ProjectPageSkeleton';
