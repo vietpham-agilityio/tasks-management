@@ -98,6 +98,9 @@ export const Dropdown = ({
           'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-zinc-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:border-gray-700',
           !selectedValue && 'text-zinc-400',
           customClass?.button,
+          {
+            'cursor-not-allowed opacity-50 dark:hover:bg-zinc-900': disabled,
+          },
         )}
         onClick={handleToggleDropdown}
         endIcon={
