@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useTransition } from 'react';
+import { useCallback, useState, useTransition } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 // Components
@@ -80,6 +80,7 @@ export const FilterWrapper = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const [_, startTransition] = useTransition();
 
@@ -101,7 +102,6 @@ export const FilterWrapper = ({
     (searchParamsObject.userId &&
       decodeURIComponent(searchParamsObject.userId).split(',')) ||
     [];
-  const filterByUser = searchParamsObject.filterByUser || '';
 
   const updateSearchParams = useCallback(
     (searchParamKey: string, value: string) => {
@@ -167,6 +167,7 @@ export const FilterWrapper = ({
 
   const handleCheckboxOnChange = useCallback(
     (value: boolean) => {
+      value ? setIsChecked(value) : setIsChecked(false);
       updateSearchParams(SEARCH_PARAMS.FILTER_BY_USER, value ? 'true' : '');
     },
     [updateSearchParams],
@@ -236,7 +237,7 @@ export const FilterWrapper = ({
             <Checkbox
               className="w-7 h-7"
               label={checkboxLabel}
-              checked={!!filterByUser}
+              checked={isChecked}
               onChange={(e) => {
                 handleCheckboxOnChange(e.target.checked);
               }}
