@@ -44,9 +44,9 @@ export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
 
   return (
     <>
-      <div className="grid grid-rows-1 lg:grid-cols-5 px-[29px] py-12 bg-zinc-100 dark:bg-neutral-700 rounded-lg items-center lg:place-items-center gap-4 ">
+      <div className="grid grid-rows-1 lg:grid-cols-5 px-7 py-12 bg-zinc-100 dark:bg-neutral-700 rounded-lg items-center lg:place-items-center gap-4 lg:max-h-40">
         <span className="font-bold text-2xl dark:text-white">{title}</span>
-        <div className="lg:col-span-2 flex flex-row gap-[22px]">
+        <div className="lg:col-span-2 flex w-full justify-start lg:justify-center gap-4">
           <AvatarGroup listUsers={participationData} maxDisplayed={3} />
           {!isArchived && session && (
             <EditParticipant
@@ -56,7 +56,7 @@ export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
             />
           )}
         </div>
-        <div className="font-bold text-base  dark:text-white dark:fill-white">
+        <div className="font-bold text-base dark:text-white dark:fill-white">
           <span className="flex flex-rows gap-4">
             {isPublic ? (
               <>
@@ -82,7 +82,7 @@ export const ProjectHeader = async ({ project }: ProjectHeaderProps) => {
           </time>
         </div>
       </div>
-      <div className="flex flex-col-reverse gap-5 lg:flex-row justify-between mt-5">
+      <div className="flex gap-5 flex-col-reverse md:flex-row justify-between mt-5">
         <FilterWrapper
           assignedToList={participationData}
           showPriorityFilter={true}

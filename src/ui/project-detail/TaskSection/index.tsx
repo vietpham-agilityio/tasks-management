@@ -144,7 +144,7 @@ export const TaskSection = async ({
           })}
           label="Add new"
           icon={<FaPlus />}
-          className="border text-black dark:text-white hover:bg-zinc-300 hover:font-normal hover:text-black dark:hover:text-white py-3 hidden lg:flex"
+          className="border text-black dark:text-white hover:bg-zinc-300 hover:font-normal hover:text-black dark:hover:text-white py-3 hidden md:flex"
         />
       )}
     </div>

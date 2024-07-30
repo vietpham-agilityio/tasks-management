@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body
         className={cn(
           manRope.className,
-          'bg-zinc-50 dark:bg-neutral-900 px-6 my-[21px]',
+          'bg-zinc-50 dark:bg-neutral-900 px-6 py-5',
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

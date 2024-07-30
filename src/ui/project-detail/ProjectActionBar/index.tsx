@@ -67,7 +67,7 @@ const ProjectActionBarBase = ({
             onClick={handleCreateNewTask}
             startIcon={<FaPlus className="w-5 h-5 mr-2" />}
             variant="outline"
-            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white lg:hidden"
+            customClass="border-black hover:bg-zinc-300 font-bold dark:text-white md:hidden"
           >
             Create New Task
           </Button>

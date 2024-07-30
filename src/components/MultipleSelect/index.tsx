@@ -121,11 +121,13 @@ export const MultipleSelect = ({
         <div className="relative w-full focus:outline-2 focus:outline-blue-500 focus:border-none">
           {filteredSelectedOptions.length === 0 &&
             (title ? (
-              <div className="flex items-center py-3 px-5 gap-3">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <FilterIcon />
+              <div className="flex items-center py-3 px-5 gap-3 justify-between">
+                <div className="flex gap-2 items-center">
+                  <div className="w-5 h-5 flex items-center justify-center">
+                    <FilterIcon />
+                  </div>
+                  <p className="text-black dark:text-white">{title}</p>
                 </div>
-                <p className="text-black dark:text-white">{title}</p>
                 <div className="w-5 h-5 flex items-center justify-center">
                   <SelectIcon />
                 </div>
