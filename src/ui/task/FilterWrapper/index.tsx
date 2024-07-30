@@ -175,7 +175,7 @@ export const FilterWrapper = ({
 
   return (
     <div className="mb-6">
-      <div className="flex flex-row sm:flex-col lg:flex-row gap-2.5">
+      <div className="flex flex-col md:flex-row gap-2.5">
         <div className="flex flex-col gap-2.5 md:flex-row">
           {projectList.length !== 0 && (
             <MultipleSelect

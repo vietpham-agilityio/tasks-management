@@ -52,7 +52,8 @@ const ProjectDetailPage = async ({
       <Suspense fallback={<ProjectHeaderSkeleton />}>
         <ProjectHeader project={projectData} />
       </Suspense>
-      <div className="grid grid-rows-1 md:grid-cols-3 gap-6 pt-5 divide-y-2 md:divide-y-0">
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-5 md:divide-y-0">
         {TASK_STATUS_OPTIONS.map(({ name, value }) => (
           <Suspense fallback={<TaskSectionSkeleton />} key={`section-${name}`}>
             <TaskSection
