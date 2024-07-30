@@ -6,7 +6,7 @@ import { METADATA_CONTENT, ROUTES } from '@/constants';
 
 // Components
 import { ProjectTable } from '@/ui';
-import { TableSkeleton } from '@/components';
+import { ProjectPageSkeleton } from '@/components';
 
 // Types
 import { SearchParams } from '@/types';
@@ -45,7 +45,7 @@ const ProjectListPage = async ({
           <h1 className="font-bold text-3xl">Projects</h1>
         </div>
       </div>
-      <Suspense fallback={<TableSkeleton />}>
+      <Suspense fallback={<ProjectPageSkeleton />}>
         <ProjectTable searchParams={searchParams} />
       </Suspense>
     </main>
