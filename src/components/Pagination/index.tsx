@@ -112,6 +112,10 @@ export const Pagination = ({
           'px-3',
           variant === 'primary' && 'text-white',
           customClass?.button,
+          {
+            'bg-zinc-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:hover:text-white opacity-80':
+              !hasPrevious,
+          },
         )}
         onClick={handleClickPrevious}
         disabled={!hasPrevious}
@@ -185,6 +189,10 @@ export const Pagination = ({
           'px-3',
           variant === 'primary' && 'text-white',
           customClass?.button,
+          {
+            'bg-zinc-100 dark:bg-neutral-700 dark:hover:bg-neutral-700 dark:hover:text-white opacity-80':
+              !hasNext,
+          },
         )}
         onClick={handleClickNext}
         disabled={!hasNext}
