@@ -93,38 +93,35 @@ export const Dropdown = ({
       onBlur={onBlur}
     >
       <Button
-        variant="outline"
         customClass={cn(
-          'w-full p-5 bg-zinc-50 text-neutral-800 dark:text-white dark:bg-zinc-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:border-gray-700',
+          'p-5 text-neutral-800 bg-zinc-50 hover:bg-zinc-100 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 border border-zinc-300 dark:border-gray-700',
           !selectedValue && 'text-zinc-400',
           customClass?.button,
           {
+            'outline outline-1 outline-zinc-300 dark:outline-gray-700':
+              isOpenDropdown,
             'cursor-not-allowed opacity-50 dark:hover:bg-zinc-900': disabled,
           },
         )}
         onClick={handleToggleDropdown}
-        endIcon={
-          <GoChevronDown
-            className={cn(
-              'h-6 w-6 text-neutral-900 dark:text-white transform duration-300 ease-in-out',
-              {
-                'rotate-180': isOpenDropdown,
-              },
-            )}
-          />
-        }
-        disabled={disabled}
       >
         {renderTitle()}
+        <GoChevronDown
+          className={cn(
+            'h-[22px] w-[22px] text-neutral-900 dark:text-white transform duration-300 ease-in-out',
+            {
+              'rotate-180': isOpenDropdown,
+            },
+          )}
+        />
       </Button>
       {isOpenDropdown && (
-        <div
-          className="absolute z-20 transform duration-300 ease-in-out bg-white text-neutral-800 dark:text-white dark:bg-zinc-900 overflow-y-auto max-h-40 rounded-lg border border-gray-200 dark:border-gray-700 mt-2"
-          style={{
-            width: dropdownRef?.current?.clientWidth,
-          }}
-        >
-          <ul data-testid="options" ref={listRef}>
+        <div className="absolute z-20 p-2 mt-2 transform duration-300 ease-in-out bg-white dark:bg-zinc-900 text-neutral-800 dark:text-white overflow-y-auto max-h-40 rounded-lg border border-gray-200 dark:border-gray-700 outline outline-1 outline-zinc-300 dark:outline-gray-700">
+          <ul
+            data-testid="options"
+            ref={listRef}
+            className="flex flex-col gap-1.5"
+          >
             {options.map((item) => {
               const { value, name } = item;
 
@@ -132,7 +129,7 @@ export const Dropdown = ({
                 <li
                   key={item.value}
                   className={cn(
-                    'flex items-center cursor-pointer hover:bg-gray-200 p-3 rounded-lg dark:hover:bg-neutral-800',
+                    'flex items-center cursor-pointer hover:bg-gray-200 p-3 rounded-md dark:hover:bg-neutral-800',
                     {
                       'bg-gray-300 dark:bg-neutral-700':
                         selectedValue === value,

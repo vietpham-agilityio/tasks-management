@@ -227,7 +227,7 @@ export const FilterWrapper = ({
             placeholder="Sort"
             customClass={{
               placeholder: 'text-black dark:text-white',
-              button: 'py-[11px] sm:pb-[11px] sm:pt-3 px-5',
+              button: 'py-3 px-5',
             }}
             options={SORT_OPTIONS}
             selectedItemValue={sortBy}

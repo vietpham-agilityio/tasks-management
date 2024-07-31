@@ -243,6 +243,9 @@ const TaskFormContent = ({
                   onChange(value);
                 }}
                 onBlur={onBlur}
+                customClass={{
+                  button: 'w-full',
+                }}
               />
               <span
                 className={cn(
@@ -279,6 +282,9 @@ const TaskFormContent = ({
                   onChange(value);
                 }}
                 onBlur={onBlur}
+                customClass={{
+                  button: 'w-full',
+                }}
               />
               <span
                 className={cn(
@@ -320,6 +326,9 @@ const TaskFormContent = ({
                 onChange(value);
               }}
               onBlur={onBlur}
+              customClass={{
+                button: 'w-full',
+              }}
             />
             <span
               className={cn('bg-transparent', error?.message ? 'mb-2' : 'mb-8')}
