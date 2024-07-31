@@ -9,7 +9,7 @@ exports[`Dropdown component Render component correctly 1`] = `
         tabindex="0"
       >
         <button
-          class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 w-full p-5 bg-zinc-50 dark:text-white dark:bg-zinc-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:border-gray-700 text-zinc-400"
+          class="rounded-lg disabled:cursor-not-allowed dark:hover:opacity-70 disabled:bg-neutral-800/50 p-5 bg-zinc-50 hover:bg-zinc-100 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 border border-zinc-300 dark:border-gray-700 text-zinc-400"
           type="button"
         >
           <span
@@ -17,46 +17,8 @@ exports[`Dropdown component Render component correctly 1`] = `
           >
             Dropdown
           </span>
-          <div
-            class=""
-          >
-            <svg
-              class="h-6 w-6 text-neutral-900 dark:text-white transform duration-300 ease-in-out"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 24 24"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"
-              />
-            </svg>
-          </div>
-        </button>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      tabindex="0"
-    >
-      <button
-        class="rounded-lg disabled:cursor-not-allowed border border-gray-200 hover:bg-gray-100 w-full p-5 bg-zinc-50 dark:text-white dark:bg-zinc-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 outline outline-1 outline-zinc-300 dark:outline-none dark:border-gray-700 text-zinc-400"
-        type="button"
-      >
-        <span
-          class=""
-        >
-          Dropdown
-        </span>
-        <div
-          class=""
-        >
           <svg
-            class="h-6 w-6 text-neutral-900 dark:text-white transform duration-300 ease-in-out"
+            class="h-[22px] w-[22px] text-neutral-900 dark:text-white transform duration-300 ease-in-out"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -69,7 +31,37 @@ exports[`Dropdown component Render component correctly 1`] = `
               d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"
             />
           </svg>
-        </div>
+        </button>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      tabindex="0"
+    >
+      <button
+        class="rounded-lg disabled:cursor-not-allowed dark:hover:opacity-70 disabled:bg-neutral-800/50 p-5 bg-zinc-50 hover:bg-zinc-100 dark:text-white dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white flex justify-between items-center gap-2 border border-zinc-300 dark:border-gray-700 text-zinc-400"
+        type="button"
+      >
+        <span
+          class=""
+        >
+          Dropdown
+        </span>
+        <svg
+          class="h-[22px] w-[22px] text-neutral-900 dark:text-white transform duration-300 ease-in-out"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"
+          />
+        </svg>
       </button>
     </div>
   </div>,
