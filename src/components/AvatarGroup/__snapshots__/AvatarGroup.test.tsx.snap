@@ -12,7 +12,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="1 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -26,7 +26,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="2 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -40,7 +40,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="3 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -54,7 +54,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="4 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -68,7 +68,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="6 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -82,7 +82,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="7 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -96,7 +96,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
         <div>
           <img
             alt="8 avatar"
-            class="rounded-full border-white border-2"
+            class="rounded-full dark:border-gray-500 border-2"
             data-nimg="1"
             decoding="async"
             height="50"
@@ -118,7 +118,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="1 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -132,7 +132,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="2 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -146,7 +146,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="3 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -160,7 +160,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="4 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -174,7 +174,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="6 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -188,7 +188,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="7 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
@@ -202,7 +202,7 @@ exports[`AvatarGroup component Should match snapshot 1`] = `
       <div>
         <img
           alt="8 avatar"
-          class="rounded-full border-white border-2"
+          class="rounded-full dark:border-gray-500 border-2"
           data-nimg="1"
           decoding="async"
           height="50"
