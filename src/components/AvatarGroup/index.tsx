@@ -24,7 +24,7 @@ export const AvatarGroup = ({
             <Avatar
               src={avatar || ''}
               name={name}
-              customClass="border-white border-2"
+              customClass="dark:border-gray-500 border-2"
               variant="circle"
             />
           </div>
