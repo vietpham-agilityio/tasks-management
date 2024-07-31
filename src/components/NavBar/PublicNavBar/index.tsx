@@ -43,7 +43,7 @@ export const PublicNavBar = () => {
       >
         <div className="flex items-center justify-between py-[10px] pr-5 lg:pr-0 px-[5px] lg:mb-[31px] rounded-lg bg-white dark:bg-zinc-800 ">
           <Link href={ROUTES.BOARDS} className="flex items-center gap-2 w-full">
-            <LogoIcon customClass="w-5 h-5" />
+            <LogoIcon customClass="w-[25px] h-[25px] bg-black rounded-lg" />
             <h1 className="text-xl font-bold dark:text-white">Taskboard</h1>
           </Link>
           <CiMenuBurger
