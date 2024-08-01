@@ -31,12 +31,12 @@ import {
 import { MdArrowRightAlt } from 'react-icons/md';
 
 // Types
+import { Project } from '@/models';
+import { Session } from 'next-auth';
 import { QueryFilter, SearchParams } from '@/types';
 
 // Utils
-import { formatDate } from '@/utils';
-import { Session } from 'next-auth';
-import { Project } from '@/models';
+import { cn, formatDate } from '@/utils';
 
 const TableContent = async ({
   session,
@@ -71,10 +71,15 @@ const TableContent = async ({
         </tr>
       </thead>
       <tbody className="bg-white dark:bg-zinc-800">
-        {projectListData?.map((project) => (
+        {projectListData?.map((project, index) => (
           <tr
             key={project.id}
-            className="border-b-2 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-white"
+            className={cn(
+              'border-b-2 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm text-gray-900 dark:text-white',
+              {
+                'border-t-2': index === 0,
+              },
+            )}
           >
             <td className="px-6 py-4 whitespace-nowrap max-w-0 w-auto">
               <Link

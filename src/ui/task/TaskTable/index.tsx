@@ -34,11 +34,11 @@ import {
 import { MdArrowRightAlt } from 'react-icons/md';
 
 // Types
-import { QueryFilter, SearchParams, VariantType } from '@/types';
 import { Task } from '@/models';
+import { QueryFilter, SearchParams, VariantType } from '@/types';
 
 // Utils
-import { formatDate } from '@/utils';
+import { cn, formatDate } from '@/utils';
 
 interface TaskTableProps {
   searchParams: SearchParams;
@@ -105,7 +105,7 @@ const TableComponent = async ({
           </tr>
         </thead>
         <tbody className="bg-white dark:bg-zinc-800">
-          {taskListData.map((task) => {
+          {taskListData.map((task, index) => {
             const { value: statusValue, variant: statusVariant } =
               labelMapping[task.status];
             const { value: priorityValue, variant: priorityVariant } =
@@ -113,7 +113,12 @@ const TableComponent = async ({
             return (
               <tr
                 key={task.id}
-                className="border-b-2 px-8 py-5 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm"
+                className={cn(
+                  'border-b-2 px-8 py-5 rounded-lg hover:bg-zinc-300 dark:hover:bg-gray-700 text-sm',
+                  {
+                    'border-t-2': index === 0,
+                  },
+                )}
               >
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap w-full max-w-0 xl:w-auto">
                   <Link
