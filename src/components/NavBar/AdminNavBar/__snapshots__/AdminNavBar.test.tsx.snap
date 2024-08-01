@@ -13,7 +13,7 @@ exports[`AdminNavBar component renders the AdminNavBar match snapshot 1`] = `
         href="/admin/boards"
       >
         <svg
-          class="w-5 h-5"
+          class="w-[25px] h-[25px] bg-black rounded-lg"
           fill="none"
           height="26"
           width="25"

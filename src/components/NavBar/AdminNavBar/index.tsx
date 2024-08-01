@@ -61,7 +61,7 @@ const AdminNavBarBase = ({ openToast }: TWithToast<object>) => {
             href={ROUTES.ADMIN_BOARDS}
             className="flex items-center gap-2 w-full"
           >
-            <LogoIcon customClass="w-5 h-5" />
+            <LogoIcon customClass="w-[25px] h-[25px] bg-black rounded-lg" />
             <h1 className="text-xl font-bold dark:text-white">Taskboard</h1>
           </Link>
           <CiMenuBurger
