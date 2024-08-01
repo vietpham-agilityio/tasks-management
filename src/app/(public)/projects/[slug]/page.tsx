@@ -16,7 +16,13 @@ import {
 } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, ROUTES, TAGS, TASK_STATUS_OPTIONS } from '@/constants';
+import {
+  ERROR_MESSAGES,
+  OPEN_GRAPH_IMAGE,
+  ROUTES,
+  TAGS,
+  TASK_STATUS_OPTIONS,
+} from '@/constants';
 
 // Types
 import { SearchParams } from '@/types';
@@ -45,7 +51,7 @@ export const generateMetadata = async ({
       url: `${BASE_URL}${ROUTES.PROJECT_DETAIL(project?.slug)}`,
       images: [
         {
-          url: project?.image || '/Opengraph/open-graph-boards.png',
+          url: project?.image || OPEN_GRAPH_IMAGE,
           width: 1200,
           height: 630,
           alt: project?.description,

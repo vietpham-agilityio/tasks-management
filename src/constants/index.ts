@@ -11,3 +11,4 @@ export * from './queryParams';
 export * from './tags';
 export * from './theme';
 export * from './metadata';
+export * from './images';

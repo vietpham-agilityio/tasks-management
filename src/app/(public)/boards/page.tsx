@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
 // Constants
-import { METADATA_CONTENT, ROUTES } from '@/constants';
+import { METADATA_CONTENT, OPEN_GRAPH_IMAGE, ROUTES } from '@/constants';
 
 // Components
 import { ProjectList, RecentlyCreatedTaskList, TaskList } from '@/ui';
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: `${BASE_URL}${ROUTES.BOARDS}`,
     images: [
       {
-        url: '/Opengraph/open-graph-boards.png',
+        url: OPEN_GRAPH_IMAGE,
         width: 1200,
         height: 630,
         alt: DESC,
