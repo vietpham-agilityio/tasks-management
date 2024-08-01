@@ -6,7 +6,7 @@ import { EditTaskContainer } from '@/ui';
 import { ErrorMessage, ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, ROUTES, TAGS } from '@/constants';
+import { ERROR_MESSAGES, OPEN_GRAPH_IMAGE, ROUTES, TAGS } from '@/constants';
 
 // Types
 import { Metadata } from 'next';
@@ -35,7 +35,7 @@ export const generateMetadata = async ({
       url: `${BASE_URL}${ROUTES.TASK_DETAIL(task?.slug)}`,
       images: [
         {
-          url: task?.image || '/Opengraph/open-graph-boards.png',
+          url: task?.image || OPEN_GRAPH_IMAGE,
           width: 1200,
           height: 630,
           alt: task?.description,

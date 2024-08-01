@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 // Constants
-import { METADATA_CONTENT, ROUTES } from '@/constants';
+import { METADATA_CONTENT, OPEN_GRAPH_IMAGE, ROUTES } from '@/constants';
 
 // Components
 import { SignUpForm } from '@/ui';
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     url: `${BASE_URL}${ROUTES.SIGN_UP}`,
     images: [
       {
-        url: '/Opengraph/open-graph-sign-up.png',
+        url: OPEN_GRAPH_IMAGE,
         width: 1200,
         height: 630,
         alt: DESC,
