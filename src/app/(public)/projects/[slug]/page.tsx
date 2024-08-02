@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 // APIs
-import { getProjectBySlug } from '@/api';
+import { getProjectById } from '@/api';
 
 // Components
 import { ProjectHeader, TaskSection } from '@/ui';
@@ -27,6 +27,9 @@ import {
 // Types
 import { SearchParams } from '@/types';
 
+// Utils
+import { getIdFromSlug } from '@/utils';
+
 type Props = {
   params: { slug: string };
 };
@@ -37,10 +40,9 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const slug = params.slug;
+  const projectId = getIdFromSlug(slug);
 
-  const { data: project } = await getProjectBySlug(decodeURIComponent(slug), {
-    options: { tags: [TAGS.PROJECT_DETAIL(decodeURIComponent(slug))] },
-  });
+  const { data: project } = await getProjectById(projectId);
 
   return {
     title: project?.title,
@@ -48,7 +50,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: project?.title,
       description: project?.description,
-      url: `${BASE_URL}${ROUTES.PROJECT_DETAIL(project?.slug)}`,
+      url: `${BASE_URL}${ROUTES.PROJECT_DETAIL(`${project?.slug}-${project?.id}`)}`,
       images: [
         {
           url: project?.image || OPEN_GRAPH_IMAGE,
@@ -70,10 +72,13 @@ const ProjectDetailPage = async ({
 }) => {
   const { sortBy, priority } = searchParams;
   const slug = params.slug;
+  const projectId = getIdFromSlug(slug);
 
-  const { data: projectData, error: projectError } = await getProjectBySlug(
-    decodeURIComponent(slug),
-    { options: { tags: [TAGS.PROJECT_DETAIL(decodeURIComponent(slug))] } },
+  const { data: projectData, error: projectError } = await getProjectById(
+    projectId,
+    {
+      options: { tags: [TAGS.PROJECT_DETAIL(`${slug}-${projectId}`)] },
+    },
   );
 
   if (projectError) {

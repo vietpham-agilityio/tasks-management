@@ -125,7 +125,7 @@ const TableComponent = async ({
                     href={
                       session
                         ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                        : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
+                        : ROUTES.TASK_DETAIL(`${task.slug}-${task.id}`)
                     }
                   >
                     <p className="truncate">{task.title}</p>
@@ -158,7 +158,7 @@ const TableComponent = async ({
                     href={
                       session
                         ? ROUTES.ADMIN_TASK_DETAIL(task.id)
-                        : ROUTES.TASK_DETAIL(encodeURIComponent(task.slug))
+                        : ROUTES.TASK_DETAIL(`${task.slug}-${task.id}`)
                     }
                     aria-label="task-detail"
                     className="px-2 md:px-4 flex justify-end"

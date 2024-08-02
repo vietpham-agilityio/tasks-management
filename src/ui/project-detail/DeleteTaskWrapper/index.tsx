@@ -50,7 +50,7 @@ export const DeleteTaskWrapper = ({
         href={
           session
             ? ROUTES.ADMIN_TASK_DETAIL(id)
-            : ROUTES.TASK_DETAIL(encodeURIComponent(slug))
+            : ROUTES.TASK_DETAIL(`${slug}-${id}`)
         }
         title={title}
         description={description}
