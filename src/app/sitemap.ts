@@ -24,12 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const projectSitemap = projects.map((project): MetadataRoute.Sitemap[0] => ({
-    url: `${URL}${ROUTES.PROJECT_DETAIL(encodeURIComponent(project.slug))}`,
+    url: `${URL}${ROUTES.PROJECT_DETAIL(`${project.slug}-${project.id}`)}`,
     lastModified: project.updatedAt,
   }));
 
   const taskSitemap = tasks.map((task): MetadataRoute.Sitemap[0] => ({
-    url: `${URL}${ROUTES.TASK_DETAIL(task.slug)}`,
+    url: `${URL}${ROUTES.TASK_DETAIL(`${task.slug}-${task.id}`)}`,
     lastModified: task.updatedAt,
   }));
 

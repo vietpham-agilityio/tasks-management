@@ -1,15 +1,16 @@
 // APIs
-import { getTaskBySlug } from '@/api';
+import { getTaskById } from '@/api';
 
 // Components
 import { EditTaskContainer } from '@/ui';
 import { ErrorMessage, ItemNotFound } from '@/components';
 
 // Constants
-import { ERROR_MESSAGES, OPEN_GRAPH_IMAGE, ROUTES, TAGS } from '@/constants';
+import { ERROR_MESSAGES, OPEN_GRAPH_IMAGE, ROUTES } from '@/constants';
 
 // Types
 import { Metadata } from 'next';
+import { getIdFromSlug } from '@/utils';
 
 type Props = {
   params: { slug: string };
@@ -20,19 +21,16 @@ const BASE_URL = process.env.NEXT_PUBLIC_URL;
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const slug = params.slug;
+  const taskId = getIdFromSlug(params.slug);
 
-  const { data: task } = await getTaskBySlug(decodeURIComponent(slug), {
-    options: { tags: [TAGS.TASK_DETAIL(decodeURIComponent(params.slug))] },
-  });
-
+  const { data: task } = await getTaskById(taskId);
   return {
     title: task?.title,
     description: task?.description,
     openGraph: {
       title: task?.title,
       description: task?.description,
-      url: `${BASE_URL}${ROUTES.TASK_DETAIL(task?.slug)}`,
+      url: `${BASE_URL}${ROUTES.TASK_DETAIL(`${task?.slug}-${task?.id}`)}`,
       images: [
         {
           url: task?.image || OPEN_GRAPH_IMAGE,
@@ -46,10 +44,9 @@ export const generateMetadata = async ({
 };
 
 const TaskDetailPage = async ({ params }: { params: { slug: string } }) => {
-  const { data: taskData, error: taskError } = await getTaskBySlug(
-    decodeURIComponent(params.slug),
-    { options: { tags: [TAGS.TASK_DETAIL(decodeURIComponent(params.slug))] } },
-  );
+  const taskId = getIdFromSlug(params.slug);
+
+  const { data: taskData, error: taskError } = await getTaskById(taskId);
 
   // Determine if there is an error in fetching data
   const error = taskError;

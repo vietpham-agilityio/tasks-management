@@ -86,7 +86,7 @@ const TableContent = async ({
                 href={
                   session
                     ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
-                    : ROUTES.PROJECT_DETAIL(encodeURIComponent(project.slug))
+                    : ROUTES.PROJECT_DETAIL(`${project.slug}-${project.id}`)
                 }
                 className="w-full flex items-center"
                 aria-label={project.title}
@@ -128,7 +128,7 @@ const TableContent = async ({
                 href={
                   session
                     ? ROUTES.ADMIN_PROJECT_DETAIL(project.id)
-                    : ROUTES.PROJECT_DETAIL(encodeURIComponent(project.slug))
+                    : ROUTES.PROJECT_DETAIL(`${project.slug}-${project.id}`)
                 }
                 aria-label="task-detail"
                 className="px-2 md:px-4 flex justify-end"
